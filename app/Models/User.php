@@ -12,15 +12,21 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'mahasiswa';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nim',
+        'id_program_studi',
+        'nama',
+        'angkatan',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -44,5 +50,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function programStudi()
+    {
+        return $this->belongsTo(ProgramStudi::class, 'id_program_studi');
+    }
+
+    public function kandidat()
+    {
+        return $this->belongsToMany(Kandidat::class, 'mahasiswa_kandidat', 'nim', 'id_kandidat')
+            ->withPivot('jabatan');
+    }
+
+    public function kegiatan()
+    {
+        return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan');
     }
 }
