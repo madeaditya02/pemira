@@ -126,7 +126,7 @@ class KandidatSeeder extends Seeder
             switch ($kegiatan->ruang_lingkup) {
                 case 'fakultas':
                     // Ambil 2 mahasiswa secara acak dari tabel mahasiswa sebagai calon ketua dan wakil
-                    $mahasiswa = User::all()->random(2);
+                    $mahasiswa = User::inRandomOrder()->limit(2)->get();
                     $jabatan = ['ketua', 'wakil'];
                     foreach ($mahasiswa as $index => $mhs) {
                         $kandidat->mahasiswa()->attach($mhs->nim, [
@@ -146,11 +146,13 @@ class KandidatSeeder extends Seeder
                         ->get()
                         ->random(1)
                         ->first();
-                    $kandidat->mahasiswa()->attach($mahasiswa->nim, [
-                        'jabatan' => 'ketua',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    if ($mahasiswa) {
+                        $kandidat->mahasiswa()->attach($mahasiswa->nim, [
+                            'jabatan' => 'ketua',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
                     break;
             }
         });
