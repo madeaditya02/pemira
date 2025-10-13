@@ -16,6 +16,8 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
+    protected static ?string $nimPattern = '2#085#10##';
+
     /**
      * Define the model's default state.
      *
@@ -24,7 +26,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'nim' => fake()->unique()->numerify(static::$nimPattern),
+            'id_program_studi' => fake()->numberBetween(1, 6),
+            'nama' => fake()->name(),
+            'angkatan' => fake()->year(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
