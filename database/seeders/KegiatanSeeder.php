@@ -21,6 +21,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'fakultas',
                 'id_program_studi' => null,
+                'foto' => 'foto-kegiatan/pemilihan-caka-cawaka-bem.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMAKI',
@@ -29,6 +30,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 1,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himaki.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMAFI',
@@ -37,6 +39,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 2,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himafi.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMABIO',
@@ -45,6 +48,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 3,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himabio.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMATIKA',
@@ -53,6 +57,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 4,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himatika.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMAFARMA',
@@ -61,6 +66,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 5,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himafarma.png',
             ],
             [
                 'nama' => 'Pemilihan Caka HIMAIF',
@@ -69,6 +75,7 @@ class KegiatanSeeder extends Seeder
                 'waktu_selesai' => '2025-11-12 18:00:00',
                 'ruang_lingkup' => 'program studi',
                 'id_program_studi' => 6,
+                'foto' => 'foto-kegiatan/pemilihan-caka-himaif.png',
             ],
         ]);
     }
