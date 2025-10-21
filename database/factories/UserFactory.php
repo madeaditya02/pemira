@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'angkatan' => fake()->numberBetween(2020, 2025),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('pemirafmipa'),
             'remember_token' => Str::random(10),
         ];
     }

@@ -17,6 +17,11 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface FlashMessage {
+    success?: string;
+    error?: string;
+}
+
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     name: string;
     quote: { message: string; author: string };
@@ -24,6 +29,12 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
 };
+
+export interface ProgramStudi {
+    id: number;
+    kode: string;
+    nama: string;
+}
 
 export interface User {
     nim: string;
@@ -36,6 +47,48 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    programStudi: ProgramStudi;
+}
+
+export interface Kegiatan {
+    id: number;
+    id_program_studi: number;
+    nama: string;
+    tahun: number;
+    waktu_mulai: Date;
+    waktu_selesai: Date;
+    foto: string;
+    ruang_lingkup: 'fakultas' | 'program studi';
+    programStudi: ProgramStudi;
+}
+
+export interface Kandidat {
+    id: number;
+    id_kegiatan: number;
+    no_urut: string;
+    foto: string;
+    visi: string;
+    misi: string;
+    jumlah_suara: number;
+    kegiatan: Kegiatan;
+}
+
+export interface MahasiswaKandidat {
+    id: number;
+    nim: string;
+    id_kandidat: number;
+    jabatan: 'ketua' | 'wakil';
+    mahasiswa: User;
+    kandidat: Kandidat;
+}
+
+export interface SuratSuara {
+    id: number;
+    id_kegiatan: number;
+    nim: string;
+    has_vote: number | boolean;
+    kegiatan: Kegiatan;
+    mahasiswa: User;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
