@@ -4,17 +4,12 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    content: [
-        "./node_modules/flowbite/**/*.js",
-    ],
     plugins: [
-        require('flowbite/plugin'),
         laravel({
             input: ['resources/js/app.ts'],
             ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
-        tailwindcss(),
         vue({
             template: {
                 transformAssetUrls: {
@@ -23,5 +18,6 @@ export default defineConfig({
                 },
             },
         }),
+        tailwindcss(),
     ],
 });
