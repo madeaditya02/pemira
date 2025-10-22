@@ -1,17 +1,17 @@
 <?php
 
+use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [App\Http\Controllers\User\UserController::class, 'index'])->name('users.home');
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', [BerandaController::class, 'index'])
+        ->name('dashboard');
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome');
-// })->name('home');
-
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::resource('users', MahasiswaController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

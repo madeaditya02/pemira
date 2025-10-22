@@ -12,7 +12,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import { Home, Menu, Calendar, UserCheck, Users } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 interface Props {
@@ -34,32 +34,47 @@ const activeItemStyles = computed(
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Beranda',
         href: '/dashboard',
-        icon: LayoutGrid,
+        // icon: Home,
+    },
+    {
+        title: 'Kegiatan',
+        href: '/events',
+        // icon: Calendar,
+    },
+    {
+        title: 'Kandidat',
+        href: '/candidates',
+        // icon: UserCheck,
+    },
+    {
+        title: 'Mahasiswa',
+        href: '/users',
+        // icon: Users,
     },
 ];
 
 const rightNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
+    // {
+    //     title: 'Repository',
+    //     href: 'https://github.com/laravel/vue-starter-kit',
+    //     icon: Folder,
+    // },
+    // {
+    //     title: 'Documentation',
+    //     href: 'https://laravel.com/docs/starter-kits#vue',
+    //     icon: BookOpen,
+    // },
 ];
 </script>
 
 <template>
-    <div>
-        <div class="border-b border-sidebar-border/80">
-            <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
+    <div class="sticky top-0 z-50 bg-background">
+        <div class="border-b border-sidebar-border/80 shadow-inner">
+            <div class="mx-auto flex h-20 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
-                <div class="lg:hidden">
+                <div v-if="auth.user && (auth.user.is_admin === true || auth.user.is_admin === 1)" class="lg:hidden">
                     <Sheet>
                         <SheetTrigger :as-child="true">
                             <Button variant="ghost" size="icon" class="mr-2 h-9 w-9">
@@ -71,7 +86,7 @@ const rightNavItems: NavItem[] = [
                             <SheetHeader class="flex justify-start text-left">
                                 <div class="flex justify-start items-center gap-2 text-left">
                                     <AppLogoIcon class="size-6 fill-current text-black dark:text-white" />
-                                    <span class="mb-0.5 truncate leading-tight font-semibold">Pemira FMIPA Unud</span>
+                                    <span class="mb-0.5 truncate leading-tight font-semibold text-primary">Pemilihan Umum Raya<br />FMIPA 2025</span> <!-- ganti tahun -->
                                 </div>
                             </SheetHeader>
                             <div class="flex h-full flex-1 flex-col justify-between space-y-4 py-4">
@@ -97,11 +112,11 @@ const rightNavItems: NavItem[] = [
                 </div>
 
                 <Link :href="route('dashboard')" class="flex items-center gap-x-2">
-                <AppLogo />
+                    <AppLogo />
                 </Link>
 
                 <!-- Desktop Menu -->
-                <div class="hidden h-full lg:flex lg:flex-1">
+                <div v-if="auth.user && (auth.user.is_admin === true || auth.user.is_admin === 1)" class="hidden h-full lg:flex lg:flex-1">
                     <NavigationMenu class="ml-10 flex h-full items-stretch">
                         <NavigationMenuList class="flex h-full items-stretch space-x-2">
                             <NavigationMenuItem v-for="(item, index) in mainNavItems" :key="index"
@@ -149,24 +164,31 @@ const rightNavItems: NavItem[] = [
                         </div>
                     </div>
 
-                    <DropdownMenu>
+                    <DropdownMenu v-if="auth.user">
                         <DropdownMenuTrigger :as-child="true">
                             <Button variant="ghost" size="icon"
-                                class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary">
+                                class="relative size-10 w-auto rounded-full py-1 px-1 sm:px-2 focus-within:ring-2 focus-within:ring-primary">
                                 <Avatar class="size-8 overflow-hidden rounded-full">
                                     <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar"
-                                        :alt="auth.user.name" />
+                                        :alt="auth.user.nama" />
                                     <AvatarFallback
                                         class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
-                                        {{ getInitials(auth.user?.name) }}
+                                        {{ getInitials(auth.user?.nama) }}
                                     </AvatarFallback>
                                 </Avatar>
+                                <span class="hidden sm:flex">{{ auth.user.nama }}</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" class="w-56">
                             <UserMenuContent :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
+
+                    <Link v-else :href="route('login')">
+                        <Button type="button" variant="outline" class="flex-1">
+                            Masuk
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>
