@@ -127,118 +127,135 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-8 overflow-x-auto">
-            <!-- Countdown timer -->
             <div class="relative min-h-[90vh] flex flex-1 justify-center items-center">
-                <!-- Background image with overlay -->
-                <img src="/images/background-hero.png" alt="Background PEMIRA"
-                    class="absolute top-0 inset-0 h-full w-full object-cover" />
+                <div class="relative min-h-[90vh] flex flex-1 justify-center items-center">
+                    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                        <!-- Carousel wrapper -->
+                        <div class="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
+                            <div
+                                class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 space-y-6">
+                                <div>
+                                    <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                                        PEMIRA FMIPA
+                                    </h2>
+                                    <p class="text-gray-100 font-medium text-sm md:text-base max-w-lg">
+                                        Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
+                                    </p>
+                                </div>
 
-                <!-- Content with relative positioning and higher z-index -->
-                <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
-                    <!-- Header -->
-                    <div class="text-center">
-                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-2">
-                            PEMIRA FMIPA
-                        </h2>
-                        <p class="text-sidebar-foreground font-medium text-sm md:text-base max-w-lg">
-                            Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
-                        </p>
+                                <div class="flex justify-center space-x-4 items-start">
+                                    <!-- Days -->
+                                    <div class="text-center">
+                                        <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                                            {{ formatTime(timeRemaining.days) }}
+                                        </p>
+                                        <p class="text-sm lg:text-base text-gray-200 font-medium mt-2">Hari</p>
+                                    </div>
+                                    <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-gray-300">:</div>
+
+                                    <!-- Hours -->
+                                    <div class="text-center">
+                                        <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                                            {{ formatTime(timeRemaining.hours) }}
+                                        </p>
+                                        <p class="text-sm lg:text-base text-gray-200 font-medium mt-2">Jam</p>
+                                    </div>
+                                    <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-gray-300">:</div>
+
+                                    <!-- Minutes -->
+                                    <div class="text-center">
+                                        <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                                            {{ formatTime(timeRemaining.minutes) }}
+                                        </p>
+                                        <p class="text-sm lg:text-base text-gray-200 font-medium mt-2">Menit</p>
+                                    </div>
+                                    <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-gray-300">:</div>
+
+                                    <!-- Seconds -->
+                                    <div class="text-center">
+                                        <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                                            {{ formatTime(timeRemaining.seconds) }}
+                                        </p>
+                                        <p class="text-sm lg:text-base text-gray-200 font-medium mt-2">Detik</p>
+                                    </div>
+                                </div>
+
+                                <Button variant="outline" size="lg"
+                                    class="text-base text-white border-white hover:bg-white/10">
+                                    <Link :href="ctaLink">Mulai Sekarang!</Link>
+                                </Button>
+                            </div>
+                            <!-- Item 1 -->
+                            <div class="hidden duration-700 ease-in-out h-full" data-carousel-item>
+                                <img src="/images/background-hero.png" alt="Background PEMIRA"
+                                    class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+
+                            <!-- Item 2 -->
+                            <div class="hidden duration-700 ease-in-out h-full" data-carousel-item>
+                                <img src="/images/20250603_181544.jpg"
+                                    class="absolute inset-0 w-full h-full object-cover" alt="..." />
+                            </div>
+
+                            <!-- Item 3 -->
+                            <div class="hidden duration-700 ease-in-out h-full" data-carousel-item>
+                                <img src="/images/20250603_181816.jpg"
+                                    class="absolute inset-0 w-full h-full object-cover" alt="..." />
+                            </div>
+
+                            <!-- Item 4 -->
+                            <div class="hidden duration-700 ease-in-out h-full" data-carousel-item>
+                                <img src="/images/20250603_185507.jpg"
+                                    class="absolute inset-0 w-full h-full object-cover" alt="..." />
+                            </div>
+
+                            <!-- Item 5 -->
+                            <div class="hidden duration-700 ease-in-out h-full" data-carousel-item>
+                                <img src="/images/20250603_181544.jpg"
+                                    class="absolute inset-0 w-full h-full object-cover" alt="..." />
+                            </div>
+                        </div>
+
                     </div>
-
-                    <!-- Countdown Display -->
-                    <div class="flex justify-center space-x-4 items-start">
-                        <!-- Days -->
-                        <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                                {{ formatTime(timeRemaining.days) }}
-                            </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
-                                Hari
-                            </p>
-                        </div>
-
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
-
-                        <!-- Hours -->
-                        <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                                {{ formatTime(timeRemaining.hours) }}
-                            </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
-                                Jam
-                            </p>
-                        </div>
-
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
-
-                        <!-- Minutes -->
-                        <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                                {{ formatTime(timeRemaining.minutes) }}
-                            </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
-                                Menit
-                            </p>
-                        </div>
-
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
-
-                        <!-- Seconds -->
-                        <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                                {{ formatTime(timeRemaining.seconds) }}
-                            </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
-                                Detik
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Status Message -->
-                    <Button variant="outline" size="lg" class="text-base">
-                        <Link :href="ctaLink">
-                            Mulai Sekarang!
-                        </Link>
-                    </Button>
                 </div>
             </div>
+        </div>
 
-            <!-- List Kegiatan -->
-            <div v-if="auth.user && filteredKegiatan.length > 0">
-                <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
-                <div class="max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
-                    <Card v-for="item in filteredKegiatan" :key="item.id">
-                        <CardHeader>
-                            <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
-                        </CardHeader>
-                        <CardContent class="space-y-2">
-                            <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
-                            <CardDescription>
-                                {{ getTimeUntilStart(item.waktu_mulai).expired ?
-                                    getTimeUntilStart(item.waktu_mulai).text :
-                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai).text}`
-                                }}
-                            </CardDescription>
-                        </CardContent>
-                        <CardFooter>
-                            <Button>Ikuti Kegiatan</Button>
-                        </CardFooter>
-                    </Card>
-                </div>
+        <!-- List Kegiatan -->
+        <div v-if="auth.user && filteredKegiatan.length > 0">
+            <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
+            <div class="max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
+                <Card v-for="item in filteredKegiatan" :key="item.id">
+                    <CardHeader>
+                        <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
+                    </CardHeader>
+                    <CardContent class="space-y-2">
+                        <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
+                        <CardDescription>
+                            {{ getTimeUntilStart(item.waktu_mulai).expired ?
+                                getTimeUntilStart(item.waktu_mulai).text :
+                                `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai).text}`
+                            }}
+                        </CardDescription>
+                    </CardContent>
+                    <CardFooter>
+                        <Button>Ikuti Kegiatan</Button>
+                    </CardFooter>
+                </Card>
             </div>
+        </div>
 
-            <!-- FAQ Accordion -->
-            <div class="w-full md:max-w-7xl place-self-center px-4">
-                <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Yang Sering Ditanyakan</h1>
-                <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">
-                    <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
-                        <AccordionTrigger>{{ item.title }}</AccordionTrigger>
-                        <AccordionContent>
-                            {{ item.content }}
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-            </div>
+        <!-- FAQ Accordion -->
+        <div class="w-full md:max-w-7xl place-self-center px-4">
+            <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Yang Sering Ditanyakan</h1>
+            <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">
+                <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
+                    <AccordionTrigger>{{ item.title }}</AccordionTrigger>
+                    <AccordionContent>
+                        {{ item.content }}
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
         </div>
     </AppLayout>
 </template>
