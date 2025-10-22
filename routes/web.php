@@ -9,6 +9,9 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [BerandaController::class, 'index'])
         ->name('dashboard');
 
+    Route::get('/terms', [BerandaController::class, 'terms'])
+    ->name('terms');
+
     Route::resource('users', MahasiswaController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 });
