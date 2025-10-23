@@ -17,6 +17,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', MahasiswaController::class)
         ->only(['index', 'store', 'update', 'destroy']);
+
+    Route::get('/cakahima', [BerandaController::class, 'cakahima'])
+    ->name('cakahima');
 });
 
 require __DIR__ . '/settings.php';
