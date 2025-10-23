@@ -55,8 +55,8 @@ export interface Kegiatan {
     id_program_studi: number;
     nama: string;
     tahun: number;
-    waktu_mulai: Date;
-    waktu_selesai: Date;
+    waktu_mulai: Date | string;
+    waktu_selesai: Date | string;
     foto: string;
     ruang_lingkup: 'fakultas' | 'program studi';
     programStudi: ProgramStudi;

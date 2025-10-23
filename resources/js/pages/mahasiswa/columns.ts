@@ -150,13 +150,10 @@ export const columns: ColumnDef<User>[] = [
 
             return h(DropdownAction, {
                 data: mahasiswa,
-                onDelete: (data: User) => {
-                    // Handle delete
-                    console.log('Delete:', data);
-                }
+                deleteRoute: route('users.destroy', mahasiswa.nim),
             }, {
                 // Slot untuk edit form
-                'edit-form': ({ data, close }: { data: User, close: () => void }) =>
+                'edit-form': ({ data, close }: { data: User, close: () => void }) => 
                     h(Form, {
                         mode: 'edit',
                         programStudi: helpers?.programStudi || [],

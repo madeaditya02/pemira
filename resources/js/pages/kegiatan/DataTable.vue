@@ -12,7 +12,7 @@ import type { ColumnDef, SortingState, ColumnFiltersState, PaginationState } fro
 import { CircleX, Filter, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
 import { FlexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel, useVueTable } from '@tanstack/vue-table'
 
-// Define props untuk data mahasiswa
+// Define props untuk data kegiatan
 const props = defineProps<{
     columns: ColumnDef<any, any>[]
     data: any[]
@@ -89,16 +89,10 @@ const getFilterDisplayValue = (value: any, columnId?: string): string => {
         return prodiName || String(value)
     }
 
-    // Handle status display
-    if (columnId === 'email_verified_at') {
-        if (value === 'terverifikasi') return 'Terverifikasi'
-        if (value === 'belum_terverifikasi') return 'Belum Terverifikasi'
-    }
-
     return String(value).replace(/_/g, ' ')
 }
 
-// Column filters configuration - specific untuk mahasiswa
+// Column filters configuration - specific untuk kegiatan
 const columnFiltersConfig = [
     {
         columnId: 'id_program_studi',
@@ -106,13 +100,13 @@ const columnFiltersConfig = [
         type: 'select' as const,
     },
     {
-        columnId: 'angkatan',
-        label: 'Angkatan',
+        columnId: 'tahun',
+        label: 'Tahun',
         type: 'select' as const,
     },
     {
-        columnId: 'email_verified_at',
-        label: 'Status',
+        columnId: 'ruang_lingkup',
+        label: 'Ruang Lingkup',
         type: 'select' as const,
     },
 ]
@@ -127,14 +121,6 @@ const getUniqueValues = (columnId: string): string[] => {
         }
     })
     return Array.from(uniqueValues).sort()
-}
-
-// Get status options
-const getStatusOptions = () => {
-    return [
-        { value: 'terverifikasi', label: 'Terverifikasi' },
-        { value: 'belum_terverifikasi', label: 'Belum Terverifikasi' }
-    ]
 }
 
 // View handler for row click
@@ -161,14 +147,14 @@ watch(isViewDialogOpen, (newValue) => {
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div class="space-y-1 mb-2 md:mb-4">
-                <h2 class="text-xl md:text-2xl font-bold tracking-tight">Data Mahasiswa</h2>
-                <p class="text-muted-foreground">Kelola data mahasiswa FMIPA</p>
+                <h2 class="text-xl md:text-2xl font-bold tracking-tight">Data Kegiatan</h2>
+                <p class="text-muted-foreground">Kelola data kegiatan Pemira FMIPA</p>
             </div>
 
             <div class="flex items-center justify-center max-w-lg gap-4">
                 <!-- Search bar -->
                 <div class="flex justify-end items-center w-full">
-                    <Input placeholder="Cari mahasiswa..." :model-value="globalFilter"
+                    <Input placeholder="Cari kegiatan..." :model-value="globalFilter"
                         @update:model-value="table.setGlobalFilter($event)"
                         class="text-sm w-full sm:max-w-48 lg:max-w-64" />
                 </div>
@@ -202,18 +188,18 @@ watch(isViewDialogOpen, (newValue) => {
                                 </Select>
                             </div>
 
-                            <!-- Angkatan Filter -->
+                            <!-- Tahun Filter -->
                             <div class="flex flex-col gap-2">
-                                <Select :model-value="String(table.getColumn('angkatan')?.getFilterValue())"
-                                    @update:model-value="(value) => table.getColumn('angkatan')?.setFilterValue(value === 'all' ? undefined : value)">
+                                <Select :model-value="String(table.getColumn('tahun')?.getFilterValue())"
+                                    @update:model-value="(value) => table.getColumn('tahun')?.setFilterValue(value === 'all' ? undefined : value)">
                                     <SelectTrigger class="text-sm capitalize text-foreground">
-                                        <SelectValue placeholder="Pilih Angkatan" />
+                                        <SelectValue placeholder="Pilih Tahun" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
                                             Semua
                                         </SelectItem>
-                                        <SelectItem v-for="value in getUniqueValues('angkatan')" :key="value"
+                                        <SelectItem v-for="value in getUniqueValues('tahun')" :key="value"
                                             :value="value" class="capitalize">
                                             {{ value }}
                                         </SelectItem>
@@ -221,20 +207,20 @@ watch(isViewDialogOpen, (newValue) => {
                                 </Select>
                             </div>
 
-                            <!-- Status Filter -->
+                            <!-- Ruang Lingkup Filter -->
                             <div class="flex flex-col gap-2">
-                                <Select :model-value="String(table.getColumn('email_verified_at')?.getFilterValue())"
-                                    @update:model-value="(value) => table.getColumn('email_verified_at')?.setFilterValue(value === 'all' ? undefined : value)">
+                                <Select :model-value="String(table.getColumn('ruang_lingkup')?.getFilterValue())"
+                                    @update:model-value="(value) => table.getColumn('ruang_lingkup')?.setFilterValue(value === 'all' ? undefined : value)">
                                     <SelectTrigger class="text-sm capitalize text-foreground">
-                                        <SelectValue placeholder="Pilih Status" />
+                                        <SelectValue placeholder="Pilih Ruang Lingkup" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
                                             Semua
                                         </SelectItem>
-                                        <SelectItem v-for="option in getStatusOptions()" :key="option.value"
-                                            :value="option.value" class="capitalize">
-                                            {{ option.label }}
+                                        <SelectItem v-for="value in getUniqueValues('ruang_lingkup')" :key="value"
+                                            :value="value" class="capitalize">
+                                            {{ value }}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -382,7 +368,7 @@ watch(isViewDialogOpen, (newValue) => {
 
         <!-- View Dialog - Terpisah dari loop -->
         <Dialog v-model:open="isViewDialogOpen">
-            <Form v-if="selectedRowData" mode="view" :mahasiswa-data="selectedRowData"
+            <Form v-if="selectedRowData" mode="view" :kegiatan-data="selectedRowData"
                 :program-studi="helpers!.programStudi" @close="isViewDialogOpen = false" />
         </Dialog>
     </div>

@@ -214,9 +214,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <CardContent class="space-y-2">
                             <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                             <CardDescription>
-                                {{ getTimeUntilStart(item.waktu_mulai).expired ?
-                                    getTimeUntilStart(item.waktu_mulai).text :
-                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai).text}`
+                                {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
+                                    getTimeUntilStart(item.waktu_mulai as Date).text :
+                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai as Date).text}`
                                 }}
                             </CardDescription>
                         </CardContent>

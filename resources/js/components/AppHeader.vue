@@ -39,14 +39,14 @@ const mainNavItems: NavItem[] = [
         // icon: Home,
     },
     {
-        title: 'Kegiatan',
-        href: '/events',
-        // icon: Calendar,
-    },
-    {
         title: 'Kandidat',
         href: '/candidates',
         // icon: UserCheck,
+    },
+    {
+        title: 'Kegiatan',
+        href: '/events',
+        // icon: Calendar,
     },
     {
         title: 'Mahasiswa',

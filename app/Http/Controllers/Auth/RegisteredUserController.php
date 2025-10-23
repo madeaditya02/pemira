@@ -72,6 +72,12 @@ class RegisteredUserController extends Controller
             'nama' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:mahasiswa,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'nim.exists' => 'NIM tidak ditemukan dalam database.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min' => 'Kata sandi minimal harus terdiri dari :min karakter.',
+            'password.mixed' => 'Kata sandi harus mengandung setidaknya satu huruf besar dan satu huruf kecil.',
         ]);
 
         // Find the student and update with email and password
@@ -83,6 +89,12 @@ class RegisteredUserController extends Controller
 
         if (!$user) {
             return back()->withErrors(['nim' => 'Kredensial mahasiswa tidak valid.']);
+        }
+
+        // Check domain email @student.unud.ac.id
+        $emailDomain = substr(strrchr($request->email, "@"), 1);
+        if ($emailDomain !== 'student.unud.ac.id') {
+            return back()->withErrors(['email' => 'Email harus menggunakan domain @student.unud.ac.id.']);
         }
 
         $user->update([

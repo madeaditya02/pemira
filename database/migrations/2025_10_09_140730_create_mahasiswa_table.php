@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->char('nim', 10)->primary();
-            $table->foreignId('id_program_studi')->constrained('program_studi')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('id_program_studi')->constrained('program_studi')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('nama');
             $table->year('angkatan');
             $table->string('email')->unique()->nullable();
