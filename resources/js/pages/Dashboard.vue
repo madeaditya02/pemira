@@ -23,7 +23,7 @@ const props = defineProps<{
 
 // CTA Link handler
 const ctaLink = computed(() => {
-    return auth.value.user ? '/dashboard' : '/login';
+    return auth.value.user ? '/terms' : '/login';
 });
 
 // Add computed property to filter kegiatan

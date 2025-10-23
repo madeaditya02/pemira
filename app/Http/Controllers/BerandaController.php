@@ -37,4 +37,12 @@ class BerandaController extends Controller
             'waktu' => $this->getTime(),
         ]);
     }
+
+    public function terms()
+    {
+        return Inertia::render('Terms', [
+            'kegiatan' => Kegiatan::all(),
+            'waktu' => $this->getTime(),
+        ]);
+    }
 }
