@@ -45,4 +45,12 @@ class BerandaController extends Controller
             'waktu' => $this->getTime(),
         ]);
     }
+
+    public function cakabem()
+    {
+        return Inertia::render('PilihCakaBem', [
+            'kegiatan' => Kegiatan::all(),
+            'waktu' => $this->getTime(),
+        ]);
+    }
 }

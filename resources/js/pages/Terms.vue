@@ -190,7 +190,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         Batal
                                     </AlertDialogCancel>
                                     <AlertDialogAction as-child class="m-0">
-                                        <Link href="/dashboard" class="bg-[#5465D1] hover:bg-[#5465D1]/90"> Lanjutkan </Link>
+                                        <Link href="/cakabem" class="bg-[#5465D1] hover:bg-[#5465D1]/90"> Lanjutkan </Link>
                                     </AlertDialogAction>
                                 </div>
                             </AlertDialogFooter>

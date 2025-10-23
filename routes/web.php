@@ -12,6 +12,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/terms', [BerandaController::class, 'terms'])
     ->name('terms');
 
+    Route::get('/cakabem', [BerandaController::class, 'cakabem'])
+    ->name('cakabem');
+
     Route::resource('users', MahasiswaController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 });

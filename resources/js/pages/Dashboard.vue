@@ -139,22 +139,38 @@ const breadcrumbs: BreadcrumbItem[] = [
             <div class="relative min-h-[90vh] flex flex-1 justify-center items-center">
                 <!-- Content with relative positioning and higher z-index -->
                 <Carousel class="absolute w-full" :plugins="[plugin]" @mouseenter="plugin.stop"
-                    @mouseleave="[plugin.reset(), plugin.play(), console.log('Running')];">
+                    @mouseleave="[plugin.reset(), plugin.play()]">
                     <CarouselContent>
-                        <CarouselItem v-for="(_, index) in 5" :key="index">
+                        <CarouselItem>
                             <div class="p-1 flex items-center justify-center">
-                                <Card>
-                                    <CardContent class="flex gap-6 items-center justify-center">
-                                        <!-- <img src="/images/background-hero.png" alt="Placeholder" class="h-[90vh]" /> -->
-                                        <img src="/images/20250603_181544.jpg" alt="Placeholder" class="w-full h-[90vh]" />
-                                        <img src="/images/20250603_181816.jpg" alt="Placeholder" class="w-full h-[90vh]" />
-                                        <img src="/images/20250603_185507.jpg" alt="Placeholder" class="w-full h-[90vh]" />
-                                        <!-- <span class="text-4xl font-semibold">{{ }}</span> -->
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_181544.jpg" alt="Placeholder" class="w-full h-[90vh] object-cover" />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="p-1 flex items-center justify-center">
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_181816.jpg" alt="Placeholder" class="w-full h-[90vh] object-cover" />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="p-1 flex items-center justify-center">
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_185507.jpg" alt="Placeholder" class="w-full h-[90vh] object-cover" />
                                     </CardContent>
                                 </Card>
                             </div>
                         </CarouselItem>
                     </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
                 </Carousel>
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
