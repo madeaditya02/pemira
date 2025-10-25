@@ -125,7 +125,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-col gap-2 overflow-x-auto">
             <div class="relative flex min-h-[90vh] flex-1 flex-col items-start justify-start pt-20 md:pt-32 lg:pt-40">
-                <img src="/images/banner-atas.webp" alt="background syarat" class="absolute inset-0 top-0 w-full object-cover" />
+                <img src="/images/banner-fmipa.webp" alt="background syarat" class="absolute inset-0 top-0 w-full object-cover" />
 
                 <div class="mx-auto mt-12 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
                     <h1 class="md:text-md font-semibold lg:text-xl">Syarat & Ketentuan :</h1>

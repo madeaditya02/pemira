@@ -6,7 +6,7 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const plugin = Autoplay({
@@ -178,10 +178,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
                     <div class="stroke-black-500 text-center">
-                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-2">
+                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
                             PEMIRA FMIPA
                         </h2>
-                        <p class="text-sidebar-foreground font-medium text-sm md:text-base max-w-lg">
+                        <p class="text-white font-medium text-sm md:text-base max-w-lg">
                             Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
                         </p>
                     </div>
@@ -190,46 +190,46 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <div class="flex justify-center space-x-4 items-start">
                         <!-- Days -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.days) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Hari
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Hours -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.hours) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Jam
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Minutes -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.minutes) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Menit
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Seconds -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.seconds) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Detik
                             </p>
                         </div>

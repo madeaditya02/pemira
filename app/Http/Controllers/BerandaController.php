@@ -61,4 +61,9 @@ class BerandaController extends Controller
             'waktu' => $this->getTime(),
         ]);
     }
+
+    public function resultHima()
+    {
+        return Inertia::render('ResultHima');
+    }
 }
