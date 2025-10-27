@@ -134,22 +134,51 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <div class="relative mx-auto mt-20 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
                     <div class="flex flex-col md:flex-row justify-center">
                         <!-- Caka 1 -->
-                        <div>
-                            <div class=" max-w-md flex flex-col items-center justify-center gap-6 p-6">
-                                <img src="/images/Caka1.png" alt="Caka1" class="w-md" />
-                                <div class="justify-center items-center">
+                        <div class="flex max-w-md flex-col items-center justify-center gap-6 p-6">
+                            <!-- frame container (relative) so photos can be positioned inside it -->
+                            <div class="relative max-w-md flex items-center justify-center p-6">
+                                <div class=" ">
+                                    <!-- Frame image (base) -->
+                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1" class="w-full max-w-xs" />
+
+                                    <!-- Photos positioned inside the frame -->
+                                    <div>
+                                        <img src="/images/FotoBEM1.png" alt="Caka1"
+                                            class="absolute left-20 bottom-20 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85%" />
+                                        <h3
+                                            class="absolute z-20 top-55 left-30 poppins-font font-bold text-white text-[14px] ">
+                                            Putu Amara</h3>
+                                        <h5
+                                            class="absolute z-20 top-60 left-33 poppins-font font-thin text-white text-[14px]">
+                                            Fisika 23</h5>
+                                    </div>
+                                    <div>
+                                        <img src="/images/FotoBEM2.png" alt="Caka1"
+                                            class="absolute right-6 bottom-20 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-r-from-70% mask-linear-155 mask-linear-from-40% mask-linear-to-85%" />
+                                        <h3
+                                            class="absolute z-20 top-55 right-12 poppins-font font-bold text-white text-[14px] ">
+                                            Nanda Asmara</h3>
+                                        <h5
+                                            class="absolute z-20 top-60 right-13 poppins-font font-thin text-white text-[14px]">
+                                            Informatika 23</h5>
+                                    </div>
+                                </div>
+                                <!-- Centered button area on top of the frame -->
+                                <div class="absolute inset-0 flex items-end justify-center pb-6 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle class="flex flex-col items-center justify-center gap-2">
+                                                <AlertDialogTitle
+                                                    class="flex flex-col items-center justify-center gap-2">
                                                     <TriangleAlert class="h-24 w-24 text-red-700" />
                                                     <h1 class="text-xl font-black text-red-700">ATTENTION</h1>
                                                 </AlertDialogTitle>
                                                 <AlertDialogDescription class="text-md text-center">
-                                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan, apabila
+                                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan,
+                                                    apabila
                                                     anda
                                                     ingin
                                                     melanjutkan silahkan klik
@@ -168,7 +197,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                                 description: 'Sunday, December 03, 2023 at 9:00 AM',
                                                             })
                                                         }" href="/cakahima" class="bg-[#5465D1] hover:bg-[#5465D1]/90">
-                                                            Lanjutkan
+                                                        Lanjutkan
                                                         </Link>
                                                     </AlertDialogAction>
                                                 </div>
@@ -178,23 +207,36 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <!-- Caka 2 -->
-                            <div class=" max-w-md flex flex-col items-center justify-center gap-6 p-6">
-                                <img src="/images/Caka1.png" alt="Caka1" class="w-md" />
-                                <div class="justify-center items-center">
+                        <!-- Caka 1 -->
+                        <div class="flex max-w-md flex-col items-center justify-center gap-6 p-6">
+                            <!-- frame container (relative) so photos can be positioned inside it -->
+                            <div class="relative max-w-md flex items-center justify-center p-6">
+                                <div class=" ">
+                                    <!-- Frame image (base) -->
+                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1" class="w-full max-w-xs" />
+
+                                    <!-- Photos positioned inside the frame -->
+                                    <div>
+                                        <img src="/images/KotakKosong.png" alt="KotakKosong"
+                                            class="absolute left-35 bottom-25 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85%" />
+                                    </div>
+                                </div>
+                                <!-- Centered button area on top of the frame -->
+                                <div class="absolute inset-0 flex items-end justify-center pb-6 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle class="flex flex-col items-center justify-center gap-2">
+                                                <AlertDialogTitle
+                                                    class="flex flex-col items-center justify-center gap-2">
                                                     <TriangleAlert class="h-24 w-24 text-red-700" />
                                                     <h1 class="text-xl font-black text-red-700">ATTENTION</h1>
                                                 </AlertDialogTitle>
                                                 <AlertDialogDescription class="text-md text-center">
-                                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan, apabila
+                                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan,
+                                                    apabila
                                                     anda
                                                     ingin
                                                     melanjutkan silahkan klik
@@ -207,12 +249,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                         class="m-0 border border-[#5465D1] text-[#5465D1] hover:bg-[#5465D1]/10">
                                                         Batal
                                                     </AlertDialogCancel>
-                                                    <AlertDialogAction variant="outline" @click="() => {
-                                                        toast('Pilihan berhasil disimpan', {
-                                                            description: 'Sunday, December 03, 2023 at 9:00 AM',
-                                                        })
-                                                    }" as-child class="m-0">
-                                                        <Link href="/cakahima" class="bg-[#5465D1] hover:bg-[#5465D1]/90">
+                                                    <AlertDialogAction as-child class="m-0">
+                                                        <Link variant="outline" @click="() => {
+                                                            toast('Pilihan berhasil disimpan', {
+                                                                description: 'Sunday, December 03, 2023 at 9:00 AM',
+                                                            })
+                                                        }" href="/cakahima" class="bg-[#5465D1] hover:bg-[#5465D1]/90">
                                                         Lanjutkan
                                                         </Link>
                                                     </AlertDialogAction>

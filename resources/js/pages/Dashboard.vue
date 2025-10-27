@@ -7,7 +7,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import Autoplay from "embla-carousel-autoplay"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, } from "@/components/ui/carousel"
 
 const plugin = Autoplay({
     delay: 2000,
@@ -144,7 +144,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <CarouselItem>
                             <div class="p-1 flex items-center justify-center">
                                 <Card class="w-full">
-                                    <CardContent class="flex items-center justify-center">
+                                    <CardContent class="flex items-center justify-center ">
                                         <img src="/images/20250603_181544.jpg" alt="Placeholder"
                                             class="w-full h-[90vh] object-cover" />
                                     </CardContent>
@@ -172,8 +172,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </div>
                         </CarouselItem>
                     </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
                 </Carousel>
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
