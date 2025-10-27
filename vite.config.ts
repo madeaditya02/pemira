@@ -10,7 +10,6 @@ export default defineConfig({
             ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
-        tailwindcss(),
         vue({
             template: {
                 transformAssetUrls: {
@@ -19,5 +18,6 @@ export default defineConfig({
                 },
             },
         }),
+        tailwindcss(),
     ],
 });
