@@ -12,7 +12,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/terms', [BerandaController::class, 'terms'])
     ->name('terms');
 
-    Route::get('/resultHima', [BerandaController::class, 'resultHima'])
+    Route::get('/result-bem', [BerandaController::class, 'resultBem'])
+    ->name('resultBem');
+
+    Route::get('/result-hima', [BerandaController::class, 'resultHima'])
     ->name('resultHima');
 
     Route::get('/cakabem', [BerandaController::class, 'cakabem'])

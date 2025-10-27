@@ -62,6 +62,11 @@ class BerandaController extends Controller
         ]);
     }
 
+    public function resultBem()
+    {
+        return Inertia::render('ResultBem');
+    }
+
     public function resultHima()
     {
         return Inertia::render('ResultHima');

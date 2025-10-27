@@ -130,7 +130,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-col gap-2 overflow-x-auto">
             <div class="relative flex min-h-[90vh] flex-1 flex-col items-start justify-start pt-20 md:pt-32 lg:pt-40">
-                <img src="/images/BannerHIMAKI.png" alt="" class="absolute inset-0 top-0 w-full object-cover" />
+                <img src="/images/banner-himaki.webp" alt="" class="absolute inset-0 top-0 w-full object-cover" />
 
                 <div class="relative mx-auto mt-20 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
                     <div class="flex flex-col md:flex-row justify-center">
