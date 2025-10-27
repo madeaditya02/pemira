@@ -15,15 +15,16 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'nim' => '2008501001',
+            'nim' => '0000000000',
             'id_program_studi' => 1,
             'nama' => 'Admin DPM FMIPA',
-            'angkatan' => 2021,
+            'angkatan' => 2000,
             'email' => 'dpmfmipaunud2025@gmail.com',
+            'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'is_admin' => true,
         ]);
-        User::factory(100)->create()->each(function ($user) {
+        User::factory()->createMany(User::getMahasiswaFromSheet(now()->year))->each(function ($user) {
             // Get kegiatan fakultas
             $kegiatanFakultas = Kegiatan::where('ruang_lingkup', 'fakultas')->latest()->first();
             

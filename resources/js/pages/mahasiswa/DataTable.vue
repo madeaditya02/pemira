@@ -2,14 +2,15 @@
 import Form from './Form.vue'
 import { cn } from '@/lib/utils'
 import { ref, computed, watch } from 'vue'
+import { router } from '@inertiajs/vue3'
 import { Input } from '@/components/ui/input'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import type { ColumnDef, SortingState, ColumnFiltersState, PaginationState } from '@tanstack/vue-table'
-import { CircleX, Filter, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
+import { CircleX, Filter, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, RefreshCw, LoaderCircle } from 'lucide-vue-next'
 import { FlexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel, useVueTable } from '@tanstack/vue-table'
 
 // Define props untuk data mahasiswa
@@ -26,12 +27,16 @@ const sorting = ref<SortingState>([])
 const columnFiltersState = ref<ColumnFiltersState>([])
 const globalFilter = ref('')
 const isDialogOpen = ref(false)
+const isSyncDialogOpen = ref(false)
 const isViewDialogOpen = ref(false)
 const selectedRowData = ref<any>(null)
 const pagination = ref<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
 })
+
+// State untuk sync mahasiswa
+const isSyncing = ref(false);
 
 // Computed values
 const activeFilters = computed(() => {
@@ -132,8 +137,8 @@ const getUniqueValues = (columnId: string): string[] => {
 // Get status options
 const getStatusOptions = () => {
     return [
-        { value: 'terverifikasi', label: 'Terverifikasi' },
-        { value: 'belum_terverifikasi', label: 'Belum Terverifikasi' }
+        { value: 'terverifikasi', label: 'Sudah' },
+        { value: 'belum_terverifikasi', label: 'Belum' }
     ]
 }
 
@@ -143,7 +148,30 @@ const handleRowClick = (rowData: any) => {
     isViewDialogOpen.value = true
 }
 
-// Submit handler untuk create
+// Function untuk sync mahasiswa
+const handleSyncMahasiswa = () => {
+    const currentYear = new Date().getFullYear();
+    
+    isSyncing.value = true;
+    router.post(
+        route('users.sync-data', currentYear),
+        {},
+        {
+            onSuccess: () => {
+                isSyncDialogOpen.value = false;
+                isSyncing.value = false;
+            },
+            onError: () => {
+                isSyncing.value = false;
+            },
+            onFinish: () => {
+                isSyncing.value = false;
+            }
+        }
+    );
+};
+
+// Submit handler
 const handleSuccess = () => {
     isDialogOpen.value = false
 }
@@ -223,10 +251,29 @@ watch(isViewDialogOpen, (newValue) => {
 
                             <!-- Status Filter -->
                             <div class="flex flex-col gap-2">
+                                <Select :model-value="String(table.getColumn('status')?.getFilterValue())"
+                                    @update:model-value="(value) => table.getColumn('status')?.setFilterValue(value === 'all' ? undefined : value)">
+                                    <SelectTrigger class="text-sm capitalize text-foreground">
+                                        <SelectValue placeholder="Pilih Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            Semua
+                                        </SelectItem>
+                                        <SelectItem v-for="value in getUniqueValues('status')" :key="value"
+                                            :value="value" class="capitalize">
+                                            {{ value }}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <!-- Verifikasi Filter -->
+                            <div class="flex flex-col gap-2">
                                 <Select :model-value="String(table.getColumn('email_verified_at')?.getFilterValue())"
                                     @update:model-value="(value) => table.getColumn('email_verified_at')?.setFilterValue(value === 'all' ? undefined : value)">
                                     <SelectTrigger class="text-sm capitalize text-foreground">
-                                        <SelectValue placeholder="Pilih Status" />
+                                        <SelectValue placeholder="Pilih Verifikasi" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
@@ -242,6 +289,42 @@ watch(isViewDialogOpen, (newValue) => {
                         </div>
                     </DropdownMenuContent>
                 </DropdownMenu>
+
+                <!-- Sync Data Mahasiswa button -->
+                <Dialog v-model:open="isSyncDialogOpen">
+                    <DialogTrigger as-child>
+                        <Button variant="outline" size="default">
+                            <RefreshCw class="h-4 w-4" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent class="max-w-xl">
+                        <DialogHeader>
+                            <DialogTitle>Sinkronisasi Data Mahasiswa</DialogTitle>
+                            <DialogDescription>
+                                Apakah Anda yakin ingin menyinkronkan data mahasiswa tahun {{ new Date().getFullYear() }} dari Google Sheets? 
+                                Proses ini akan memperbarui atau menambahkan data mahasiswa yang ada.
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        <!-- Dialog Actions -->
+                        <div class="flex justify-end gap-2 pt-4">
+                            <Button 
+                                variant="outline" 
+                                @click="isSyncDialogOpen = false" 
+                                :disabled="isSyncing"
+                            >
+                                Batal
+                            </Button>
+                            <Button 
+                                @click="handleSyncMahasiswa" 
+                                :disabled="isSyncing"
+                            >
+                                <LoaderCircle v-if="isSyncing" class="h-4 w-4 animate-spin" />
+                                Sinkronkan
+                            </Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
 
                 <!-- Create button -->
                 <Dialog v-model:open="isDialogOpen">

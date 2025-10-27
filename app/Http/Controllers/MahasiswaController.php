@@ -23,6 +23,34 @@ class MahasiswaController extends Controller
     }
 
     /**
+     * Get mahasiswa data from spreadsheet.
+     */
+    public function syncMahasiswa(int $year)
+    {
+        // Get current users and users from spreadsheet
+        $currentUsers = User::all();
+        $users = User::getMahasiswaFromSheet($year);
+
+        // Sync users
+        try {
+            foreach ($users as $user) {
+                $currentUser = $currentUsers->firstWhere('nim', $user['nim']);
+                // Sync user kegiatan logic can be added here if needed
+                if ($currentUser) {
+                    // Update existing user
+                    $currentUser->update((array)$user);
+                } else {
+                    // Create new user
+                    User::create((array)$user);
+                }
+            }
+            return redirect()->back()->with('success', 'Data mahasiswa tahun ' . $year . ' berhasil disinkronisasi.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyinkronkan data mahasiswa: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -226,7 +254,6 @@ class MahasiswaController extends Controller
             // Delete mahasiswa
             $mahasiswa->delete();
             return redirect()->back()->with('success', 'Data mahasiswa berhasil dihapus.');
-            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data mahasiswa: ' . $e->getMessage());
         }

@@ -13,6 +13,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', MahasiswaController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 
+    Route::post('users/sync-data/{year}', [MahasiswaController::class, 'syncMahasiswa'])
+        ->name('users.sync-data');
+
     Route::resource('events', KegiatanController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 

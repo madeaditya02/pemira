@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'status',
         'is_admin',
         'email_verified_at',
     ];
@@ -74,5 +76,48 @@ class User extends Authenticatable
     public function kegiatan()
     {
         return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan');
+    }
+
+    public static function getMahasiswaFromSheet(int $tahun)
+    {
+        // Get spreadsheet file
+        $spreadsheetPath = database_path('data-mahasiswa/data-mahasiswa-' . $tahun . '.xlsx');
+        if (!file_exists($spreadsheetPath)) {
+            $spreadsheetPath = database_path('data-mahasiswa/data-mahasiswa-2025.xlsx'); // Ganti sesuai kebutuhan
+        }
+        $spreadsheet = IOFactory::load($spreadsheetPath);
+
+        // Get list program studi and set up an array to hold mahasiswa data
+        $programStudi = ProgramStudi::all();
+        $mahasiswaData = [];
+
+        // Loop through each worksheet
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
+            $data = $worksheet->toArray();
+            foreach ($data as $index => $row) {
+                // Skip header row
+                if ($index === 0) {
+                    continue;
+                }
+
+                // Get program studi ID
+                $row[4] = str_replace('Sarjana ', '', $row[4]);
+                $prodiId = $programStudi->firstWhere('nama', $row[4])?->id;
+
+                // Get status aktif/nonaktif
+                $status = explode(' ', strtolower($row[5]))[0] === 'aktif' ? 'aktif' : 'nonaktif';
+
+                // Map row data to user attributes
+                $mahasiswaData[] = [
+                    'nim' => $row[1],
+                    'nama' => $row[2],
+                    'id_program_studi' => $prodiId,
+                    'angkatan' => (int) $row[6],
+                    'status' => $status,
+                ];
+            }
+        }
+
+        return $mahasiswaData;
     }
 }
