@@ -204,7 +204,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <!-- List Kegiatan -->
-            <div v-if="auth.user && filteredKegiatan.length > 0">
+            <div v-if="auth.user && filteredKegiatan.length > 0" class="px-4">
                 <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
                 <div class="max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
                     <Card v-for="item in filteredKegiatan" :key="item.id">

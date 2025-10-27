@@ -10,7 +10,6 @@ use Inertia\Inertia;
 
 class KegiatanController extends Controller
 {
-
     /**
      * Check if the authenticated user is an admin.
      */
@@ -34,8 +33,16 @@ class KegiatanController extends Controller
             return redirect()->route('dashboard');
         }
 
-        // Fetch kegiatan data with related program studi
-        $kegiatan = Kegiatan::with('programStudi')->get();
+        // Fetch kegiatan data with related program studi and count mahasiswa yang sudah vote
+        $kegiatan = Kegiatan::with('programStudi')
+            ->withCount([
+                'mahasiswa as total_mahasiswa',
+                'mahasiswa as jumlah_pemilih' => function ($query) {
+                    $query->where('has_vote', true);
+                }
+            ])
+            ->where('tahun', now()->year)
+            ->get();
         $programStudi = ProgramStudi::all();
         return Inertia::render('kegiatan/Index', [
             'kegiatan' => $kegiatan,
@@ -57,7 +64,7 @@ class KegiatanController extends Controller
         if (!$isAdmin) {
             return redirect()->route('dashboard');
         }
-        
+
         // Validate input data
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -219,7 +226,6 @@ class KegiatanController extends Controller
             // Delete kegiatan
             $kegiatan->delete();
             return redirect()->back()->with('success', 'Data kegiatan berhasil dihapus.');
-            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data kegiatan: ' . $e->getMessage());
         }

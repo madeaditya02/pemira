@@ -60,6 +60,8 @@ export interface Kegiatan {
     foto: string;
     ruang_lingkup: 'fakultas' | 'program studi';
     programStudi: ProgramStudi;
+    total_mahasiswa?: number;
+    jumlah_pemilih?: number;
 }
 
 export interface Kandidat {
@@ -71,15 +73,7 @@ export interface Kandidat {
     misi: string;
     jumlah_suara: number;
     kegiatan: Kegiatan;
-}
-
-export interface MahasiswaKandidat {
-    id: number;
-    nim: string;
-    id_kandidat: number;
-    jabatan: 'ketua' | 'wakil';
-    mahasiswa: User;
-    kandidat: Kandidat;
+    mahasiswa: (User & { pivot: { jabatan: 'ketua' | 'wakil' } })[];
 }
 
 export interface SuratSuara {

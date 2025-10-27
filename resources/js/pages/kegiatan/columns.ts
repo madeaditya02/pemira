@@ -89,7 +89,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
             if (idProgramStudi) {
                 const helpers = table.options.meta?.helpers as { programStudi?: ProgramStudi[] } | undefined;
                 const programStudiName = helpers?.programStudi?.find(ps => ps.id === idProgramStudi)?.nama || 'N/A';
-    
+
                 const colorMap: { [key: number]: string } = {
                     1: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
                     2: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
@@ -99,7 +99,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
                     6: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
                 };
                 const colorClass = colorMap[idProgramStudi] || 'bg-gray-100 text-gray-800';
-    
+
                 return h('span', { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto` }, programStudiName);
             } else {
                 return h('span', { class: 'px-2 py-1 bg-gray-100 text-gray-800 rounded-md font-medium flex place-self-center mx-auto' }, 'N/A');
@@ -124,7 +124,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
             const date = new Date(waktuMulai)
             const formatted = new Intl.DateTimeFormat('id-ID', {
                 day: 'numeric',
-                month: 'long',
+                month: 'numeric',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
@@ -146,12 +146,32 @@ export const columns: ColumnDef<Kegiatan>[] = [
             const date = new Date(waktuSelesai)
             const formatted = new Intl.DateTimeFormat('id-ID', {
                 day: 'numeric',
-                month: 'long',
+                month: 'numeric',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             }).format(date)
             return h('div', { class: 'text-center' }, formatted)
+        },
+    },
+    {
+        accessorKey: 'jumlah_pemilih',
+        header: ({ column }) => {
+            return h(Button, {
+                variant: "ghost",
+                onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+                class: "flex place-self-center",
+            }, () => ["Jumlah Pemilih", h(ArrowUpDown, { class: "h-4 w-4" })])
+        },
+        cell: ({ row }) => {
+            const jumlahPemilih = row.original.jumlah_pemilih || 0;
+            const totalMahasiswa = row.original.total_mahasiswa || 0;
+            const percentage = totalMahasiswa > 0 ? ((jumlahPemilih / totalMahasiswa) * 100).toFixed(1) : '0.0';
+
+            return h('div', { class: 'text-center' }, [
+                h('div', { class: 'font-semibold' }, `${jumlahPemilih} / ${totalMahasiswa}`),
+                h('div', { class: 'text-xs text-muted-foreground' }, `${percentage}%`)
+            ]);
         },
     },
     {
@@ -166,7 +186,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
                 deleteRoute: route('events.destroy', kegiatan.id),
             }, {
                 // Slot untuk edit form
-                'edit-form': ({ data, close }: { data: Kegiatan, close: () => void }) => 
+                'edit-form': ({ data, close }: { data: Kegiatan, close: () => void }) =>
                     h(Form, {
                         mode: 'edit',
                         programStudi: helpers?.programStudi || [],

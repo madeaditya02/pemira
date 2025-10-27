@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,6 +23,23 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'is_admin' => true,
         ]);
-        User::factory(100)->create();
+        User::factory(100)->create()->each(function ($user) {
+            // Get kegiatan fakultas
+            $kegiatanFakultas = Kegiatan::where('ruang_lingkup', 'fakultas')->latest()->first();
+            
+            // Get kegiatan program studi sesuai dengan id_program_studi user
+            $kegiatanProdi = Kegiatan::where('ruang_lingkup', 'program studi')
+                ->where('id_program_studi', $user->id_program_studi)
+                ->latest()->first();
+            
+            // Attach kegiatan ke user (membuat record surat suara)
+            if ($kegiatanFakultas) {
+                $user->kegiatan()->attach($kegiatanFakultas->id);
+            }
+            
+            if ($kegiatanProdi) {
+                $user->kegiatan()->attach($kegiatanProdi->id);
+            }
+        });
     }
 }

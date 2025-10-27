@@ -36,22 +36,22 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Beranda',
         href: '/dashboard',
-        // icon: Home,
+        icon: Home,
     },
     {
         title: 'Kandidat',
         href: '/candidates',
-        // icon: UserCheck,
+        icon: UserCheck,
     },
     {
         title: 'Kegiatan',
         href: '/events',
-        // icon: Calendar,
+        icon: Calendar,
     },
     {
         title: 'Mahasiswa',
         href: '/users',
-        // icon: Users,
+        icon: Users,
     },
 ];
 
@@ -124,7 +124,7 @@ const rightNavItems: NavItem[] = [
                                 <Link
                                     :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
                                     :href="item.href">
-                                <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
+                                <!-- <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" /> -->
                                 {{ item.title }}
                                 </Link>
                                 <div v-if="isCurrentRoute(item.href)"
