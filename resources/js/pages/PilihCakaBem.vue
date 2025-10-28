@@ -134,40 +134,44 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <div class="relative mx-auto mt-20 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
                     <div class="flex flex-col md:flex-row justify-center">
                         <!-- Caka 1 -->
-                        <div class="flex max-w-md flex-col items-center justify-center gap-6 p-6">
+                        <div
+                            class="flex max-w-md flex-col items-center justify-center gap-6 p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px]">
                             <!-- frame container (relative) so photos can be positioned inside it -->
-                            <div class="relative max-w-md flex items-center justify-center p-6">
-                                <div class=" ">
+                            <div
+                                class="relative max-w-md flex items-center justify-center p-6 place-self-center flex-col">
+                                <div class="">
                                     <!-- Frame image (base) -->
-                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1" class="w-full max-w-xs" />
+                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1"
+                                        class="w-full max-w-xs sm:max-w-sm lg:max-w-md" />
 
                                     <!-- Photos positioned inside the frame -->
                                     <div>
-                                        <img src="/images/FotoBEM1.png" alt="Caka1"
-                                            class="absolute left-20 bottom-20 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85%" />
+                                        <img src="/images/BEM_1.png" alt="Caka1"
+                                            class="absolute left-20 bottom-15 w-28 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:w-38 sm:w-40 md:left-22 sm:left-25 md:bottom-20 sm:bottom-21" />
                                         <h3
-                                            class="absolute z-20 top-55 left-30 poppins-font font-bold text-white text-[14px] ">
+                                            class="absolute z-20 top-45 left-25 poppins-font font-bold text-white text-xs sm:text-sm md:text-sm lg:text-base xl:text-sm sm:left-35 sm:top-60 md:top-50 md:left-30 lg:top-60 lg:left-30">
                                             Putu Amara</h3>
                                         <h5
-                                            class="absolute z-20 top-60 left-33 poppins-font font-thin text-white text-[14px]">
+                                            class="absolute z-20 top-50 left-29 poppins-font font-thin text-white text-[10px] sm:left-40 sm:top-65 md:top-55 md:left-35 lg:top-65 lg:left-35">
                                             Fisika 23</h5>
                                     </div>
                                     <div>
-                                        <img src="/images/FotoBEM2.png" alt="Caka1"
-                                            class="absolute right-6 bottom-20 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-r-from-70% mask-linear-155 mask-linear-from-40% mask-linear-to-85%" />
+                                        <img src="/images/BEM_2.png" alt="Caka1"
+                                            class="absolute right-6 bottom-15 w-28 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-r-from-70% mask-linear-155 mask-linear-from-40% mask-linear-to-85% md:w-38 sm:w-42 md:right-6 sm:right-6 md:bottom-20 sm:bottom-18" />
                                         <h3
-                                            class="absolute z-20 top-55 right-12 poppins-font font-bold text-white text-[14px] ">
+                                            class="absolute z-20 top-45 right-7 poppins-font font-bold text-white text-xs sm:text-sm md:text-sm lg:text-base xl:text-sm sm:right-10 sm:top-60 md:top-50 md:right-10 lg:top-60 lg:right-10">
                                             Nanda Asmara</h3>
                                         <h5
-                                            class="absolute z-20 top-60 right-13 poppins-font font-thin text-white text-[14px]">
+                                            class="absolute z-20 top-50 right-10 poppins-font font-thin text-white text-[10px] sm:right-10 sm:top-65 md:top-55 md:right-13 lg:top-65 lg:right-15">
                                             Informatika 23</h5>
                                     </div>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
-                                <div class="absolute inset-0 flex items-end justify-center pb-6 z-20">
+                                <div class="absolute inset-0 flex items-end justify-center pb-4 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
-                                            <Button> Vote </Button>
+                                            <Button variant="default" size="lg"
+                                                class="bg-[#5465D1] hover:bg-[#2B346B] text-white"> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
@@ -207,7 +211,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                             </div>
                         </div>
-                        <!-- Caka 1 -->
+                        <!-- Caka 2 -->
                         <div class="flex max-w-md flex-col items-center justify-center gap-6 p-6">
                             <!-- frame container (relative) so photos can be positioned inside it -->
                             <div class="relative max-w-md flex items-center justify-center p-6">
@@ -218,14 +222,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     <!-- Photos positioned inside the frame -->
                                     <div>
                                         <img src="/images/KotakKosong.png" alt="KotakKosong"
-                                            class="absolute left-35 bottom-25 w-38 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85%" />
+                                            class="absolute left-28 bottom-20 w-30 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85% sm:w-40 sm:left-35 md:w-30 md:left-28 md:bottom-20 lg:w-40 lg:left-35 lg:bottom-25" />
                                     </div>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
-                                <div class="absolute inset-0 flex items-end justify-center pb-6 z-20">
+                                <div class="absolute inset-0 flex items-end justify-center pb-2 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
-                                            <Button> Vote </Button>
+                                            <Button variant="default" size="lg"
+                                                class="bg-[#5465D1] hover:bg-[#2B346B] text-white"> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
