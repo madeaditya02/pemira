@@ -81,6 +81,9 @@ class User extends Authenticatable
     public static function getMahasiswaFromSheet(int $tahun)
     {
         // Get spreadsheet file
+        if (!file_exists(database_path('data-mahasiswa'))) {
+            mkdir(database_path('data-mahasiswa'), 0755, true);
+        }
         $spreadsheetPath = database_path('data-mahasiswa/data-mahasiswa-' . $tahun . '.xlsx');
         if (!file_exists($spreadsheetPath)) {
             $spreadsheetPath = database_path('data-mahasiswa/data-mahasiswa-2025.xlsx'); // Ganti sesuai kebutuhan

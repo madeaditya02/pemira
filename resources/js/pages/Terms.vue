@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -21,7 +11,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 // Page title and breadcrumbs
 const page = usePage();
 const auth = computed(() => page.props.auth);
-const title = auth.value.user ? 'Syarat dan Ketentuan' : 'Syarat dan Ketentuan';
+const title = 'Syarat dan Ketentuan';
 
 // define props
 const props = defineProps<{
@@ -50,23 +40,6 @@ const filteredKegiatan = computed(() => {
 const currentTime = ref(new Date());
 let interval: number | null = null;
 
-const timeRemaining = computed(() => {
-    const target = new Date(props.waktu);
-    const now = currentTime.value;
-    const diff = target.getTime() - now.getTime();
-
-    if (diff <= 0) {
-        return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    return { days, hours, minutes, seconds, expired: false };
-});
-
 // Add a function to calculate time difference for individual activities
 const getTimeUntilStart = (startTime: Date) => {
     const target = new Date(startTime);
@@ -93,9 +66,9 @@ const getTimeUntilStart = (startTime: Date) => {
     return { text, expired: false };
 };
 
-// Helper function to format time values
-const formatTime = (time: number) => {
-    return time.toString().padStart(2, '0');
+const candidateLink = (nama: string) => {
+    const formattedName = nama.toLowerCase().replace(/\s+/g, '-');
+    return `/candidates/${formattedName}`;
 };
 
 // Set up interval to update current time every second
@@ -120,58 +93,72 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
+
     <Head :title="title" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-col gap-2 overflow-x-auto">
             <div class="relative flex min-h-[90vh] flex-1 flex-col items-start justify-start pt-20 md:pt-32 lg:pt-40">
-                <img src="/images/banner-fmipa.webp" alt="background syarat" class="absolute inset-0 top-0 w-full object-cover" />
+                <img src="/images/banner-fmipa.webp" alt="background syarat"
+                    class="absolute inset-0 top-0 w-full object-cover" />
 
                 <div class="mx-auto mt-12 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
                     <h1 class="md:text-md font-semibold lg:text-xl">Syarat & Ketentuan :</h1>
-                    <ol class="md:text-md ml-3 list-inside list-decimal space-y-2 text-sm md:ml-10 lg:text-lg">
+                    <ol class="md:text-md ml-2 list-inside list-decimal space-y-2 text-sm md:ml-10 lg:text-lg">
                         <li>
-                            Mahasiswa atau mahasiswi yang dapat memilih adalah mahasiswa atau mahasiswi Fakultas Matematika dan Ilmu Pengetahuan Alam.
+                            Mahasiswa atau mahasiswi yang dapat memilih adalah mahasiswa atau mahasiswi Fakultas
+                            Matematika dan Ilmu Pengetahuan Alam.
                         </li>
                         <li>Mahasiswa atau mahasiswi yang dapat memilih adalah mahasiswa atau mahasiswi aktif.</li>
                         <li>Mahasiswa atau mahasiswi hanya bisa melakukan pemilihan sebanyak satu kali.</li>
                         <li>Mahasiswa atau mahasiswi diharapkan memilih dengan jujur.</li>
-                        <li>Hasil pemilihan bersifat mutlak dan tidak dapat diganggu gugat, sesuai dengan aturan yang telah ditetapkan.</li>
-                        <li>Setiap pelanggaran terhadap syarat dan ketentuan ini akan dikenakan sanksi sesuai dengan peraturan yang berlaku.</li>
+                        <li>Hasil pemilihan bersifat mutlak dan tidak dapat diganggu gugat, sesuai dengan aturan yang
+                            telah ditetapkan.</li>
+                        <li>Setiap pelanggaran terhadap syarat dan ketentuan ini akan dikenakan sanksi sesuai dengan
+                            peraturan yang berlaku.</li>
                     </ol>
                 </div>
 
                 <div v-if="auth.user && filteredKegiatan.length > 0" class="w-full px-4">
-                    <h1 class="mt-10 mb-6 text-center text-lg font-bold md:text-xl lg:text-2xl">Daftar Kegiatan</h1>
-                    <div class="mx-auto mb-6 grid w-full max-w-7xl auto-rows-min gap-4 md:grid-cols-2">
-                        <Card v-for="item in filteredKegiatan" :key="item.id">
+                    <h1 class="text-lg md:text-xl lg:text-2xl mt-12 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
+                    <div class="md:max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
+                        <Card v-for="item in filteredKegiatan" :key="item.id"
+                            class="border shadow-sm shadow-foreground/10">
                             <CardHeader>
-                                <img :src="`/storage/${item.foto}`" alt="" class="h-64 w-full rounded-md object-cover" />
+                                <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
                             </CardHeader>
                             <CardContent class="space-y-2">
                                 <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                                 <CardDescription>
-                                    {{
-                                        getTimeUntilStart(item.waktu_mulai).expired
-                                            ? getTimeUntilStart(item.waktu_mulai).text
-                                            : `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai).text}`
+                                    {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
+                                        getTimeUntilStart(item.waktu_mulai as Date).text :
+                                        `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai as Date).text}`
                                     }}
                                 </CardDescription>
                             </CardContent>
                             <CardFooter>
-                                <Button>Lihat Kandidat</Button>
+                                <Button variant="default" size="default">
+                                    <Link :href="candidateLink(item.nama)">
+                                    Lihat Kandidat
+                                    </Link>
+                                </Button>
                             </CardFooter>
                         </Card>
                     </div>
                 </div>
 
-                <div class="mx-auto mt-10 grid grid-cols-2 gap-4 px-4">
-                    <Button variant="outline" class="border-[#5465D1] font-semibold text-[#5465D1] hover:text-[#5465D1]">
-                        <Link href="/dashboard"> Batal </Link>
-                    </Button>
+                <div class="mx-auto mt-10 max-w-md grid grid-cols-2 gap-4 px-4">
+                    <Link href="/dashboard" class="w-full col-span-1">
+                        <Button variant="outline" size="lg"
+                            class="border-primary border-2 text-base font-semibold text-primary hover:text-primary w-full">
+                            Batal
+                        </Button>
+                    </Link>
                     <AlertDialog>
                         <AlertDialogTrigger as-child>
-                            <Button> Mulai Memilih </Button>
+                            <Button variant="default" size="lg" class="text-base font-semibold">
+                                Mulai Memilih
+                            </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                             <AlertDialogHeader>
@@ -180,17 +167,20 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     <h1 class="text-xl font-black text-red-700">ATTENTION</h1>
                                 </AlertDialogTitle>
                                 <AlertDialogDescription class="text-md text-center">
-                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan, apabila anda ingin melanjutkan silahkan klik
+                                    Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan, apabila anda ingin
+                                    melanjutkan silahkan klik
                                     tombol "Lanjutkan"!
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter class="sm:justify-center">
                                 <div class="grid w-full grid-cols-2 gap-3">
-                                    <AlertDialogCancel class="m-0 border border-[#5465D1] text-[#5465D1] hover:bg-[#5465D1]/10">
+                                    <AlertDialogCancel
+                                        class="m-0 border border-primary text-primary hover:bg-primary/10">
                                         Batal
                                     </AlertDialogCancel>
                                     <AlertDialogAction as-child class="m-0">
-                                        <Link href="/cakabem" class="bg-[#5465D1] hover:bg-[#5465D1]/90"> Lanjutkan </Link>
+                                        <Link href="/cakabem" class="bg-primary hover:bg-primary/90"> Lanjutkan
+                                        </Link>
                                     </AlertDialogAction>
                                 </div>
                             </AlertDialogFooter>

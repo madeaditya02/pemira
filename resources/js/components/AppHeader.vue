@@ -169,7 +169,7 @@ const rightNavItems: NavItem[] = [
                             <Button variant="ghost" size="icon"
                                 class="relative size-10 w-auto rounded-full py-1 px-1 sm:px-2 focus-within:ring-2 focus-within:ring-primary">
                                 <Avatar class="size-8 overflow-hidden rounded-full">
-                                    <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar"
+                                    <AvatarImage v-if="auth.user.avatar" :src="`/storage/${auth.user.avatar}`"
                                         :alt="auth.user.nama" />
                                     <AvatarFallback
                                         class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">

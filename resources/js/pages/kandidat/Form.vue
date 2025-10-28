@@ -52,8 +52,12 @@ const availableMahasiswaForKetua = computed(() => {
     const existingKandidatNim = props.kandidat
         .filter(k => k.id_kegiatan === form.id_kegiatan && k.id !== form.id)
         .flatMap(k => k.mahasiswa?.map(m => m.nim) || []);
+
+    const idProdiSelected = props.kegiatan.find(k => k.id === form.id_kegiatan)?.id_program_studi;
     
-    return props.mahasiswa.filter(m => !existingKandidatNim.includes(m.nim));
+    return props.mahasiswa.filter(m => !existingKandidatNim.includes(m.nim) && 
+        (idProdiSelected ? m.id_program_studi === idProdiSelected : true)
+    );
 });
 
 const availableMahasiswaForWakil = computed(() => {
@@ -62,7 +66,7 @@ const availableMahasiswaForWakil = computed(() => {
 
 // Filtered suggestions berdasarkan search
 const filteredKetuaSuggestions = computed(() => {
-    if (!searchKetua.value) return availableMahasiswaForKetua.value;
+    if (!searchKetua.value) return availableMahasiswaForKetua.value.filter(m => m.is_admin === 0 || m.is_admin === false);
     const search = searchKetua.value.toLowerCase();
     return availableMahasiswaForKetua.value.filter(m => 
         m.nama.toLowerCase().includes(search) || 
@@ -71,7 +75,7 @@ const filteredKetuaSuggestions = computed(() => {
 });
 
 const filteredWakilSuggestions = computed(() => {
-    if (!searchWakil.value) return availableMahasiswaForWakil.value;
+    if (!searchWakil.value) return availableMahasiswaForWakil.value.filter(m => m.is_admin === 0 || m.is_admin === false);
     const search = searchWakil.value.toLowerCase();
     return availableMahasiswaForWakil.value.filter(m => 
         m.nama.toLowerCase().includes(search) || 
@@ -328,7 +332,7 @@ const submit = () => {
                             Visi
                             <span v-if="mode !== 'view'" class='text-red-500'>*</span>
                         </Label>
-                        <Input id="visi" type="text" :tabindex="5" v-model="form.visi"
+                        <Textarea id="visi" :tabindex="5" v-model="form.visi"
                             :required="mode !== 'view'" :disabled="form.processing || mode === 'view'"
                             :readonly="mode === 'view'" placeholder="Masukkan Visi" />
                         <InputError :message="form.errors.visi" />
@@ -342,7 +346,8 @@ const submit = () => {
                         </Label>
                         <Textarea id="misi" :tabindex="6" v-model="form.misi"
                             :required="mode !== 'view'" :disabled="form.processing || mode === 'view'"
-                            :readonly="mode === 'view'" placeholder="Masukkan Misi" />
+                            :readonly="mode === 'view'" placeholder="Masukkan Misi"
+                            class="h-32" />
                         <InputError :message="form.errors.misi" />
                     </div>
                 </div>
@@ -361,7 +366,7 @@ const submit = () => {
                         <InputError :message="form.errors.foto" />
                     </div>
                     <div class="grid col-span-2 gap-4">
-                        <AspectRatio :ratio="16 / 11" class="relative">
+                        <AspectRatio :ratio="16 / 14" class="relative">
                             <img v-if="fotoPreview !== null" :src="fotoPreview" alt="Foto Preview"
                                 class="aspect-video h-full w-full border rounded-md object-contain" />
                             <img v-else :src="kandidatData?.foto

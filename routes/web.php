@@ -7,22 +7,18 @@ use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', [BerandaController::class, 'index'])
-        ->name('dashboard');
-
-    Route::get('/terms', [BerandaController::class, 'terms'])
-    ->name('terms');
-
-    Route::get('/resultHima', [BerandaController::class, 'resultHima'])
-    ->name('resultHima');
-
-    Route::get('/cakabem', [BerandaController::class, 'cakabem'])
-    ->name('cakabem');
+    Route::controller(BerandaController::class)->group(function () {
+        Route::get('dashboard', 'index')->name('dashboard');
+        Route::get('terms', 'terms')->name('terms');
+        Route::get('candidates/{slug}', 'candidates')->name('candidates');
+        Route::get('cakabem', 'cakabem')->name('cakabem');
+        Route::get('cakahima', 'cakahima')->name('cakahima');
+        Route::get('result-hima', 'resultHima')->name('result-hima');
+    });
 
     Route::resource('users', MahasiswaController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 
-<<<<<<< HEAD
     Route::post('users/sync-data/{year}', [MahasiswaController::class, 'syncMahasiswa'])
         ->name('users.sync-data');
 
@@ -31,10 +27,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('candidates', KandidatController::class)
         ->only(['index', 'store', 'update', 'destroy']);
-=======
-    Route::get('/cakahima', [BerandaController::class, 'cakahima'])
-    ->name('cakahima');
->>>>>>> df0cfdb432a435db61796765036780222afaaeda
 });
 
 require __DIR__ . '/settings.php';

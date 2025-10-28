@@ -204,7 +204,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Data filter -->
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="outline" size="sm" class="ml-auto h-9">
+                        <Button variant="outline" size="icon" class="ml-auto">
                             <Filter class="size-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -293,7 +293,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Sync Data Mahasiswa button -->
                 <Dialog v-model:open="isSyncDialogOpen">
                     <DialogTrigger as-child>
-                        <Button variant="outline" size="default">
+                        <Button variant="outline" size="icon">
                             <RefreshCw class="h-4 w-4" />
                         </Button>
                     </DialogTrigger>
@@ -301,7 +301,7 @@ watch(isViewDialogOpen, (newValue) => {
                         <DialogHeader>
                             <DialogTitle>Sinkronisasi Data Mahasiswa</DialogTitle>
                             <DialogDescription>
-                                Apakah Anda yakin ingin menyinkronkan data mahasiswa tahun {{ new Date().getFullYear() }} dari Google Sheets? 
+                                Apakah Anda yakin ingin menyinkronkan data mahasiswa tahun {{ new Date().getFullYear() }} dari Excel? 
                                 Proses ini akan memperbarui atau menambahkan data mahasiswa yang ada.
                             </DialogDescription>
                         </DialogHeader>

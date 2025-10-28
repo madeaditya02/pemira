@@ -32,7 +32,6 @@ class UserFactory extends Factory
             'angkatan' => fake()->numberBetween(2020, 2025),
             'email' => null,
             'email_verified_at' => null,
-            'password' => static::$password ??= Hash::make('pemirafmipa'),
             'remember_token' => Str::random(10),
         ];
     }

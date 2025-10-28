@@ -29,16 +29,19 @@ class RegisteredUserController extends Controller
     public function checkStudent(Request $request)
     {
         $request->validate([
-            'nim' => 'required|string|max:10',
+            'nim' => 'required|string|digits:10',
             'nama' => 'required|string|max:255',
+        ], [
+            'nim.digits' => 'NIM harus terdiri dari 10 digit.',
+            'nama.max' => 'Nama harus terdiri dari maksimal 255 karakter.',
         ]);
 
         $student_exist = User::where('nim', $request->nim)
-            ->where('nama', $request->nama)
+            ->whereRaw('BINARY nama = ?', [$request->nama])
             ->whereNotNull('email')
             ->whereNotNull('password')
             ->exists();
-        
+
         if ($student_exist) {
             return response()->json([
                 'exists' => false,
@@ -47,7 +50,7 @@ class RegisteredUserController extends Controller
         }
 
         $student = User::where('nim', $request->nim)
-            ->where('nama', $request->nama)
+            ->whereRaw('BINARY nama = ?', [$request->nama])
             ->whereNull('email')
             ->whereNull('password')
             ->first();

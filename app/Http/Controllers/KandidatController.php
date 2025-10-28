@@ -36,12 +36,20 @@ class KandidatController extends Controller
 
         // Fetch kandidat data with related kegiatan and mahasiswa kandidat
         $kandidat = Kandidat::with('kegiatan', 'mahasiswa')
+            ->whereHas('kegiatan', function ($query) {
+                $query->where('tahun', now()->year);
+            })
             ->orderBy('id_kegiatan', 'asc')
             ->get();
         $kegiatan = Kegiatan::where('tahun', now()->year)
+            ->whereHas('mahasiswa', function ($query) {
+                $query->where('is_admin', 0);
+            })
             ->withCount(['mahasiswa as total_mahasiswa'])
             ->get();
-        $mahasiswa = User::where('is_admin', 0)->get();
+        $mahasiswa = User::where('is_admin', 0)
+            ->orWhere('nama', 'LIKE', '%Kotak Kosong%')
+            ->get();
         return Inertia::render('kandidat/Index', [
             'kandidat' => $kandidat,
             'mahasiswa' => $mahasiswa,
