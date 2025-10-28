@@ -6,6 +6,14 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import Autoplay from "embla-carousel-autoplay";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+
+const plugin = Autoplay({
+    delay: 2000,
+    stopOnMouseEnter: true,
+    stopOnInteraction: false,
+})
 
 // define props
 const props = defineProps<{
@@ -15,7 +23,7 @@ const props = defineProps<{
 
 // CTA Link handler
 const ctaLink = computed(() => {
-    return auth.value.user ? '/dashboard' : '/login';
+    return auth.value.user ? '/terms' : '/login';
 });
 
 // Add computed property to filter kegiatan
@@ -126,21 +134,54 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head :title="title" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-8 overflow-x-auto">
+        <div class="flex h-full flex-1 flex-col gap-8 overflow-hidden">
             <!-- Countdown timer -->
             <div class="relative min-h-[90vh] flex flex-1 justify-center items-center">
-                <!-- Background image with overlay -->
-                <img src="/images/background-hero.png" alt="Background PEMIRA"
-                    class="absolute top-0 inset-0 h-full w-full object-cover" />
-
                 <!-- Content with relative positioning and higher z-index -->
+                <Carousel class="absolute w-full saturate-0 md:saturate-0 md:backdrop-blur"
+                    :plugins="[plugin]" @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
+                    <CarouselContent>
+                        <CarouselItem>
+                            <div class="p-1 flex items-center justify-center">
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_181544.jpg" alt="Placeholder"
+                                            class="w-full h-[90vh] object-cover" />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="p-1 flex items-center justify-center">
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_181816.jpg" alt="Placeholder"
+                                            class="w-full h-[90vh] object-cover" />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="p-1 flex items-center justify-center">
+                                <Card class="w-full">
+                                    <CardContent class="flex items-center justify-center">
+                                        <img src="/images/20250603_185507.jpg" alt="Placeholder"
+                                            class="w-full h-[90vh] object-cover" />
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
-                    <div class="text-center">
-                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-2">
+                    <div class="stroke-black-500 text-center">
+                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
                             PEMIRA FMIPA
                         </h2>
-                        <p class="text-sidebar-foreground font-medium text-sm md:text-base max-w-lg">
+                        <p class="text-white font-medium text-sm md:text-base max-w-lg">
                             Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
                         </p>
                     </div>
@@ -149,46 +190,46 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <div class="flex justify-center space-x-4 items-start">
                         <!-- Days -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.days) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Hari
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Hours -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.hours) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Jam
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Minutes -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.minutes) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Menit
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Seconds -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.seconds) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Detik
                             </p>
                         </div>
@@ -197,7 +238,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <!-- Status Message -->
                     <Button variant="outline" size="lg" class="text-base">
                         <Link :href="ctaLink">
-                            Mulai Sekarang!
+                        Mulai Sekarang!
                         </Link>
                     </Button>
                 </div>
