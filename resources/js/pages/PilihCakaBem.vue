@@ -141,33 +141,37 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 class="relative max-w-md flex items-center justify-center p-6 place-self-center flex-col">
                                 <div class="">
                                     <!-- Frame image (base) -->
-                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1"
+                                    <img src="/images/Frame_BEM.webp" alt="Caka1"
                                         class="w-full max-w-xs sm:max-w-sm lg:max-w-md" />
 
                                     <!-- Photos positioned inside the frame -->
-                                    <div>
-                                        <img src="/images/BEM_1.png" alt="Caka1"
-                                            class="absolute left-20 bottom-15 w-28 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:w-38 sm:w-40 md:left-22 sm:left-25 md:bottom-20 sm:bottom-21" />
+                                    <div class="">
+                                        <img src="/images/BEM_1.webp" alt="Caka1"
+                                            class="absolute left-20 bottom-5 w-48 sm:w-69 md:w-59 lg:w-70 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:left-22 sm:left-25 md:bottom-5 sm:bottom-5 lg:left-25 lg:bottom-5" />
                                         <h3
-                                            class="absolute z-20 top-45 left-25 poppins-font font-bold text-white text-xs sm:text-sm md:text-sm lg:text-base xl:text-sm sm:left-35 sm:top-60 md:top-50 md:left-30 lg:top-60 lg:left-30">
+                                            class="absolute z-20 top-35 left-28 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-38 sm:top-48 md:top-40 md:left-30 lg:top-45 lg:left-35">
                                             Putu Amara</h3>
-                                        <h5
-                                            class="absolute z-20 top-50 left-29 poppins-font font-thin text-white text-[10px] sm:left-40 sm:top-65 md:top-55 md:left-35 lg:top-65 lg:left-35">
-                                            Fisika 23</h5>
-                                    </div>
-                                    <div>
-                                        <img src="/images/BEM_2.png" alt="Caka1"
-                                            class="absolute right-6 bottom-15 w-28 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-r-from-70% mask-linear-155 mask-linear-from-40% mask-linear-to-85% md:w-38 sm:w-42 md:right-6 sm:right-6 md:bottom-20 sm:bottom-18" />
                                         <h3
-                                            class="absolute z-20 top-45 right-7 poppins-font font-bold text-white text-xs sm:text-sm md:text-sm lg:text-base xl:text-sm sm:right-10 sm:top-60 md:top-50 md:right-10 lg:top-60 lg:right-10">
+                                            class="absolute z-20 top-35 left-45 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-62 sm:top-48 md:top-40 md:left-53 lg:top-45 lg:left-63">
                                             Nanda Asmara</h3>
                                         <h5
-                                            class="absolute z-20 top-50 right-10 poppins-font font-thin text-white text-[10px] sm:right-10 sm:top-65 md:top-55 md:right-13 lg:top-65 lg:right-15">
+                                            class="absolute z-20 top-38 left-33 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-42 sm:top-52 md:top-45 md:left-35 lg:top-50 lg:left-40">
+                                            Fisika 23</h5>
+                                        <h5
+                                            class="absolute z-20 top-38 left-48 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-65 sm:top-52 md:top-45 md:left-57 lg:top-50 lg:left-65">
                                             Informatika 23</h5>
                                     </div>
+
+                                    <h1 class="absolute z-20 top-16 left-4 sm:top-20 md:top-18 lg:top-20 poppins-font font-black text-white text-[10px] sm:text-[16px] md:text-[14px] lg:text-[16px] -rotate-90"
+                                        style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
+                                        PASLON BEM</h1>
+                                    <h1
+                                        class="absolute z-20 bottom-8 sm:top-47 md:top-40.5 lg:top-47 left-9 sm:left-10 md:left-9 lg:left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
+                                        01</h1>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
-                                <div class="absolute inset-0 flex items-end justify-center pb-4 z-20">
+                                <div
+                                    class="absolute inset-0 flex items-end justify-center pt-60 sm:pt-75 md:pt-70 lg:pt-75 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button variant="default" size="lg"
@@ -211,22 +215,44 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                             </div>
                         </div>
-                        <!-- Caka 2 -->
-                        <div class="flex max-w-md flex-col items-center justify-center gap-6 p-6">
+                        <div
+                            class="flex max-w-md flex-col items-center justify-center gap-6 p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px]">
                             <!-- frame container (relative) so photos can be positioned inside it -->
-                            <div class="relative max-w-md flex items-center justify-center p-6">
-                                <div class=" ">
+                            <div
+                                class="relative max-w-md flex items-center justify-center p-6 place-self-center flex-col">
+                                <div class="">
                                     <!-- Frame image (base) -->
-                                    <img src="/images/Frame_Paslon_BEM.png" alt="Caka1" class="w-full max-w-xs" />
+                                    <img src="/images/Frame_BEM.webp" alt="Caka1"
+                                        class="w-full max-w-xs sm:max-w-sm lg:max-w-md" />
 
                                     <!-- Photos positioned inside the frame -->
-                                    <div>
-                                        <img src="/images/KotakKosong.png" alt="KotakKosong"
-                                            class="absolute left-28 bottom-20 w-30 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-245 mask-linear-from-40% mask-linear-to-85% sm:w-40 sm:left-35 md:w-30 md:left-28 md:bottom-20 lg:w-40 lg:left-35 lg:bottom-25" />
+                                    <div class="">
+                                        <img src="/images/KotakKosong.webp" alt="Caka2"
+                                            class="absolute left-28 bottom-8 w-33 sm:w-45 md:w-35 lg:w-45 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:left-30 sm:left-35 md:bottom-10 sm:bottom-10 lg:left-35 lg:bottom-10" />
+                                        <h3
+                                            class="absolute z-20 top-35 left-28 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-38 sm:top-48 md:top-40 md:left-30 lg:top-45 lg:left-35">
+                                        </h3>
+                                        <h3
+                                            class="absolute z-20 top-35 left-45 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-62 sm:top-48 md:top-40 md:left-53 lg:top-45 lg:left-63">
+                                        </h3>
+                                        <h5
+                                            class="absolute z-20 top-38 left-33 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-42 sm:top-52 md:top-45 md:left-35 lg:top-50 lg:left-40">
+                                        </h5>
+                                        <h5
+                                            class="absolute z-20 top-38 left-48 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-65 sm:top-52 md:top-45 md:left-57 lg:top-50 lg:left-65">
+                                        </h5>
                                     </div>
+
+                                    <h1 class="absolute z-20 top-16 left-4 sm:top-20 md:top-18 lg:top-20 poppins-font font-black text-white text-[10px] sm:text-[16px] md:text-[14px] lg:text-[16px] -rotate-90"
+                                        style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
+                                        PASLON BEM</h1>
+                                    <h1
+                                        class="absolute z-20 bottom-8 sm:top-47 md:top-40.5 lg:top-47 left-9 sm:left-10 md:left-9 lg:left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
+                                        02</h1>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
-                                <div class="absolute inset-0 flex items-end justify-center pb-2 z-20">
+                                <div
+                                    class="absolute inset-0 flex items-end justify-center pt-60 sm:pt-75 md:pt-70 lg:pt-75 z-20">
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button variant="default" size="lg"
