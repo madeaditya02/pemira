@@ -132,42 +132,36 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <img src="/images/bannercaka.svg" alt="" class="absolute inset-0 top-0 w-full object-cover" />
 
                 <div class="relative mx-auto mt-20 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
-                    <div class="flex flex-col md:flex-row justify-center">
+                    <!-- Modified container to better handle centering -->
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
                         <!-- Caka 1 -->
                         <div
-                            class="flex max-w-md flex-col items-center justify-center gap-6 p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px]">
+                            class="flex max-w-md flex-col items-center justify-center p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px] w-full md:w-1/2">
                             <!-- frame container (relative) so photos can be positioned inside it -->
                             <div
                                 class="relative max-w-md flex items-center justify-center p-6 place-self-center flex-col">
-                                <div class="">
+                                <div class="flex flex-col md:flex-row justify-center">
                                     <!-- Frame image (base) -->
                                     <img src="/images/Frame_BEM.webp" alt="Caka1"
                                         class="w-full max-w-xs sm:max-w-sm lg:max-w-md" />
 
                                     <!-- Photos positioned inside the frame -->
-                                    <div class="">
+                                    <div class="flex flex-col md:flex-row justify-center">
                                         <img src="/images/BEM_1.webp" alt="Caka1"
-                                            class="absolute left-20 bottom-5 w-48 sm:w-69 md:w-59 lg:w-70 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:left-22 sm:left-25 md:bottom-5 sm:bottom-5 lg:left-25 lg:bottom-5" />
+                                            class="absolute right-5 bottom-5 w-48 sm:w-70 md:w-60 lg:w-65 z-10 object-cover rounded-md shadow-md mask-linear-180 mask-linear-from-50% mask-linear-to-85%" />
                                         <h3
-                                            class="absolute z-20 top-35 left-28 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-38 sm:top-48 md:top-40 md:left-30 lg:top-45 lg:left-35">
-                                            Putu Amara</h3>
-                                        <h3
-                                            class="absolute z-20 top-35 left-45 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-62 sm:top-48 md:top-40 md:left-53 lg:top-45 lg:left-63">
-                                            Nanda Asmara</h3>
+                                            class="absolute z-20 bottom-15 right-15 sm:bottom-15 sm:right-18 md:right-13 text-center poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[11px] lg:text-base xl:text-sm">
+                                            Putu Amara & Nanda Asmara</h3>
                                         <h5
-                                            class="absolute z-20 top-38 left-33 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-42 sm:top-52 md:top-45 md:left-35 lg:top-50 lg:left-40">
-                                            Fisika 23</h5>
-                                        <h5
-                                            class="absolute z-20 top-38 left-48 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-65 sm:top-52 md:top-45 md:left-57 lg:top-50 lg:left-65">
-                                            Informatika 23</h5>
+                                            class="absolute z-20 bottom-10 right-23 sm:bottom-10 sm:right-25 md:right-20 text center poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px]">
+                                            Fisika 23 & Informatika 23</h5>
+                                        <h1 class="absolute z-20 top-16 left-4 sm:top-20 md:top-16 lg:top-20 poppins-font font-black text-white text-[10px] sm:text-[16px] md:text-[12px] lg:text-[16px] -rotate-90"
+                                            style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
+                                            PASLON BEM</h1>
+                                        <h1
+                                            class="absolute z-20 bottom-9 left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
+                                            01</h1>
                                     </div>
-
-                                    <h1 class="absolute z-20 top-16 left-4 sm:top-20 md:top-18 lg:top-20 poppins-font font-black text-white text-[10px] sm:text-[16px] md:text-[14px] lg:text-[16px] -rotate-90"
-                                        style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
-                                        PASLON BEM</h1>
-                                    <h1
-                                        class="absolute z-20 bottom-8 sm:top-47 md:top-40.5 lg:top-47 left-9 sm:left-10 md:left-9 lg:left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
-                                        01</h1>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
                                 <div
@@ -175,7 +169,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button variant="default" size="lg"
-                                                class="bg-[#5465D1] hover:bg-[#2B346B] text-white"> Vote </Button>
+                                                class="bg-(--primary-button) hover:bg-[#2B346B] text-white w-[130px]"> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
@@ -215,40 +209,25 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                             </div>
                         </div>
+                        <!-- Kotak Kosong -->
                         <div
-                            class="flex max-w-md flex-col items-center justify-center gap-6 p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px]">
+                            class="flex max-w-md flex-col items-center justify-center p-6 min-h-[450px] sm:min-h-[500px] lg:min-h-[600px] w-full md:w-1/2">
                             <!-- frame container (relative) so photos can be positioned inside it -->
                             <div
                                 class="relative max-w-md flex items-center justify-center p-6 place-self-center flex-col">
-                                <div class="">
+                                <div class="flex flex-col md:flex-row justify-center">
                                     <!-- Frame image (base) -->
                                     <img src="/images/Frame_BEM.webp" alt="Caka1"
                                         class="w-full max-w-xs sm:max-w-sm lg:max-w-md" />
 
                                     <!-- Photos positioned inside the frame -->
-                                    <div class="">
-                                        <img src="/images/KotakKosong.webp" alt="Caka2"
-                                            class="absolute left-28 bottom-8 w-33 sm:w-45 md:w-35 lg:w-45 z-10 object-cover rounded-md shadow-md mask-b-from-10% mask-l-from-70% mask-linear-200 mask-linear-from-50% mask-linear-to-85% md:left-30 sm:left-35 md:bottom-10 sm:bottom-10 lg:left-35 lg:bottom-10" />
-                                        <h3
-                                            class="absolute z-20 top-35 left-28 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-38 sm:top-48 md:top-40 md:left-30 lg:top-45 lg:left-35">
-                                        </h3>
-                                        <h3
-                                            class="absolute z-20 top-35 left-45 poppins-font font-bold text-white text-[10px] sm:text-[13px] md:text-[14px] lg:text-base xl:text-sm sm:left-62 sm:top-48 md:top-40 md:left-53 lg:top-45 lg:left-63">
-                                        </h3>
-                                        <h5
-                                            class="absolute z-20 top-38 left-33 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-42 sm:top-52 md:top-45 md:left-35 lg:top-50 lg:left-40">
-                                        </h5>
-                                        <h5
-                                            class="absolute z-20 top-38 left-48 poppins-font font-thin text-white text-[6px] sm:text-[10px] md:text-[10px] lg:text-[12px] sm:left-65 sm:top-52 md:top-45 md:left-57 lg:top-50 lg:left-65">
-                                        </h5>
+                                    <div class="flex flex-col md:flex-row justify-center">
+                                        <img src="/images/KotakKosong.webp" alt="Caka1"
+                                            class="absolute right-20 bottom-10 w-25 sm:right-30 sm:bottom-15 sm:w-30 md:right-15 md:bottom-10 md:w-30 lg:right-25 lg:bottom-15 lg:w-35 z-10 object-cover rounded-md shadow-md mask-linear-180 mask-linear-from-50% mask-linear-to-85%" />
+                                        <h1
+                                            class="absolute z-20 bottom-9 left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
+                                            02</h1>
                                     </div>
-
-                                    <h1 class="absolute z-20 top-16 left-4 sm:top-20 md:top-18 lg:top-20 poppins-font font-black text-white text-[10px] sm:text-[16px] md:text-[14px] lg:text-[16px] -rotate-90"
-                                        style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
-                                        PASLON BEM</h1>
-                                    <h1
-                                        class="absolute z-20 bottom-8 sm:top-47 md:top-40.5 lg:top-47 left-9 sm:left-10 md:left-9 lg:left-10 poppins-font font-black text-white text-[18px] sm:text-[24px] md:text-[20px] lg:text-[24px]">
-                                        02</h1>
                                 </div>
                                 <!-- Centered button area on top of the frame -->
                                 <div
@@ -256,7 +235,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     <AlertDialog>
                                         <AlertDialogTrigger as-child>
                                             <Button variant="default" size="lg"
-                                                class="bg-[#5465D1] hover:bg-[#2B346B] text-white"> Vote </Button>
+                                                class="bg-(--primary-button) hover:bg-[#2B346B] text-white w-[130px]"> Vote </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
