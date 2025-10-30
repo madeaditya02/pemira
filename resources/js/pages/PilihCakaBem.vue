@@ -114,6 +114,12 @@ onUnmounted(() => {
     }
 });
 
+const frameImage = '/images/Frame_BEM.webp';
+const heroImages = [
+    '/images/BEM_1.webp',
+    '/images/BEM_2.webp',
+];
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Pemilihan Caka BEM',
