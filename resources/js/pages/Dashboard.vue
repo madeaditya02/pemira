@@ -139,9 +139,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const heroImages = [
-    '/images/foto-slide-hero/20250603_181544.jpg',
-    '/images/foto-slide-hero/20250603_181816.jpg',
-    '/images/foto-slide-hero/20250603_185507.jpg',
+    '/images/foto-slide-hero/hero-image-1.jpg',
+    '/images/foto-slide-hero/hero-image-2.jpg',
+    '/images/foto-slide-hero/hero-image-3.jpg',
 ]
 </script>
 
@@ -230,11 +230,12 @@ const heroImages = [
                     </div>
 
                     <!-- Status Message -->
-                    <Button variant="outline" size="lg" class="text-base">
-                        <Link :href="ctaLink">
-                        Mulai Sekarang!
-                        </Link>
-                    </Button>
+                    <Link :href="ctaLink">
+                        <Button variant="outline" size="lg"
+                            class="text-base dark:bg-foreground dark:text-background dark:border-foreground">
+                            Mulai Sekarang!
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
@@ -257,9 +258,9 @@ const heroImages = [
                         </CardContent>
                         <CardFooter>
                             <Link :href="candidateLink(item.nama)">
-                                <Button variant="default" size="default" class="w-full">
-                                    Lihat Kandidat
-                                </Button>
+                            <Button variant="default" size="default" class="w-full">
+                                Lihat Kandidat
+                            </Button>
                             </Link>
                         </CardFooter>
                     </Card>

@@ -34,6 +34,8 @@ class Kegiatan extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsToMany(User::class, 'surat_suara', 'id_kegiatan', 'nim');
+        return $this->belongsToMany(User::class, 'surat_suara', 'id_kegiatan', 'nim')
+            ->withPivot('has_vote')
+            ->withTimestamps();
     }
 }

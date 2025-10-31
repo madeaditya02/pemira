@@ -70,12 +70,15 @@ class User extends Authenticatable
     public function kandidat()
     {
         return $this->belongsToMany(Kandidat::class, 'mahasiswa_kandidat', 'nim', 'id_kandidat')
-            ->withPivot('jabatan');
+            ->withPivot('jabatan')
+            ->withTimestamps();
     }
 
     public function kegiatan()
     {
-        return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan');
+        return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan')
+            ->withPivot('has_vote')
+            ->withTimestamps();
     }
 
     public static function getMahasiswaFromSheet(int $tahun)

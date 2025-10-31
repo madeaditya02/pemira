@@ -53,14 +53,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-col gap-2 overflow-x-auto">
             <!-- Hero Section -->
-            <div class="relative flex min-h-[30vh] md:min-h-[50vh] flex-col items-center justify-center">
+            <div class="relative flex min-h-[30vh] md:min-h-[45vh] flex-col items-center justify-center">
                 <img :src="handleHeroImage(props.kegiatan.foto)" alt="background"
                     class="absolute inset-0 w-full h-full object-cover" />
             </div>
 
             <!-- Kandidat Cards -->
-            <div class="flex flex-col gap-4 mx-auto w-full max-w-7xl px-4 py-12 space-y-8">
-                <h1 class="md:text-xl font-bold lg:text-2xl text-center">Kandidat {{ props.kegiatan.nama }}</h1>
+            <div class="flex flex-col gap-4 mx-auto w-full max-w-7xl px-4 py-8 md:py-12 space-y-8">
+                <h1 class="text-xl font-bold md:text-2xl text-center">Kandidat {{ props.kegiatan.nama }}</h1>
                 <Card v-for="(k, index) in kandidat" :key="k.id"
                     class="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 py-0"
                     :class="index % 2 === 0 ? 'hover:border-primary/50' : 'hover:border-secondary/50'">
@@ -169,7 +169,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     </div>
                                     <h3 class="text-xl font-bold text-primary">Misi</h3>
                                 </div>
-                                <ol class="space-y-3 lg:pl-10">
+                                <ol class="space-y-3 pl-2 lg:pl-10">
                                     <li v-for="(misiItem, idx) in formatMisi(k.misi)" :key="idx"
                                         class="flex items-start gap-3 text-base text-muted-foreground">
                                         <span

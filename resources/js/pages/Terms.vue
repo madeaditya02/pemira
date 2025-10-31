@@ -179,7 +179,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         Batal
                                     </AlertDialogCancel>
                                     <AlertDialogAction as-child class="m-0">
-                                        <Link href="/cakabem" class="bg-primary hover:bg-primary/90"> Lanjutkan
+                                        <Link href="/vote" class="bg-primary hover:bg-primary/90">
+                                            Lanjutkan
                                         </Link>
                                     </AlertDialogAction>
                                 </div>

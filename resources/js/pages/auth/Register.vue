@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, Eye, EyeOff } from 'lucide-vue-next';
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -14,6 +14,8 @@ const showEmailPassword = ref(false);
 const checkingStudent = ref(false);
 const studentMessage = ref('');
 const studentError = ref('');
+const showPassword = ref(false);
+const showPasswordConfirmation = ref(false);
 
 const form = useForm({
     nim: '',
@@ -75,6 +77,7 @@ const submit = () => {
 
 <template>
     <AuthBase title="Daftar Akun Baru" description="Masukkan detail Anda di bawah ini untuk membuat akun">
+
         <Head title="Daftar" />
 
         <form method="POST" @submit.prevent="submit" class="flex flex-col gap-6">
@@ -84,17 +87,8 @@ const submit = () => {
                     <Label for="nim">NIM
                         <span className='text-red-500'>*</span>
                     </Label>
-                    <Input 
-                        id="nim" 
-                        type="text" 
-                        required 
-                        autofocus 
-                        :tabindex="1" 
-                        autocomplete="nim" 
-                        v-model="form.nim" 
-                        placeholder="Masukkan NIM Anda"
-                        :disabled="showEmailPassword"
-                    />
+                    <Input id="nim" type="text" required autofocus :tabindex="1" autocomplete="nim" v-model="form.nim"
+                        placeholder="10 Digit NIM sesuai IMISSU" :disabled="showEmailPassword" />
                     <InputError :message="form.errors.nim" />
                 </div>
 
@@ -102,35 +96,23 @@ const submit = () => {
                     <Label for="nama">Nama Lengkap
                         <span className='text-red-500'>*</span>
                     </Label>
-                    <Input 
-                        id="nama" 
-                        type="text" 
-                        required 
-                        :tabindex="2" 
-                        autocomplete="nama" 
-                        v-model="form.nama" 
-                        placeholder="Masukkan Nama Lengkap Anda"
-                        :disabled="showEmailPassword"
-                    />
+                    <Input id="nama" type="text" required :tabindex="2" autocomplete="nama" v-model="form.nama"
+                        placeholder="Nama Lengkap sesuai IMISSU" :disabled="showEmailPassword" />
                     <InputError :message="form.errors.nama" />
                 </div>
 
                 <!-- Check Student Button -->
                 <div v-if="!showEmailPassword" class="grid gap-2">
-                    <Button 
-                        type="button" 
-                        @click="checkStudent"
-                        :disabled="checkingStudent || !form.nim || !form.nama"
-                        class="w-full"
-                    >
+                    <Button type="button" @click="checkStudent" :disabled="checkingStudent || !form.nim || !form.nama"
+                        class="w-full">
                         <LoaderCircle v-if="checkingStudent" class="h-4 w-4 animate-spin" />
                         Verifikasi Data
                     </Button>
-                    
+
                     <div v-if="studentError" class="text-sm text-red-600">
                         {{ studentError }}
                     </div>
-                    
+
                     <div v-if="studentMessage" class="text-sm text-green-600">
                         {{ studentMessage }}
                     </div>
@@ -142,15 +124,8 @@ const submit = () => {
                         <Label for="email">Alamat Email
                             <span className='text-red-500'>*</span>
                         </Label>
-                        <Input 
-                            id="email" 
-                            type="email" 
-                            required 
-                            :tabindex="3" 
-                            autocomplete="email" 
-                            v-model="form.email" 
-                            placeholder="Masukkan Alamat Email Anda" 
-                        />
+                        <Input id="email" type="email" required :tabindex="3" autocomplete="email" v-model="form.email"
+                            placeholder="Email@student.unud.ac.id" />
                         <InputError :message="form.errors.email" />
                     </div>
 
@@ -158,15 +133,16 @@ const submit = () => {
                         <Label for="password">Kata Sandi
                             <span className='text-red-500'>*</span>
                         </Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            :tabindex="4"
-                            autocomplete="new-password"
-                            v-model="form.password"
-                            placeholder="Masukkan Kata Sandi Anda"
-                        />
+                        <div class="relative">
+                            <Input id="password" :type="showPassword ? 'text' : 'password'" required :tabindex="4"
+                                autocomplete="new-password" v-model="form.password"
+                                placeholder="Kata sandi min. 8 karakter" class="pr-10" />
+                            <button type="button" @click="showPassword = !showPassword"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                <Eye v-if="!showPassword" class="h-4 w-4" />
+                                <EyeOff v-else class="h-4 w-4" />
+                            </button>
+                        </div>
                         <InputError :message="form.errors.password" />
                     </div>
 
@@ -174,33 +150,24 @@ const submit = () => {
                         <Label for="password_confirmation">Konfirmasi Kata Sandi
                             <span className='text-red-500'>*</span>
                         </Label>
-                        <Input
-                            id="password_confirmation"
-                            type="password"
-                            required
-                            :tabindex="4"
-                            autocomplete="new-password"
-                            v-model="form.password_confirmation"
-                            placeholder="Masukkan Konfirmasi Kata Sandi Anda"
-                        />
+                        <div class="relative">
+                            <Input id="password_confirmation" :type="showPasswordConfirmation ? 'text' : 'password'"
+                                required :tabindex="5" autocomplete="new-password" v-model="form.password_confirmation"
+                                placeholder="Konfirmasi Kata Sandi Anda" class="pr-10" />
+                            <button type="button" @click="showPasswordConfirmation = !showPasswordConfirmation"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                <Eye v-if="!showPasswordConfirmation" class="h-4 w-4" />
+                                <EyeOff v-else class="h-4 w-4" />
+                            </button>
+                        </div>
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
 
                     <div class="flex gap-2">
-                        <Button 
-                            type="button" 
-                            variant="outline" 
-                            @click="resetForm"
-                            class="flex-1"
-                        >
+                        <Button type="button" variant="outline" @click="resetForm" class="flex-1">
                             Kembali
                         </Button>
-                        <Button 
-                            type="submit" 
-                            class="flex-1" 
-                            :tabindex="6" 
-                            :disabled="form.processing"
-                        >
+                        <Button type="submit" class="flex-1" :tabindex="6" :disabled="form.processing">
                             <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                             Buat Akun
                         </Button>
@@ -210,7 +177,8 @@ const submit = () => {
 
             <div class="text-center text-sm text-muted-foreground">
                 Sudah memiliki akun?
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Masuk disini</TextLink>
+                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Masuk disini
+                </TextLink>
             </div>
         </form>
     </AuthBase>

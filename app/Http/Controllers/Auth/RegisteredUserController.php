@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -71,7 +72,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nim' => 'required|string|max:10|exists:mahasiswa,nim',
+            'nim' => 'required|string|digits:10|exists:mahasiswa,nim',
             'nama' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:mahasiswa,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -85,7 +86,7 @@ class RegisteredUserController extends Controller
 
         // Find the student and update with email and password
         $user = User::where('nim', $request->nim)
-            ->where('nama', $request->nama)
+            ->whereRaw('BINARY nama = ?', [$request->nama])
             ->whereNull('email')
             ->whereNull('password')
             ->first();
@@ -102,8 +103,26 @@ class RegisteredUserController extends Controller
 
         $user->update([
             'email' => $request->email,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
         ]);
+
+        // Generate surat suara
+        $kegiatan = Kegiatan::where('tahun', now()->year)
+            ->where('id_program_studi', $user->id_program_studi)
+            ->orWhere('ruang_lingkup', 'fakultas')
+            ->get();
+        if ($kegiatan) {
+            foreach ($kegiatan as $k) {
+                $k->mahasiswa()->attach([
+                    $user->nim => [
+                        'has_vote' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]);
+            }
+        }
 
         return to_route('login')->with('status', 'Pendaftaran berhasil. Silakan masuk ke akun Anda.');
     }

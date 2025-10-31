@@ -15,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 // Data kandidat (nanti bisa dari props/API)
-const kandidat1 = {
+const kandidat1 = {     
     nama: 'Malin Kundang',
     foto: '/images/contoh-caka1.png',
     jumlahSuara: 20,

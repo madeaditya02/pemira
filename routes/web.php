@@ -4,6 +4,7 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\KandidatController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\SuratSuaraController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -14,6 +15,10 @@ Route::middleware('auth')->group(function () {
         Route::get('cakabem', 'cakabem')->name('cakabem');
         Route::get('cakahima', 'cakahima')->name('cakahima');
         Route::get('result-hima', 'resultHima')->name('result-hima');
+    });
+
+    Route::controller(SuratSuaraController::class)->group(function () {
+        Route::get('vote', 'show')->name('vote.show');
     });
 
     Route::resource('users', MahasiswaController::class)

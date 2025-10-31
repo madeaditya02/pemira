@@ -7,11 +7,15 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { Eye, EyeOff } from 'lucide-vue-next'
 
 defineProps<{
     status?: string;
     canResetPassword: boolean;
 }>();
+
+const showPassword = ref(false);
 
 const form = useForm({
     email: '',
@@ -27,6 +31,7 @@ const submit = () => {
 
 <template>
     <AuthBase title="Masuk ke Akun Anda" description="Masukkan email dan kata sandi Anda di bawah ini.">
+
         <Head title="Masuk" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
@@ -39,16 +44,8 @@ const submit = () => {
                     <Label for="email">Alamat Email
                         <span className='text-red-500'>*</span>
                     </Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        autocomplete="email"
-                        v-model="form.email"
-                        placeholder="Masukkan Alamat Email Anda"
-                    />
+                    <Input id="email" type="email" required autofocus :tabindex="1" autocomplete="email"
+                        v-model="form.email" placeholder="Email@student.unud.ac.id" />
                     <InputError :message="form.errors.email" />
                 </div>
 
@@ -57,19 +54,20 @@ const submit = () => {
                         <Label for="password">Kata Sandi
                             <span className='text-red-500'>*</span>
                         </Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
+                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm"
+                            :tabindex="5">
                             Lupa kata sandi?
                         </TextLink>
                     </div>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        :tabindex="2"
-                        autocomplete="current-password"
-                        v-model="form.password"
-                        placeholder="Masukkan Kata Sandi Anda"
-                    />
+                    <div class="relative">
+                        <Input id="password" type="password" required :tabindex="2" autocomplete="current-password"
+                            v-model="form.password" placeholder="Kata sandi min. 8 karakter" />
+                        <button type="button" @click="showPassword = !showPassword"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                            <Eye v-if="!showPassword" class="h-4 w-4" />
+                            <EyeOff v-else class="h-4 w-4" />
+                        </button>
+                    </div>
                     <InputError :message="form.errors.password" />
                 </div>
 

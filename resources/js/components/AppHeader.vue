@@ -184,11 +184,18 @@ const rightNavItems: NavItem[] = [
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <Link v-else :href="route('login')">
-                        <Button type="button" variant="outline" class="flex-1">
-                            Masuk
-                        </Button>
-                    </Link>
+                    <div v-else class="flex gap-4">
+                        <Link :href="route('login')">
+                            <Button type="button" variant="outline" class="flex-1">
+                                Masuk
+                            </Button>
+                        </Link>
+                        <Link :href="route('register')">
+                            <Button type="button" variant="default" class="flex-1">
+                                Daftar
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

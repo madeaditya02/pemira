@@ -170,7 +170,6 @@ class MahasiswaController extends Controller
             'nim.digits' => 'NIM harus terdiri dari 10 digit.',
             'nama.max' => 'Nama maksimal 255 karakter.',
             'email.max' => 'Email maksimal 255 karakter.',
-            'email.unique' => 'Email sudah terdaftar.',
             'id_program_studi.exists' => 'Program studi tidak valid.',
             'angkatan.min' => 'Angkatan minimal tahun 2000.',
             'angkatan.max' => 'Angkatan maksimal tahun 2100.',
