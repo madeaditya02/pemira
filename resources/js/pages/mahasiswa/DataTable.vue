@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Form from './Form.vue'
+import { route } from 'ziggy-js'
 import { cn } from '@/lib/utils'
 import { ref, computed, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
@@ -95,6 +96,12 @@ const getFilterDisplayValue = (value: any, columnId?: string): string => {
     }
 
     // Handle status display
+    if (columnId === 'status') {
+        if (value === 'aktif') return 'Aktif'
+        if (value === 'nonaktif') return 'Nonaktif'
+    }
+
+    // Handle status display
     if (columnId === 'email_verified_at') {
         if (value === 'terverifikasi') return 'Terverifikasi'
         if (value === 'belum_terverifikasi') return 'Belum Terverifikasi'
@@ -116,8 +123,13 @@ const columnFiltersConfig = [
         type: 'select' as const,
     },
     {
-        columnId: 'email_verified_at',
+        columnId: 'status',
         label: 'Status',
+        type: 'select' as const,
+    },
+    {
+        columnId: 'email_verified_at',
+        label: 'Verifikasi',
         type: 'select' as const,
     },
 ]
@@ -204,7 +216,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Data filter -->
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="outline" size="icon" class="ml-auto">
+                        <Button variant="outline" size="sm" class="ml-auto h-9">
                             <Filter class="size-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -293,7 +305,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Sync Data Mahasiswa button -->
                 <Dialog v-model:open="isSyncDialogOpen">
                     <DialogTrigger as-child>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="default">
                             <RefreshCw class="h-4 w-4" />
                         </Button>
                     </DialogTrigger>
