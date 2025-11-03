@@ -260,7 +260,7 @@ const programStudiName = computed(() => {
 
             <!-- Complete Section -->
             <div v-else class="relative mx-auto my-4 w-full max-w-3xl px-4">
-                <div class="bg-white/95 backdrop-blur-sm rounded-lg border shadow-lg p-8">
+                <div class="bg-background/95 backdrop-blur-sm rounded-lg border shadow-lg p-8">
                     <div class="flex flex-col items-center justify-center gap-4 mb-8">
                         <CheckCircle2 class="w-20 h-20 text-green-500" />
                         <h1 class="text-xl md:text-2xl font-black text-center">KONFIRMASI PILIHAN ANDA</h1>

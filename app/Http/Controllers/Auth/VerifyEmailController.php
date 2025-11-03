@@ -29,7 +29,7 @@ class VerifyEmailController extends Controller
             ->get();
         if ($kegiatan->isNotEmpty()) {
             foreach ($kegiatan as $k) {
-                $k->mahasiswa()->attach([$user->nim => ['has_vote' => false]]);
+                $k->mahasiswa()->syncWithoutDetaching([$user->nim => ['has_vote' => false]]);
             }
         }
 
