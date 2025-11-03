@@ -156,6 +156,8 @@ const heroImages = [
                 <!-- Content with relative positioning and higher z-index -->
                 <Carousel class="absolute w-full saturate-0 md:saturate-0 md:backdrop-blur" :plugins="[plugin]"
                     @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
+                <Carousel class="absolute w-full saturate-0 md:saturate-0 md:backdrop-blur" :plugins="[plugin]"
+                    @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
                     <CarouselContent>
                         <CarouselItem v-for="image in heroImages" :key="image">
                             <div class="flex items-center justify-center">

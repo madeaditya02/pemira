@@ -85,6 +85,7 @@
 }
 
 :root {
+    --primary-button: hsl(232, 43%, 29%);
     --background: hsl(0 0% 100%);
     --foreground: hsl(0 0% 3.9%);
     --card: hsl(0 0% 100%);
@@ -122,6 +123,7 @@
 }
 
 .dark {
+    --primary-button: hsl(232 43% 29%);
     --background: hsl(0 0% 3.9%);
     --foreground: hsl(0 0% 98%);
     --card: hsl(0 0% 3.9%);
