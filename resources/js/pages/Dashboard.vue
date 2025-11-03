@@ -7,8 +7,8 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import Autoplay from "embla-carousel-autoplay";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import { Carousel, CarouselContent, CarouselItem, } from "@/components/ui/carousel"
 
 const plugin = Autoplay({
     delay: 2000,
@@ -140,9 +140,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const heroImages = [
-    '/images/foto-slide-hero/hero-image-1.jpg',
-    '/images/foto-slide-hero/hero-image-2.jpg',
-    '/images/foto-slide-hero/hero-image-3.jpg',
+    '/images/foto-slide-hero/IMG_2.webp',
+    '/images/foto-slide-hero/IMG_1.webp',
+    '/images/foto-slide-hero/IMG_3.webp',
 ]
 </script>
 
@@ -162,7 +162,8 @@ const heroImages = [
                             <div class="flex items-center justify-center">
                                 <Card class="w-full">
                                     <CardContent class="flex items-center justify-center px-0">
-                                        <img :src="image" alt="Placeholder" class="w-full h-[90vh] object-cover" />
+                                        <img :src="image" alt="Placeholder" class="w-full h-[90vh] object-cover opacity-30 mask-y-from-80% mask-y-to-100%" />
+                                        <!-- mask-linear-0 mask-linear-from-0% mask-linear-to-100% -->
                                     </CardContent>
                                 </Card>
                             </div>
