@@ -174,10 +174,10 @@ const heroImages = [
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
                     <div class="stroke-black-500 text-center text-shadow-md text-shadow-foreground/30">
-                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-foreground/50 mb-2">
                             PEMIRA FMIPA
                         </h2>
-                        <p class="text-white font-medium text-sm md:text-base max-w-lg">
+                        <p class="text-foreground/50 font-medium text-sm md:text-base max-w-lg">
                             Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam {{ dayjs().year() }} akan dimulai dalam
                         </p>
                     </div>
@@ -186,46 +186,46 @@ const heroImages = [
                     <div class="flex justify-center space-x-4 items-start text-shadow-md text-shadow-foreground/30">
                         <!-- Days -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground/50">
                                 {{ formatTime(timeRemaining.days) }}
                             </p>
-                            <p class="text-sm lg:text-base text-white font-medium mt-2">
+                            <p class="text-sm lg:text-base text-foreground/50 font-medium mt-2">
                                 Hari
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-foreground/50">:</div>
 
                         <!-- Hours -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground/50">
                                 {{ formatTime(timeRemaining.hours) }}
                             </p>
-                            <p class="text-sm lg:text-base text-white font-medium mt-2">
+                            <p class="text-sm lg:text-base text-foreground/50 font-medium mt-2">
                                 Jam
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-foreground/50">:</div>
 
                         <!-- Minutes -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground/50">
                                 {{ formatTime(timeRemaining.minutes) }}
                             </p>
-                            <p class="text-sm lg:text-base text-white font-medium mt-2">
+                            <p class="text-sm lg:text-base text-foreground/50 font-medium mt-2">
                                 Menit
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-foreground/50">:</div>
 
                         <!-- Seconds -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground/50">
                                 {{ formatTime(timeRemaining.seconds) }}
                             </p>
-                            <p class="text-sm lg:text-base text-white font-medium mt-2">
+                            <p class="text-sm lg:text-base text-foreground/50 font-medium mt-2">
                                 Detik
                             </p>
                         </div>
