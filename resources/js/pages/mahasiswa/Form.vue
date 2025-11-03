@@ -83,12 +83,14 @@ const submit = () => {
         <!-- Dialog Header -->
         <DialogHeader>
             <DialogTitle>
-                {{ mode === 'create' ? 'Tambah Data Mahasiswa' : 'Ubah Data Mahasiswa' }}
+                {{ mode === 'create' ? 'Tambah' : mode === 'edit' ? 'Ubah' : 'Detail' }} Data Mahasiswa
             </DialogTitle>
             <DialogDescription>
                 {{ mode === 'create'
                     ? 'Isi form untuk menambahkan data mahasiswa baru.'
-                    : 'Ubah form untuk mengubah data mahasiswa.'
+                    : mode === 'edit'
+                    ? 'Ubah form untuk mengubah data mahasiswa.'
+                    : 'Lihat detail data mahasiswa yang dipilih.'
                 }}
             </DialogDescription>
         </DialogHeader>
@@ -181,7 +183,7 @@ const submit = () => {
                         <InputError :message="form.errors.avatar" />
                     </div>
                     <div class="grid col-span-2 gap-4">
-                        <AspectRatio :ratio="16 / 9" class="relative">
+                        <AspectRatio :ratio="16 / 8" class="relative">
                             <img v-if="avatarPreview !== null" :src="avatarPreview" alt="Avatar Preview"
                                 class="aspect-video h-full w-full border rounded-md object-contain" />
                             <img v-else :src="mahasiswaData?.avatar

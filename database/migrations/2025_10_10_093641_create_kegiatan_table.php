@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('kegiatan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_program_studi')->nullable()->constrained('program_studi')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('id_program_studi')->nullable()->constrained('program_studi')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('nama');
             $table->year('tahun');
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_selesai');
             $table->enum('ruang_lingkup', ['fakultas', 'program studi']);
-            $table->string('foto')->default('foto-kegiatan/kegiatan.png');
+            $table->string('foto');
             $table->timestamps();
         });
     }

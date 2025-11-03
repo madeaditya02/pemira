@@ -45,6 +45,7 @@ export interface User {
     is_admin: number | boolean;
     id_program_studi: number;
     email_verified_at: string | null;
+    status: 'aktif' | 'nonaktif';
     created_at: string;
     updated_at: string;
     programStudi: ProgramStudi;
@@ -55,11 +56,13 @@ export interface Kegiatan {
     id_program_studi: number;
     nama: string;
     tahun: number;
-    waktu_mulai: Date;
-    waktu_selesai: Date;
+    waktu_mulai: Date | string;
+    waktu_selesai: Date | string;
     foto: string;
     ruang_lingkup: 'fakultas' | 'program studi';
     programStudi: ProgramStudi;
+    total_mahasiswa?: number;
+    jumlah_pemilih?: number;
 }
 
 export interface Kandidat {
@@ -71,15 +74,7 @@ export interface Kandidat {
     misi: string;
     jumlah_suara: number;
     kegiatan: Kegiatan;
-}
-
-export interface MahasiswaKandidat {
-    id: number;
-    nim: string;
-    id_kandidat: number;
-    jabatan: 'ketua' | 'wakil';
-    mahasiswa: User;
-    kandidat: Kandidat;
+    mahasiswa: (User & { pivot: { jabatan: 'ketua' | 'wakil' } })[];
 }
 
 export interface SuratSuara {

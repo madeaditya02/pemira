@@ -116,19 +116,26 @@ export const columns: ColumnDef<User>[] = [
         },
     },
     {
+        accessorKey: 'status',
+        header: () => h('div', { class: 'text-center' }, 'Status'),
+        cell: ({ row }) => {
+            const status = row.getValue('status') as string
+            if (status === 'aktif') {
+                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-medium flex place-self-center mx-auto' }, 'Aktif')
+            } else {
+                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-md font-medium flex place-self-center mx-auto' }, 'Nonaktif')
+            }
+        }
+    },
+    {
         accessorKey: 'email_verified_at',
-        header: ({ column }) => {
-            return h(Button, {
-                variant: "ghost",
-                onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-            }, () => ["Status", h(ArrowUpDown, { class: "h-4 w-4" })])
-        },
+        header: () => h('div', { class: 'text-center' }, 'Verifikasi'),
         cell: ({ row }) => {
             const verifiedAt = row.getValue('email_verified_at') as string | null
             if (verifiedAt) {
-                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-medium' }, 'Terverifikasi')
+                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-medium flex place-self-center' }, 'Sudah')
             } else {
-                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-md font-medium' }, 'Belum Terverifikasi')
+                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-md font-medium flex place-self-center' }, 'Belum')
             }
         },
         filterFn: (row, id, value) => {
@@ -150,13 +157,10 @@ export const columns: ColumnDef<User>[] = [
 
             return h(DropdownAction, {
                 data: mahasiswa,
-                onDelete: (data: User) => {
-                    // Handle delete
-                    console.log('Delete:', data);
-                }
+                deleteRoute: route('users.destroy', mahasiswa.nim),
             }, {
                 // Slot untuk edit form
-                'edit-form': ({ data, close }: { data: User, close: () => void }) =>
+                'edit-form': ({ data, close }: { data: User, close: () => void }) => 
                     h(Form, {
                         mode: 'edit',
                         programStudi: helpers?.programStudi || [],

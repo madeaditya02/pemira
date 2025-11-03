@@ -21,10 +21,15 @@ const props = defineProps<{
     waktu: Date | string;
 }>();
 
-// CTA Link handler
+// Link handler
 const ctaLink = computed(() => {
     return auth.value.user ? '/terms' : '/login';
 });
+
+const candidateLink = (nama: string) => {
+    const formattedName = nama.toLowerCase().replace(/\s+/g, '-');
+    return `/candidates/${formattedName}`;
+};
 
 // Add computed property to filter kegiatan
 const filteredKegiatan = computed(() => {
@@ -111,9 +116,14 @@ onUnmounted(() => {
 // Accordion FAQ data
 const defaultValue = "item-1"
 const accordionItems = [
-    { value: "item-1", title: "Is it accessible?", content: "Yes. It adheres to the WAI-ARIA design pattern." },
-    { value: "item-2", title: "Is it unstyled?", content: "Yes. It's unstyled by default, giving you freedom over the look and feel." },
-    { value: "item-3", title: "Can it be animated?", content: "Yes! You can use the transition prop to configure the animation." },
+    { value: "item-1", title: "Apa saja syarat untuk mengikuti pemilihan?", content: "Anda harus terdaftar sebagai mahasiswa aktif di fakultas dan program studi yang sesuai. Jika program studi Anda tidak termasuk program sarjana, maka Anda tidak dapat melakukan pemilihan." },
+    { value: "item-2", title: "Bagaimana cara melakukan registrasi akun?", content: "Anda cukup menyiapkan NIM dan nama lengkap yang sesuai dengan profil pada laman IMISSU. Kemudian, ikuti langkah-langkah yang terdapat pada laman registrasi akun." },
+    { value: "item-3", title: "Bagaimana cara login ke dalam laman pemilihan?", content: "Anda dapat melakukan login dengan menggunakan email dan kata sandi yang telah Anda daftarkan sebelumnya. Pastikan email yang terdaftar merupakan email aktif dari universitas." },
+    { value: "item-4", title: "Bagaimana jika saya lupa kata sandi?", content: "Anda dapat melakukan reset kata sandi melalui laman login dengan mengklik tautan 'Lupa kata sandi?'. Ikuti langkah-langkah yang diberikan untuk mengatur ulang kata sandi Anda." },
+    { value: "item-5", title: "Kegiatan apa saja yang dapat saya ikuti?", content: "Anda dapat mengikuti kegiatan pemilihan umum untuk memilih pasangan calon ketua dan wakil ketua BEM FMIPA serta memilih calon ketua himpunan di masing-masing program studi." },
+    { value: "item-6", title: "Bagaimana tata cara melakukan pemilihan?", content: "Anda diharuskan login terlebih dahulu untuk dapat melakukan pemilihan. Kemudian, Anda dapat melihat informasi kandidat setiap kegiatan sebelum melakukan pemilihan. Setelah memulai proses pemilihan, Anda harus menyelesaikan semua kegiatan pemilihan sebelum Anda dapat keluar dari situs pemilihan." },
+    { value: "item-7", title: "Apakah saya dapat mengubah pilihan saya setelah memilih?", content: "Tidak, setelah Anda mengklik tombol 'Selesai' pada halaman pemilihan, pilihan Anda akan terkunci dan tidak dapat diubah. Anda juga hanya memiliki kesempatan sekali saja untuk melakukan pemilihan." },
+    { value: "item-8", title: "Bagaimana cara memperbarui profil dan akun?", content: "Anda dapat memperbarui profil dan akun Anda melalui halaman pengaturan akun. Anda juga dapat mengubah kata sandi Anda di halaman ini. Pastikan untuk menyimpan segala perubahan yang telah Anda buat." },
 ]
 
 // Page title and breadcrumbs
@@ -129,9 +139,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const heroImages = [
-    '/images/20250603_181544.jpg',
-    '/images/20250603_181816.jpg',
-    '/images/20250603_185507.jpg',
+    '/images/foto-slide-hero/IMG_2.webp',
+    '/images/foto-slide-hero/IMG_1.webp',
+    '/images/foto-slide-hero/IMG_3.webp',
 ]
 </script>
 
@@ -148,72 +158,73 @@ const heroImages = [
                     @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
                     <CarouselContent>
                         <CarouselItem v-for="image in heroImages" :key="image">
-                            <div class="p-1 flex items-center justify-center">
+                            <div class="flex items-center justify-center">
                                 <Card class="w-full">
-                                    <CardContent class="flex items-center justify-center ">
-                                        <img src="image" alt="Placeholder"
-                                            class="w-full h-[90vh] object-cover" />
+                                    <CardContent class="flex items-center justify-center px-0">
+                                        <img :src="image" alt="Placeholder" class="w-full h-[90vh] object-cover opacity-30 mask-y-from-80% mask-y-to-100%" />
+                                        <!-- mask-linear-0 mask-linear-from-0% mask-linear-to-100% -->
                                     </CardContent>
                                 </Card>
                             </div>
                         </CarouselItem>
                     </CarouselContent>
                 </Carousel>
+
                 <div class="relative z-10 px-4 space-y-4 md:space-y-6 flex flex-col items-center justify-center">
                     <!-- Header -->
-                    <div class="stroke-black-500 text-center">
-                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-2">
+                    <div class="stroke-black-500 text-center text-shadow-md text-shadow-foreground/30">
+                        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
                             PEMIRA FMIPA
                         </h2>
-                        <p class="text-sidebar-foreground font-medium text-sm md:text-base max-w-lg">
+                        <p class="text-white font-medium text-sm md:text-base max-w-lg">
                             Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
                         </p>
                     </div>
 
                     <!-- Countdown Display -->
-                    <div class="flex justify-center space-x-4 items-start">
+                    <div class="flex justify-center space-x-4 items-start text-shadow-md text-shadow-foreground/30">
                         <!-- Days -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.days) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Hari
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Hours -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.hours) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Jam
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Minutes -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.minutes) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Menit
                             </p>
                         </div>
 
-                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-muted-foreground">:</div>
+                        <div class="pt-2 text-xl md:text-2xl lg:text-3xl font-bold text-white">:</div>
 
                         <!-- Seconds -->
                         <div class="text-center">
-                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                            <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                                 {{ formatTime(timeRemaining.seconds) }}
                             </p>
-                            <p class="text-sm lg:text-base text-sidebar-foreground font-medium mt-2">
+                            <p class="text-sm lg:text-base text-white font-medium mt-2">
                                 Detik
                             </p>
                         </div>
@@ -229,24 +240,28 @@ const heroImages = [
             </div>
 
             <!-- List Kegiatan -->
-            <div v-if="auth.user && filteredKegiatan.length > 0">
+            <div v-if="auth.user && filteredKegiatan.length > 0" class="px-4">
                 <h1 class="text-lg md:text-xl lg:text-2xl mt-2 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
                 <div class="max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
-                    <Card v-for="item in filteredKegiatan" :key="item.id">
+                    <Card v-for="item in filteredKegiatan" :key="item.id" class="border shadow-sm shadow-foreground/10">
                         <CardHeader>
                             <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
                         </CardHeader>
                         <CardContent class="space-y-2">
                             <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                             <CardDescription>
-                                {{ getTimeUntilStart(item.waktu_mulai).expired ?
-                                    getTimeUntilStart(item.waktu_mulai).text :
-                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai).text}`
+                                {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
+                                    getTimeUntilStart(item.waktu_mulai as Date).text :
+                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai as Date).text}`
                                 }}
                             </CardDescription>
                         </CardContent>
                         <CardFooter>
-                            <Button>Ikuti Kegiatan</Button>
+                            <Link :href="candidateLink(item.nama)">
+                                <Button variant="default" size="default" class="w-full">
+                                    Lihat Kandidat
+                                </Button>
+                            </Link>
                         </CardFooter>
                     </Card>
                 </div>

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('mahasiswa_kandidat', function (Blueprint $table) {
             $table->id();
             $table->string('nim', 10);
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('id_kandidat')->constrained('kandidat')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('nim')->references('nim')->on('mahasiswa')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('id_kandidat')->constrained('kandidat')->cascadeOnUpdate()->cascadeOnDelete();
             $table->enum('jabatan', ['ketua', 'wakil']);
             $table->timestamps();
         });

@@ -19,7 +19,6 @@ class KandidatFactory extends Factory
         return [
             'id_kegiatan' => fake()->numberBetween(1, 7),
             'no_urut' => fake()->numerify('0#'),
-            'foto' => 'foto-kandidat/default.png',
             'visi' => fake()->paragraph(),
             'misi' => fake()->paragraphs(3, true),
         ];

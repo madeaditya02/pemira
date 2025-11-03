@@ -36,22 +36,22 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Beranda',
         href: '/dashboard',
-        // icon: Home,
-    },
-    {
-        title: 'Kegiatan',
-        href: '/events',
-        // icon: Calendar,
+        icon: Home,
     },
     {
         title: 'Kandidat',
         href: '/candidates',
-        // icon: UserCheck,
+        icon: UserCheck,
+    },
+    {
+        title: 'Kegiatan',
+        href: '/events',
+        icon: Calendar,
     },
     {
         title: 'Mahasiswa',
         href: '/users',
-        // icon: Users,
+        icon: Users,
     },
 ];
 
@@ -124,7 +124,7 @@ const rightNavItems: NavItem[] = [
                                 <Link
                                     :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
                                     :href="item.href">
-                                <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
+                                <!-- <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" /> -->
                                 {{ item.title }}
                                 </Link>
                                 <div v-if="isCurrentRoute(item.href)"
@@ -169,7 +169,7 @@ const rightNavItems: NavItem[] = [
                             <Button variant="ghost" size="icon"
                                 class="relative size-10 w-auto rounded-full py-1 px-1 sm:px-2 focus-within:ring-2 focus-within:ring-primary">
                                 <Avatar class="size-8 overflow-hidden rounded-full">
-                                    <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar"
+                                    <AvatarImage v-if="auth.user.avatar" :src="`/storage/${auth.user.avatar}`"
                                         :alt="auth.user.nama" />
                                     <AvatarFallback
                                         class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">

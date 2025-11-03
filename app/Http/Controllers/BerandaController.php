@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kandidat;
 use App\Models\Kegiatan;
+use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class BerandaController extends Controller
 {
+    private function getProgramStudi()
+    {
+        $user = auth('web')->user();
+        return $user->id_program_studi ?? null;
+    }
+
     public function getTime()
     {
         $kegiatan = Kegiatan::all();
@@ -46,6 +54,26 @@ class BerandaController extends Controller
         ]);
     }
 
+    public function candidates(string $slug)
+    {
+        $kegiatan = Kegiatan::where('nama', str_replace('-', ' ', $slug))
+            ->with('kandidat.mahasiswa')
+            ->firstOrFail();
+        $kandidat = Kandidat::where('id_kegiatan', $kegiatan->id)
+            ->with('mahasiswa')
+            ->get();
+
+        $idProdi = $this->getProgramStudi();
+        if ($idProdi !== $kegiatan->id_program_studi && $kegiatan->ruang_lingkup === 'program studi') {
+            return redirect()->back();
+        }
+
+        return Inertia::render('Candidates', [
+            'kegiatan' => $kegiatan,
+            'kandidat' => $kandidat,
+        ]);
+    }
+
     public function cakabem()
     {
         return Inertia::render('PilihCakaBem', [
@@ -60,5 +88,10 @@ class BerandaController extends Controller
             'kegiatan' => Kegiatan::all(),
             'waktu' => $this->getTime(),
         ]);
+    }
+
+    public function resultHima()
+    {
+        return Inertia::render('ResultHima');
     }
 }

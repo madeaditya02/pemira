@@ -23,6 +23,34 @@ class MahasiswaController extends Controller
     }
 
     /**
+     * Get mahasiswa data from spreadsheet.
+     */
+    public function syncMahasiswa(int $year)
+    {
+        // Get current users and users from spreadsheet
+        $currentUsers = User::all();
+        $users = User::getMahasiswaFromSheet($year);
+
+        // Sync users
+        try {
+            foreach ($users as $user) {
+                $currentUser = $currentUsers->firstWhere('nim', $user['nim']);
+                // Sync user kegiatan logic can be added here if needed
+                if ($currentUser) {
+                    // Update existing user
+                    $currentUser->update((array)$user);
+                } else {
+                    // Create new user
+                    User::create((array)$user);
+                }
+            }
+            return redirect()->back()->with('success', 'Data mahasiswa tahun ' . $year . ' berhasil disinkronisasi.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyinkronkan data mahasiswa: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -84,7 +112,7 @@ class MahasiswaController extends Controller
         try {
             // Store avatar if exists
             $avatarPath = null;
-            if ($request->hasFile('avatar')) {
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 // Get the uploaded file
                 $avatarFile = $request->file('avatar');
                 $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
@@ -108,7 +136,7 @@ class MahasiswaController extends Controller
                 'id_program_studi' => $validatedData['id_program_studi'],
                 'angkatan' => $validatedData['angkatan'],
                 'avatar' => $avatarPath,
-                'password' => bcrypt('pemirafmipa'),
+                'password' => $validatedData['email'] ? bcrypt('pemirafmipa') : null,
                 'email_verified_at' => $validatedData['email'] ? now()->toDateTime() : null,
             ]);
 
@@ -134,7 +162,7 @@ class MahasiswaController extends Controller
         $validatedData = $request->validate([
             'nim' => 'required|string|digits:10',
             'nama' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255|unique:mahasiswa,email',
+            'email' => 'nullable|email|max:255',
             'id_program_studi' => 'required|exists:program_studi,id',
             'angkatan' => 'required|integer|min:2000|max:2100',
             'avatar' => 'nullable|image|max:4096|mimes:jpeg,png,jpg,webp',
@@ -151,20 +179,38 @@ class MahasiswaController extends Controller
             'avatar.mimes' => 'Foto profil harus berupa file dengan ekstensi jpeg, png, jpg, atau webp.',
         ]);
 
-        // Check 
-        $mahasiswa = User::where('nim', $nim)->firstOrFail();
-
         try {
+            // Find the mahasiswa to update
+            $mahasiswa = User::where('nim', $nim)->firstOrFail();
+
+            // Check if there is any data with the same NIM and email (excluding current mahasiswa)
+            $existingNim = User::where('nim', $validatedData['nim'])
+                ->whereNot('nim', $nim)
+                ->first();
+            if ($existingNim) {
+                return redirect()->back()->with('error', 'NIM sudah terdaftar oleh mahasiswa lain.');
+            }
+
+            $existingEmail = User::where('email', $validatedData['email'])
+                ->whereNot('nim', $nim)
+                ->first();
+            if ($existingEmail) {
+                return redirect()->back()->with('error', 'Email sudah terdaftar oleh mahasiswa lain.');
+            }
+
             // Handle avatar upload
             $avatarPath = $mahasiswa->avatar;
-            if ($request->hasFile('avatar')) {
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 // Delete old avatar if exists
-                if ($mahasiswa->avatar && Storage::disk('public')->exists($mahasiswa->avatar)) {
-                    Storage::disk('public')->delete($mahasiswa->avatar);
+                if ($avatarPath && Storage::disk('public')->exists($avatarPath)) {
+                    Storage::disk('public')->delete($avatarPath);
                 }
-                
+
+                // Store new avatar
                 $avatarFile = $request->file('avatar');
-                $avatarPath = $avatarFile->store('images/foto-mahasiswa', 'public');
+                $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+                Storage::disk('public')->putFileAs('foto-mahasiswa', $avatarFile, $avatarName);
+                $avatarPath = 'foto-mahasiswa/' . $avatarName;
             }
 
             // Update mahasiswa
@@ -175,20 +221,41 @@ class MahasiswaController extends Controller
                 'id_program_studi' => $validatedData['id_program_studi'],
                 'angkatan' => $validatedData['angkatan'],
                 'avatar' => $avatarPath,
+                'password' => $validatedData['email'] ? bcrypt('pemirafmipa') : null,
+                'email_verified_at' => $validatedData['email'] ? now()->toDateTime() : null,
             ]);
 
-            return redirect()->back()->with('success', 'Data mahasiswa berhasil diubah.');
-            
+            return redirect()->back()->with('success', 'Data mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengubah data mahasiswa: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa: ' . $e->getMessage());
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $nim)
     {
-        //
+        // Check admin access
+        $isAdmin = $this->isAdmin();
+        if (!$isAdmin) {
+            return redirect()->route('dashboard');
+        }
+
+        try {
+            // Find mahasiswa
+            $mahasiswa = User::where('nim', $nim)->firstOrFail();
+
+            // Delete avatar if exists
+            if ($mahasiswa->avatar && Storage::disk('public')->exists($mahasiswa->avatar)) {
+                Storage::disk('public')->delete($mahasiswa->avatar);
+            }
+
+            // Delete mahasiswa
+            $mahasiswa->delete();
+            return redirect()->back()->with('success', 'Data mahasiswa berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data mahasiswa: ' . $e->getMessage());
+        }
     }
 }

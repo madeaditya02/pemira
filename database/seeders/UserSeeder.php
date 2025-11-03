@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,15 +14,96 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create admin
         User::factory()->create([
-            'nim' => '2008501001',
+            'nim' => '0000000000',
             'id_program_studi' => 1,
             'nama' => 'Admin DPM FMIPA',
-            'angkatan' => 2021,
+            'angkatan' => 2000,
             'email' => 'dpmfmipaunud2025@gmail.com',
-            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
+            'password' => bcrypt('AdminWebDPM'),
             'is_admin' => true,
         ]);
-        User::factory(100)->create();
+
+        // Create user for kotak kosong purpose
+        User::factory()->createMany([
+            [
+                'nim' => '0000000001',
+                'id_program_studi' => 1,
+                'nama' => 'Kotak Kosong Caka BEM',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000002',
+                'id_program_studi' => 1,
+                'nama' => 'Kotak Kosong Cawaka BEM',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000051',
+                'id_program_studi' => 1,
+                'nama' => 'Kotak Kosong Kimia',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000052',
+                'id_program_studi' => 2,
+                'nama' => 'Kotak Kosong Fisika',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000053',
+                'id_program_studi' => 3,
+                'nama' => 'Kotak Kosong Biologi',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000054',
+                'id_program_studi' => 4,
+                'nama' => 'Kotak Kosong Matematika',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000055',
+                'id_program_studi' => 5,
+                'nama' => 'Kotak Kosong Farmasi',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+            [
+                'nim' => '0000000056',
+                'id_program_studi' => 6,
+                'nama' => 'Kotak Kosong Informatika',
+                'angkatan' => 2000,
+                'is_admin' => true,
+            ],
+        ]);
+
+        // Create mahasiswa from Excel sheet
+        User::factory()->createMany(User::getMahasiswaFromSheet(now()->year))->each(function ($user) {
+            // Get kegiatan fakultas
+            $kegiatanFakultas = Kegiatan::where('ruang_lingkup', 'fakultas')->latest()->first();
+            
+            // Get kegiatan program studi sesuai dengan id_program_studi user
+            $kegiatanProdi = Kegiatan::where('ruang_lingkup', 'program studi')
+                ->where('id_program_studi', $user->id_program_studi)
+                ->latest()->first();
+            
+            // Attach kegiatan ke user (membuat record surat suara)
+            if ($kegiatanFakultas) {
+                $user->kegiatan()->attach($kegiatanFakultas->id);
+            }
+            
+            if ($kegiatanProdi) {
+                $user->kegiatan()->attach($kegiatanProdi->id);
+            }
+        });
     }
 }

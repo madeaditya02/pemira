@@ -18,7 +18,7 @@ class Kegiatan extends Model
         'waktu_mulai',
         'waktu_selesai',
         'ruang_lingkup',
-        'foto_kegiatan',
+        'foto',
         'id_program_studi',
     ];
 

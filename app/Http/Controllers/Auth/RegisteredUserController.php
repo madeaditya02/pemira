@@ -29,16 +29,19 @@ class RegisteredUserController extends Controller
     public function checkStudent(Request $request)
     {
         $request->validate([
-            'nim' => 'required|string|max:10',
+            'nim' => 'required|string|digits:10',
             'nama' => 'required|string|max:255',
+        ], [
+            'nim.digits' => 'NIM harus terdiri dari 10 digit.',
+            'nama.max' => 'Nama harus terdiri dari maksimal 255 karakter.',
         ]);
 
         $student_exist = User::where('nim', $request->nim)
-            ->where('nama', $request->nama)
+            ->whereRaw('BINARY nama = ?', [$request->nama])
             ->whereNotNull('email')
             ->whereNotNull('password')
             ->exists();
-        
+
         if ($student_exist) {
             return response()->json([
                 'exists' => false,
@@ -47,7 +50,7 @@ class RegisteredUserController extends Controller
         }
 
         $student = User::where('nim', $request->nim)
-            ->where('nama', $request->nama)
+            ->whereRaw('BINARY nama = ?', [$request->nama])
             ->whereNull('email')
             ->whereNull('password')
             ->first();
@@ -72,6 +75,12 @@ class RegisteredUserController extends Controller
             'nama' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:mahasiswa,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'nim.exists' => 'NIM tidak ditemukan dalam database.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min' => 'Kata sandi minimal harus terdiri dari :min karakter.',
+            'password.mixed' => 'Kata sandi harus mengandung setidaknya satu huruf besar dan satu huruf kecil.',
         ]);
 
         // Find the student and update with email and password
@@ -83,6 +92,12 @@ class RegisteredUserController extends Controller
 
         if (!$user) {
             return back()->withErrors(['nim' => 'Kredensial mahasiswa tidak valid.']);
+        }
+
+        // Check domain email @student.unud.ac.id
+        $emailDomain = substr(strrchr($request->email, "@"), 1);
+        if ($emailDomain !== 'student.unud.ac.id') {
+            return back()->withErrors(['email' => 'Email harus menggunakan domain @student.unud.ac.id.']);
         }
 
         $user->update([
