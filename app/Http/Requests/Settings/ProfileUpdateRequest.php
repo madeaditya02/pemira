@@ -23,9 +23,25 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->nim, 'nim'),
             ],
             'avatar' => ['nullable', 'image', 'max:4096', 'mimes:jpeg,png,jpg,webp'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nama.max' => 'Nama maksimal 255 karakter.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.email' => 'Format email tidak valid.',
+            'avatar.image' => 'Foto profil harus berupa gambar.',
+            'avatar.max' => 'Ukuran foto profil maksimal 4MB.',
+            'avatar.mimes' => 'Foto profil harus berupa file dengan ekstensi jpeg, png, jpg, atau webp.',
         ];
     }
 }

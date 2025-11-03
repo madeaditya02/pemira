@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Kegiatan extends Model
 {
@@ -18,8 +19,8 @@ class Kegiatan extends Model
         'waktu_mulai',
         'waktu_selesai',
         'ruang_lingkup',
-        'foto',
         'id_program_studi',
+        'foto',
     ];
 
     public function programStudi()
@@ -37,5 +38,13 @@ class Kegiatan extends Model
         return $this->belongsToMany(User::class, 'surat_suara', 'id_kegiatan', 'nim')
             ->withPivot('has_vote')
             ->withTimestamps();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'waktu_mulai' => 'datetime',
+            'waktu_selesai' => 'datetime',
+        ];
     }
 }

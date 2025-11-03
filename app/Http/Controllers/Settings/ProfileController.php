@@ -35,36 +35,57 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         try {
-            $request->user()->fill($request->validated());
+            $request->validated();
+            $user = $request->user();
+            $currentEmail = $user->email;
 
             // Store avatar if exists
             $avatarPath = null;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                // Get the uploaded file
                 $avatarFile = $request->file('avatar');
                 $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
 
-                // Define the avatar destination path
                 $avatarDestination = Storage::disk('public')->path('foto-mahasiswa');
                 if (!file_exists($avatarDestination)) {
                     mkdir($avatarDestination, 0755, true);
                 }
 
-                // Store the avatar file
                 Storage::disk('public')->putFileAs('foto-mahasiswa', $avatarFile, $avatarName);
                 $avatarPath = 'foto-mahasiswa/' . $avatarName;
             }
 
-            if ($request->user()->isDirty('email')) {
-                $request->user()->email_verified_at = now();
+            // Check existing email
+            $existingEmail = User::where('email', $request->email)
+                ->whereNot('nim', $user->nim)
+                ->whereNotNull('email')
+                ->exists();
+
+            if ($existingEmail) {
+                return back()->withErrors(['email' => 'Email sudah terdaftar oleh mahasiswa lain.']);
             }
 
-            $user = User::findOrFail($request->user()->nim, 'nim');
+            // Check domain email @student.unud.ac.id
+            $emailDomain = substr(strrchr($request->email, "@"), 1);
+            if ($emailDomain !== 'student.unud.ac.id') {
+                return back()->withErrors(['email' => 'Email harus menggunakan domain @student.unud.ac.id.']);
+            }
+
+            // Check if email changed BEFORE updating
+            $emailChanged = $currentEmail !== $request->email;
+
+            // Update user
             $user->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'avatar' => $avatarPath ?? $request->user()->avatar,
+                'email_verified_at' => $emailChanged ? null : $user->email_verified_at,
+                'avatar' => $avatarPath ?? $user->avatar,
             ]);
+
+            // If email changed, redirect to verification
+            if ($emailChanged) {
+                return to_route('verification.notice')
+                    ->with('status', 'Verifikasi email anda terlebih dahulu.');
+            }
 
             return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
         } catch (\Exception $e) {

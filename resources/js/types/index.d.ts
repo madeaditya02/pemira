@@ -28,6 +28,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    alert: {title: string; message: string, type: string} | null
 };
 
 export interface ProgramStudi {

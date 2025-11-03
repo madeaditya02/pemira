@@ -5,34 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Kegiatan;
 use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class KegiatanController extends Controller
 {
     /**
-     * Check if the authenticated user is an admin.
-     */
-    private function isAdmin()
-    {
-        $role = auth('web')->user()->is_admin;
-        return match ($role) {
-            0 => false,
-            1 => true,
-        };
-    }
-
-    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Fetch kegiatan data with related program studi and count mahasiswa yang sudah vote
         $kegiatan = Kegiatan::with('programStudi')
             ->withCount([
@@ -59,12 +42,6 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -130,16 +107,69 @@ class KegiatanController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        // Find the kegiatan by ID
+        $kegiatan = Kegiatan::with(['kandidat.mahasiswa', 'programStudi'])
+            ->withCount(['mahasiswa as total_mahasiswa'])    
+            ->findOrFail($id);
+
+        if ($kegiatan->ruang_lingkup === 'fakultas') {
+            // Get votes by program studi for fakultas level
+            $votesByProdi = DB::table('program_studi')
+                ->leftJoin('mahasiswa', 'program_studi.id', '=', 'mahasiswa.id_program_studi')
+                ->leftJoin('surat_suara', function ($join) use ($kegiatan) {
+                    $join->on('mahasiswa.nim', '=', 'surat_suara.nim')
+                        ->where('surat_suara.id_kegiatan', '=', $kegiatan->id);
+                })
+                ->where('mahasiswa.is_admin', '!=', 1)
+                ->select(
+                    'program_studi.id as id_program_studi',
+                    'program_studi.nama as nama_prodi',
+                    DB::raw('COUNT(DISTINCT mahasiswa.nim) as total_mahasiswa'),
+                    DB::raw('COUNT(DISTINCT CASE WHEN surat_suara.has_vote = 1 THEN surat_suara.nim END) as jumlah_pemilih'),
+                    DB::raw('ROUND((COUNT(DISTINCT CASE WHEN surat_suara.has_vote = 1 THEN surat_suara.nim END) / COUNT(DISTINCT mahasiswa.nim)) * 100, 2) as persentase')
+                )
+                ->groupBy('program_studi.id', 'program_studi.nama')
+                ->get();
+
+            return Inertia::render('kegiatan/Result', [
+                'kegiatan' => $kegiatan,
+                'votesByProdi' => $votesByProdi,
+            ]);
+        } else {
+            // Get votes by angkatan for program studi level
+            $votesByAngkatan = DB::table('mahasiswa')
+                ->leftJoin('surat_suara', function ($join) use ($kegiatan) {
+                    $join->on('mahasiswa.nim', '=', 'surat_suara.nim')
+                        ->where('surat_suara.id_kegiatan', '=', $kegiatan->id);
+                })
+                ->where('mahasiswa.id_program_studi', '=', $kegiatan->id_program_studi)
+                ->where('mahasiswa.is_admin', '!=', 1)
+                ->select(
+                    'mahasiswa.angkatan',
+                    DB::raw('COUNT(DISTINCT mahasiswa.nim) as total_mahasiswa'),
+                    DB::raw('COUNT(DISTINCT CASE WHEN surat_suara.has_vote = 1 THEN surat_suara.nim END) as jumlah_pemilih'),
+                    DB::raw('ROUND((COUNT(DISTINCT CASE WHEN surat_suara.has_vote = 1 THEN surat_suara.nim END) / COUNT(DISTINCT mahasiswa.nim)) * 100, 2) as persentase')
+                )
+                ->groupBy('mahasiswa.angkatan')
+                ->orderBy('mahasiswa.angkatan', 'desc')
+                ->get();
+
+            return Inertia::render('kegiatan/Result', [
+                'kegiatan' => $kegiatan,
+                'votesByAngkatan' => $votesByAngkatan,
+            ]);
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -208,12 +238,6 @@ class KegiatanController extends Controller
      */
     public function destroy(string $id)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         try {
             // Find kegiatan
             $kegiatan = Kegiatan::findOrFail($id);

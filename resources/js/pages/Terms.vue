@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, Kegiatan } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { TriangleAlert } from 'lucide-vue-next';
+import { LoaderCircle, TriangleAlert } from 'lucide-vue-next';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+import dayjs from 'dayjs';
 
 // Page title and breadcrumbs
 const page = usePage();
 const auth = computed(() => page.props.auth);
 const title = 'Syarat dan Ketentuan';
+const isMoved = ref(false);
 
 // define props
 const props = defineProps<{
@@ -97,12 +99,20 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head :title="title" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-col gap-2 overflow-x-auto">
-            <div class="relative flex min-h-[90vh] flex-1 flex-col items-start justify-start pt-20 md:pt-32 lg:pt-40">
-                <img src="/images/banner-fmipa.webp" alt="background syarat"
-                    class="absolute inset-0 top-0 w-full object-cover" />
+        <div class="flex h-full flex-col gap-2 overflow-x-hidden">
+            <div class="relative flex flex-1 flex-col items-start justify-start">
+                <div class="w-full flex justify-between items-start relative">
+                    <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50">
+                    <img src="/images/background-logo-dpm.png" alt="" class="h-20 sm:h-50 my-auto">
+                    <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50 transform -scale-x-100">
+                    <h1
+                        class="text-xl sm:text-3xl lg:text-4xl font-bold text-center text-primary text-shadow-sm text-shadow-background uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
+                            drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        Pemilihan Umum Raya Mahasiswa FMIPA {{ dayjs().year() }}
+                    </h1>
+                </div>
 
-                <div class="mx-auto mt-12 grid w-full max-w-7xl items-start gap-4 px-4 lg:mt-56">
+                <div class="mx-auto grid w-full max-w-7xl items-start gap-4 px-4 mt-12">
                     <h1 class="md:text-md font-semibold lg:text-xl">Syarat & Ketentuan :</h1>
                     <ol class="md:text-md ml-2 list-inside list-decimal space-y-2 text-sm md:ml-10 lg:text-lg">
                         <li>
@@ -120,14 +130,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
 
                 <div v-if="auth.user && filteredKegiatan.length > 0" class="w-full px-4">
-                    <h1 class="text-lg md:text-xl lg:text-2xl mt-12 mb-6 font-bold text-center">Kegiatan Mendatang</h1>
+                    <h1 class="text-lg md:text-xl lg:text-2xl mt-12 mb-6 font-bold text-center">Kegiatan Yang Anda Dapat
+                        Ikuti</h1>
                     <div class="md:max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
                         <Card v-for="item in filteredKegiatan" :key="item.id"
                             class="border shadow-sm shadow-foreground/10">
                             <CardHeader>
                                 <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
                             </CardHeader>
-                            <CardContent class="space-y-2">
+                            <CardContent class="space-y-2 px-6">
                                 <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                                 <CardDescription>
                                     {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
@@ -137,52 +148,52 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </CardDescription>
                             </CardContent>
                             <CardFooter>
-                                <Button variant="default" size="default">
-                                    <Link :href="candidateLink(item.nama)">
+                                <Link :href="candidateLink(item.nama)">
+                                <Button variant="default" size="default" :disabled="isMoved" @click="isMoved = true">
                                     Lihat Kandidat
-                                    </Link>
                                 </Button>
+                                </Link>
                             </CardFooter>
                         </Card>
                     </div>
                 </div>
 
                 <div class="mx-auto mt-10 max-w-md grid grid-cols-2 gap-4 px-4">
-                    <Link href="/dashboard" class="w-full col-span-1">
-                        <Button variant="outline" size="lg"
-                            class="border-primary border-2 text-base font-semibold text-primary hover:text-primary w-full">
-                            Batal
-                        </Button>
+                    <Link :href="route('dashboard')" class="w-full col-span-1">
+                    <Button variant="outline" size="lg" :disabled="isMoved" @click="isMoved = true"
+                        class="border-primary border-2 text-base font-semibold text-primary hover:text-primary w-full">
+                        Batal
+                    </Button>
                     </Link>
                     <AlertDialog>
                         <AlertDialogTrigger as-child>
-                            <Button variant="default" size="lg" class="text-base font-semibold">
+                            <Button variant="default" size="lg" class="text-base font-semibold" :disabled="isMoved">
                                 Mulai Memilih
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <AlertDialogTitle class="flex flex-col items-center justify-center gap-2">
-                                    <TriangleAlert class="h-24 w-24 text-red-700" />
-                                    <h1 class="text-xl font-black text-red-700">ATTENTION</h1>
+                                <TriangleAlert class="size-16 text-red-700 mx-auto" />
+                                <AlertDialogTitle class="mt-2 text-xl text-center">
+                                    Perhatian
                                 </AlertDialogTitle>
-                                <AlertDialogDescription class="text-md text-center">
+                                <AlertDialogDescription class="text-base text-center">
                                     Pemilihan hanya dapat dilakukan sekali dan tidak ada pengulangan, apabila anda ingin
-                                    melanjutkan silahkan klik
-                                    tombol "Lanjutkan"!
+                                    melanjutkan silahkan klik tombol "Lanjutkan"!
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter class="sm:justify-center">
                                 <div class="grid w-full grid-cols-2 gap-3">
-                                    <AlertDialogCancel
+                                    <AlertDialogCancel :disabled="isMoved"
                                         class="m-0 border border-primary text-primary hover:bg-primary/10">
                                         Batal
                                     </AlertDialogCancel>
-                                    <AlertDialogAction as-child class="m-0">
-                                        <Link href="/vote" class="bg-primary hover:bg-primary/90">
-                                            Lanjutkan
+                                    <Button as-child :disabled="isMoved" @click="isMoved = true">
+                                        <Link :href="route('vote.show')" class="bg-primary hover:bg-primary/90">
+                                        <LoaderCircle v-if="isMoved" class="size-4 animate-spin" />
+                                        Lanjutkan
                                         </Link>
-                                    </AlertDialogAction>
+                                    </Button>
                                 </div>
                             </AlertDialogFooter>
                         </AlertDialogContent>

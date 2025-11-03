@@ -11,18 +11,6 @@ use Inertia\Inertia;
 class MahasiswaController extends Controller
 {
     /**
-     * Check if the authenticated user is an admin.
-     */
-    private function isAdmin()
-    {
-        $role = auth('web')->user()->is_admin;
-        return match ($role) {
-            0 => false,
-            1 => true,
-        };
-    }
-
-    /**
      * Get mahasiswa data from spreadsheet.
      */
     public function syncMahasiswa(int $year)
@@ -55,12 +43,6 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Fetch mahasiswa data with related program studi
         $mahasiswa = User::with('programStudi')
             ->where('is_admin', false)
@@ -81,12 +63,6 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'nim' => 'required|string|digits:10|unique:mahasiswa,nim',
@@ -152,12 +128,6 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, string $nim)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'nim' => 'required|string|digits:10',
@@ -192,6 +162,7 @@ class MahasiswaController extends Controller
 
             $existingEmail = User::where('email', $validatedData['email'])
                 ->whereNot('nim', $nim)
+                ->whereNotNull('email')
                 ->first();
             if ($existingEmail) {
                 return redirect()->back()->with('error', 'Email sudah terdaftar oleh mahasiswa lain.');
@@ -235,12 +206,6 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $nim)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         try {
             // Find mahasiswa
             $mahasiswa = User::where('nim', $nim)->firstOrFail();

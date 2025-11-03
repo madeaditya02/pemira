@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kegiatan;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
@@ -18,6 +19,19 @@ class VerifyEmailController extends Controller
         }
 
         $request->fulfill();
+
+        // Generate surat suara
+        $user = $request->user();
+        $kegiatan = Kegiatan::where('tahun', now()->year)
+            ->where('waktu_selesai', '>', now())
+            ->where('id_program_studi', $user->id_program_studi)
+            ->orWhere('ruang_lingkup', 'fakultas')
+            ->get();
+        if ($kegiatan->isNotEmpty()) {
+            foreach ($kegiatan as $k) {
+                $k->mahasiswa()->attach([$user->nim => ['has_vote' => false]]);
+            }
+        }
 
         return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
     }

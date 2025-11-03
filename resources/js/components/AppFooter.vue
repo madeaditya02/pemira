@@ -4,7 +4,7 @@ import { MapPin, Phone, Mail } from 'lucide-vue-next';
 </script>
 
 <template>
-    <footer class="bg-background shadow-inner w-full py-8">
+    <footer class="bg-background shadow-inner shadow-foreground/10 w-full py-8">
         <div class="flex flex-col space-y-4 w-full md:max-w-7xl items-center mx-auto px-4">
             <div class="flex flex-col md:flex-row w-full gap-8 justify-between items-start">
                 <div class="flex flex-col gap-4 md:mt-2 md:max-w-7xl">

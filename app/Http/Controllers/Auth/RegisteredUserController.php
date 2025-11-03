@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -103,27 +104,13 @@ class RegisteredUserController extends Controller
 
         $user->update([
             'email' => $request->email,
-            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
         ]);
 
-        // Generate surat suara
-        $kegiatan = Kegiatan::where('tahun', now()->year)
-            ->where('id_program_studi', $user->id_program_studi)
-            ->orWhere('ruang_lingkup', 'fakultas')
-            ->get();
-        if ($kegiatan) {
-            foreach ($kegiatan as $k) {
-                $k->mahasiswa()->attach([
-                    $user->nim => [
-                        'has_vote' => false,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]
-                ]);
-            }
-        }
+        event(new Registered($user));
 
-        return to_route('login')->with('status', 'Pendaftaran berhasil. Silakan masuk ke akun Anda.');
+        Auth::login($user);
+
+        return to_route('verification.notice')->with('status', 'Pendaftaran berhasil. Silakan verifikasi email Anda.');
     }
 }

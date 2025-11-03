@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class, 'id_program_studi');
+        return $this->belongsTo(ProgramStudi::class, 'id_program_studi', 'id');
     }
 
     public function kandidat()
@@ -125,5 +125,10 @@ class User extends Authenticatable
         }
 
         return $mahasiswaData;
+    }
+
+    public function isActive()
+    {
+        return $this->status === 'aktif';
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Kegiatan;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +35,26 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = User::find(Auth::user()->nim);
+        if (!$user->is_admin && $user->status === 'aktif') {
+            // Generate surat suara
+            $kegiatan = Kegiatan::where('tahun', now()->year)
+                ->where('waktu_selesai', '>', now())
+                ->where('id_program_studi', $user->id_program_studi)
+                ->orWhere('ruang_lingkup', 'fakultas')
+                ->with('mahasiswa')
+                ->get();
+            if ($kegiatan->isNotEmpty()) {
+                foreach ($kegiatan as $k) {
+                    $k->mahasiswa()->syncWithoutDetaching($user->nim);
+                }
+            }
+        }
+        if ($user->email_verified_at === null) {
+            return redirect()->route('verification.notice');
+        } else {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
     }
 
     /**

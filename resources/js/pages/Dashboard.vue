@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import AppLayout from '@/layouts/AppLayout.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { type BreadcrumbItem, Kegiatan } from '@/types';
@@ -156,8 +157,6 @@ const heroImages = [
                 <!-- Content with relative positioning and higher z-index -->
                 <Carousel class="absolute w-full saturate-0 md:saturate-0 md:backdrop-blur" :plugins="[plugin]"
                     @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
-                <Carousel class="absolute w-full saturate-0 md:saturate-0 md:backdrop-blur" :plugins="[plugin]"
-                    @mouseenter="plugin.stop" @mouseleave="[plugin.reset(), plugin.play()]">
                     <CarouselContent>
                         <CarouselItem v-for="image in heroImages" :key="image">
                             <div class="flex items-center justify-center">
@@ -178,7 +177,7 @@ const heroImages = [
                             PEMIRA FMIPA
                         </h2>
                         <p class="text-white font-medium text-sm md:text-base max-w-lg">
-                            Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam akan dimulai dalam
+                            Pemilihan Umum Raya Fakultas Matematika dan Ilmu Pengetahuan Alam {{ dayjs().year() }} akan dimulai dalam
                         </p>
                     </div>
 
@@ -233,10 +232,10 @@ const heroImages = [
 
                     <!-- Status Message -->
                     <Link :href="ctaLink">
-                        <Button variant="outline" size="lg"
-                            class="text-base dark:bg-foreground dark:text-background dark:border-foreground">
-                            Mulai Sekarang!
-                        </Button>
+                    <Button variant="outline" size="lg"
+                        class="text-base dark:bg-foreground dark:text-background dark:border-foreground dark:hover:bg-foreground/80">
+                        Mulai Sekarang!
+                    </Button>
                     </Link>
                 </div>
             </div>
@@ -249,7 +248,7 @@ const heroImages = [
                         <CardHeader>
                             <img :src="`/storage/${item.foto}`" alt="" class="w-full h-64 object-cover rounded-md">
                         </CardHeader>
-                        <CardContent class="space-y-2">
+                        <CardContent class="space-y-2 px-6">
                             <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                             <CardDescription>
                                 {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
@@ -260,9 +259,9 @@ const heroImages = [
                         </CardContent>
                         <CardFooter>
                             <Link :href="candidateLink(item.nama)">
-                            <Button variant="default" size="default" class="w-full">
-                                Lihat Kandidat
-                            </Button>
+                                <Button variant="default" size="default" class="w-full">
+                                    Lihat Kandidat
+                                </Button>
                             </Link>
                         </CardFooter>
                     </Card>

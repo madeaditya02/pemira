@@ -4,12 +4,14 @@ import { router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { MoreVertical, Pencil, Trash2, LoaderCircle } from 'lucide-vue-next';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 // Define props
 const props = defineProps<{
     data?: any;
     deleteRoute?: string;
+    showEdit?: boolean;
+    showDelete?: boolean;
 }>();
 
 // Dialog state
@@ -47,6 +49,12 @@ const handleDelete = () => {
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+            <!-- Custom Actions (Before default actions) -->
+            <slot name="custom-actions-before" :data="data" />
+            
+            <!-- Separator if there are custom actions before -->
+            <DropdownMenuSeparator v-if="$slots['custom-actions-before']" />
+
             <!-- Edit Dialog with Slot -->
             <Dialog v-model:open="isEditDialogOpen">
                 <DialogTrigger as-child>
@@ -88,6 +96,12 @@ const handleDelete = () => {
                     </div>
                 </DialogContent>
             </Dialog>
+
+            <!-- Separator if there are custom actions after -->
+            <DropdownMenuSeparator v-if="$slots['custom-actions-after']" />
+
+            <!-- Custom Actions (After default actions) -->
+            <slot name="custom-actions-after" :data="data" />
         </DropdownMenuContent>
     </DropdownMenu>
 </template>

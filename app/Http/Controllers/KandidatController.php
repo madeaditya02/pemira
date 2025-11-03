@@ -12,28 +12,10 @@ use Inertia\Inertia;
 class KandidatController extends Controller
 {
     /**
-     * Check if the authenticated user is an admin.
-     */
-    private function isAdmin()
-    {
-        $role = auth('web')->user()->is_admin;
-        return match ($role) {
-            0 => false,
-            1 => true,
-        };
-    }
-
-    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Fetch kandidat data with related kegiatan and mahasiswa kandidat
         $kandidat = Kandidat::with('kegiatan', 'mahasiswa')
             ->whereHas('kegiatan', function ($query) {
@@ -42,9 +24,6 @@ class KandidatController extends Controller
             ->orderBy('id_kegiatan', 'asc')
             ->get();
         $kegiatan = Kegiatan::where('tahun', now()->year)
-            ->whereHas('mahasiswa', function ($query) {
-                $query->where('is_admin', 0);
-            })
             ->withCount(['mahasiswa as total_mahasiswa'])
             ->get();
         $mahasiswa = User::where('is_admin', 0)
@@ -66,12 +45,6 @@ class KandidatController extends Controller
      */
     public function store(Request $request)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'id_kegiatan' => 'required|exists:kegiatan,id',
@@ -157,12 +130,6 @@ class KandidatController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         // Validate input data
         $validatedData = $request->validate([
             'id_kegiatan' => 'required|exists:kegiatan,id',
@@ -249,12 +216,6 @@ class KandidatController extends Controller
      */
     public function destroy(string $id)
     {
-        // Check admin access
-        $isAdmin = $this->isAdmin();
-        if (!$isAdmin) {
-            return redirect()->route('dashboard');
-        }
-
         try {
             // Find kandidat
             $kandidat = Kandidat::findOrFail($id);

@@ -20,11 +20,6 @@ const props = defineProps<{
     kandidat: Kandidat[];
 }>();
 
-const handleHeroImage = (foto: string) => {
-    const formattedName = foto.replace('png', 'webp');
-    return foto ? `/images/${formattedName}` : '/images/banner-fmipa.webp';
-}
-
 // Remove kandidat kotak kosong agar tidak tampil
 const kandidat = computed(() => {
     return props.kandidat.filter(k => {
@@ -51,11 +46,18 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head :title="title" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-col gap-2 overflow-x-auto">
+        <div class="flex h-full flex-col gap-2 overflow-x-hidden">
             <!-- Hero Section -->
-            <div class="relative flex min-h-[30vh] md:min-h-[45vh] flex-col items-center justify-center">
-                <img :src="handleHeroImage(props.kegiatan.foto)" alt="background"
-                    class="absolute inset-0 w-full h-full object-cover" />
+            <div class="relative flex flex-col items-center justify-center">
+                <div class="w-full flex justify-between items-start relative">
+                    <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50">
+                    <img :src="`/images/${kegiatan.foto}`" alt="" class="h-20 sm:h-50 my-auto">
+                    <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50 transform -scale-x-100">
+                    <h1 class="text-xl sm:text-3xl lg:text-4xl font-bold text-center text-primary text-shadow-sm text-shadow-background uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
+                            drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        {{ kegiatan.nama }}
+                    </h1>
+                </div>
             </div>
 
             <!-- Kandidat Cards -->
@@ -188,17 +190,17 @@ const breadcrumbs: BreadcrumbItem[] = [
             <!-- CTA Buttons -->
             <div class="mx-auto w-full max-w-md px-4 pb-12">
                 <div class="grid grid-cols-2 gap-4">
-                    <Link href="/dashboard" class="w-full">
+                    <Link :href="route('dashboard')" class="w-full">
                         <Button variant="outline" size="lg" class="w-full border-2 hover:bg-primary/5">
                             <span class="flex text-base items-center gap-2">
                                 Ke Beranda
                             </span>
                         </Button>
                     </Link>
-                    <Link href="/terms" class="w-full">
+                    <Link :href="route('terms')" class="w-full">
                         <Button variant="default" size="lg" class="w-full shadow-lg hover:shadow-xl transition-shadow">
                             <span class="flex text-base items-center gap-2">
-                                Mulai Memilih
+                                Ke Pemilihan
                             </span>
                         </Button>
                     </Link>

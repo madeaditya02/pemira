@@ -1,10 +1,12 @@
 import { h } from 'vue'
 import Form from './Form.vue'
 import { ProgramStudi, Kegiatan } from '@/types'
-import { ArrowUpDown } from 'lucide-vue-next'
+import { ArrowUpDown, ChartColumn } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/vue-table'
+import { router } from '@inertiajs/vue3'
 import DropdownAction from '@/components/DataTableDropdown.vue'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 // Declare module untuk extend TableMeta
 declare module '@tanstack/vue-table' {
@@ -194,7 +196,33 @@ export const columns: ColumnDef<Kegiatan>[] = [
                         onSuccess: () => {
                             close();
                         }
-                    })
+                    }),
+
+                // Custom actions BEFORE default actions
+                'custom-actions-before': ({ data }: { data: Kegiatan }) => [
+                    h(DropdownMenuItem, {
+                        class: 'flex items-center cursor-pointer',
+                        onClick: () => {
+                            router.visit(route('events.show', data.id));
+                        }
+                    }, () => [
+                        h(ChartColumn, { class: 'w-4 h-4 mr-1' }),
+                        'Lihat Hasil'
+                    ])
+                ],
+
+                // // Custom actions AFTER default actions
+                // 'custom-actions-after': ({ data }: { data: Kegiatan }) => [
+                //     h(DropdownMenuItem, {
+                //         class: 'flex items-center cursor-pointer',
+                //         onClick: () => {
+                //             router.visit(route('events.voters', data.id));
+                //         }
+                //     }, () => [
+                //         h(Users, { class: 'w-4 h-4 mr-2' }),
+                //         'Lihat Pemilih'
+                //     ])
+                // ]
             });
         },
     },
