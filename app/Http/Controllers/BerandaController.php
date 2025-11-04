@@ -61,16 +61,17 @@ class BerandaController extends Controller
 
     public function candidates(string $slug)
     {
-        $user = User::where('nim', auth('web')->user()->nim)->first();
-        
-        $kegiatan = $user->kegiatan()
-            ->where('nama', str_replace('-', ' ', $slug))
+        $kegiatan = Kegiatan::where('nama', str_replace('-', ' ', $slug))
             ->with('kandidat.mahasiswa')
             ->firstOrFail();
-            
         $kandidat = Kandidat::where('id_kegiatan', $kegiatan->id)
             ->with('mahasiswa')
             ->get();
+
+        $idProdi = auth('web')->user()->id_program_studi ?? null;
+        if ($idProdi !== $kegiatan->id_program_studi && $kegiatan->ruang_lingkup === 'program studi') {
+            return redirect()->back();
+        }
 
         return Inertia::render('Candidates', [
             'kegiatan' => $kegiatan,
