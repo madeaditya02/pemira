@@ -101,11 +101,11 @@ const frameImage = computed(() => {
                 <!-- Layout untuk 2 Kandidat (Berhadapan) - Stack on mobile -->
                 <div v-if="isTwoKandidat">
                     <!-- Mobile Layout (Stacked vertically) -->
-                    <div class="md:hidden space-y-6">
+                    <div class="md:hidden space-y-6 px-4">
                         <!-- Kandidat 1 -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-4">
                             <!-- Frame & Image -->
-                            <div class="relative w-48 shrink-0">
+                            <div class="relative w-40 shrink-0">
                                 <img :src="frameImage" class="w-full" />
                                 
                                 <!-- BEM Style -->
@@ -113,12 +113,12 @@ const frameImage = computed(() => {
                                     <img :src="kandidatList[0].foto ? `/storage/${kandidatList[0].foto}` : `/images/kotak-kosong.webp`"
                                         :alt="`Kandidat ${kandidatList[0].no_urut}`"
                                         class="absolute bottom-1 right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                        :class="kandidatList[0].foto ? `max-h-34` : `max-h-24 right-4`" />
-                                    <h1 class="absolute z-20 top-7 font-poppins font-black text-white text-[0.5rem] -rotate-90"
+                                        :class="kandidatList[0].foto ? `max-h-28` : `max-h-20 right-4`" />
+                                    <h1 class="absolute z-20 top-6 font-poppins font-black text-white text-[0.5rem] -rotate-90"
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         PASLON BEM
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-2 left-2 font-poppins font-black text-white text-sm">
+                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] sm:bottom-3 sm:left-3 font-poppins font-black text-white text-xs sm:text-base">
                                         {{ kandidatList[0].no_urut }}
                                     </h1>
                                 </div>
@@ -128,12 +128,12 @@ const frameImage = computed(() => {
                                     <img :src="kandidatList[0].foto ? `/storage/${kandidatList[0].foto}` : `/images/kotak-kosong.webp`"
                                         :alt="`Kandidat ${kandidatList[0].no_urut}`"
                                         class="absolute -right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                        :class="kandidatList[0].foto ? `max-h-40` : `max-h-24 right-4`" />
+                                        :class="kandidatList[0].foto ? `max-h-32` : `max-h-24 right-4`" />
                                     <h1 class="absolute z-20 top-8 font-poppins font-black text-white text-[0.5rem] -rotate-90"
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         CAKAHIMA
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-sm">
                                         {{ kandidatList[0].no_urut }}
                                     </h1>
                                 </div>
@@ -163,7 +163,7 @@ const frameImage = computed(() => {
 
                                 <!-- Bar Horizontal -->
                                 <div class="flex items-center gap-2">
-                                    <div class="h-6 rounded-lg transition-all duration-500"
+                                    <div class="w-full h-6 rounded-lg transition-all duration-500"
                                         :style="{ 
                                             width: `${totalSuara > 0 ? (kandidatList[0].jumlah_suara / totalSuara) * 100 : 0}%`,
                                             backgroundColor: getBarColor(0)
@@ -177,9 +177,9 @@ const frameImage = computed(() => {
                         </div>
 
                         <!-- Kandidat 2 -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-4">
                             <!-- Frame & Image -->
-                            <div class="relative w-48 shrink-0">
+                            <div class="relative w-40 shrink-0">
                                 <img :src="frameImage" class="w-full" />
                                 
                                 <!-- BEM Style -->
@@ -187,12 +187,12 @@ const frameImage = computed(() => {
                                     <img :src="kandidatList[1].foto ? `/storage/${kandidatList[1].foto}` : `/images/kotak-kosong.webp`"
                                         :alt="`Kandidat ${kandidatList[1].no_urut}`"
                                         class="absolute bottom-1 right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                        :class="kandidatList[1].foto ? `max-h-34` : `max-h-24 right-4`" />
-                                    <h1 class="absolute z-20 top-7 font-poppins font-black text-white text-[0.5rem] -rotate-90"
+                                        :class="kandidatList[1].foto ? `max-h-28` : `max-h-20 right-4`" />
+                                    <h1 class="absolute z-20 top-6 font-poppins font-black text-white text-[0.5rem] -rotate-90"
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         PASLON BEM
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-2 left-2 font-poppins font-black text-white text-sm">
+                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] sm:bottom-3 sm:left-3 font-poppins font-black text-white text-xs sm:text-base">
                                         {{ kandidatList[1].no_urut }}
                                     </h1>
                                 </div>
@@ -202,12 +202,12 @@ const frameImage = computed(() => {
                                     <img :src="kandidatList[1].foto ? `/storage/${kandidatList[1].foto}` : `/images/kotak-kosong.webp`"
                                         :alt="`Kandidat ${kandidatList[1].no_urut}`"
                                         class="absolute -right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                        :class="kandidatList[1].foto ? `max-h-40` : `max-h-24 right-4`" />
+                                        :class="kandidatList[1].foto ? `max-h-32` : `max-h-24 right-4`" />
                                     <h1 class="absolute z-20 top-8 font-poppins font-black text-white text-[0.5rem] -rotate-90"
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         CAKAHIMA
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-sm">
                                         {{ kandidatList[1].no_urut }}
                                     </h1>
                                 </div>
@@ -237,7 +237,7 @@ const frameImage = computed(() => {
 
                                 <!-- Bar Horizontal -->
                                 <div class="flex items-center gap-2">
-                                    <div class="flex-1 h-6 rounded-lg transition-all duration-500"
+                                    <div class="w-full h-6 rounded-lg transition-all duration-500"
                                         :style="{ 
                                             width: `${totalSuara > 0 ? (kandidatList[1].jumlah_suara / totalSuara) * 100 : 0}%`,
                                             backgroundColor: getBarColor(1)
@@ -257,7 +257,7 @@ const frameImage = computed(() => {
                         <div class="col-span-2 flex flex-col items-center justify-center gap-2 lg:gap-4">
                             <!-- Frame & Image Kandidat 1 -->
                             <div class="relative w-full max-w-40 sm:max-w-xs lg:max-w-md">
-                                <img :src="frameImage" class="w-full" />
+                                <img :src="frameImage" class="w-full max-h-84" />
                                 
                                 <!-- BEM Style -->
                                 <div v-if="isFakultasLevel">
@@ -284,7 +284,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
                                         CAKAHIMA
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-7 sm:left-7 lg:bottom-9 lg:left-9 font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
+                                    <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-7 sm:left-7 lg:bottom-9 lg:left-10 font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
                                         {{ kandidatList[0].no_urut }}
                                     </h1>
                                 </div>
@@ -317,7 +317,7 @@ const frameImage = computed(() => {
                             <!-- Bar Kandidat 1 -->
                             <div class="flex flex-col items-center">
                                 <div
-                                    class="flex w-8 sm:w-12 lg:w-16 items-end justify-center rounded-t-lg font-bold text-white transition-all duration-500"
+                                    class="flex h-full w-8 sm:w-12 lg:w-16 items-end justify-center rounded-t-lg font-bold text-white transition-all duration-500"
                                     :style="{ 
                                         height: `${getBarHeight(kandidatList[0].jumlah_suara)}px`,
                                         backgroundColor: getBarColor(0)
@@ -349,7 +349,7 @@ const frameImage = computed(() => {
                         <div class="col-span-2 flex flex-col items-center justify-center gap-2 lg:gap-4">
                             <!-- Frame & Image Kandidat 2 -->
                             <div class="relative w-full max-w-40 sm:max-w-xs lg:max-w-md">
-                                <img :src="frameImage" class="w-full" />
+                                <img :src="frameImage" class="w-full max-h-84" />
                                 
                                 <!-- BEM Style -->
                                 <div v-if="isFakultasLevel">
@@ -376,7 +376,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
                                         CAKAHIMA
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-7 sm:left-7 lg:bottom-9 lg:left-9 font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
+                                    <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-7 sm:left-7 lg:bottom-9 lg:left-10 font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
                                         {{ kandidatList[1].no_urut }}
                                     </h1>
                                 </div>
@@ -407,80 +407,163 @@ const frameImage = computed(() => {
                 </div>
 
                 <!-- Layout untuk > 2 Kandidat -->
-                <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 justify-items-center">
-                    <div v-for="(kandidat, index) in kandidatList" :key="kandidat.id"
-                        class="w-full max-w-xs flex flex-col items-center justify-center gap-2 sm:gap-4 p-2 sm:p-4">
-                        <div class="relative w-full h-full flex items-end">
-                            <!-- Frame image -->
-                            <img :src="frameImage" class="w-full" />
-
-                            <!-- BEM Style -->
-                            <div v-if="isFakultasLevel">
-                                <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
-                                    :alt="`Kandidat ${kandidat.no_urut}`"
-                                    class="absolute bottom-1 sm:bottom-2 right-1 sm:right-2 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                    :class="kandidat.foto ? `max-h-36 sm:max-h-56 lg:max-h-72` : `max-h-24 sm:max-h-40 right-4 sm:right-8`" />
-                                <h1 class="absolute z-20 top-6 sm:top-12 lg:top-16 font-poppins font-black text-white text-[0.6rem] sm:text-sm lg:text-base -rotate-90"
-                                    style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
-                                    PASLON BEM
-                                </h1>
-                                <h1 class="absolute z-20 bottom-2 left-2 sm:bottom-4 sm:left-4 lg:bottom-[1.3rem] lg:left-[1.3rem] font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
-                                    {{ kandidat.no_urut }}
-                                </h1>
-                            </div>
-
-                            <!-- HIMA Style -->
-                            <div v-else>
-                                <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
-                                    :alt="`Kandidat ${kandidat.no_urut}`"
-                                    class="absolute -right-1 sm:-right-2 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
-                                    :class="kandidat.foto ? `max-h-40 sm:max-h-64 lg:max-h-80` : `max-h-24 sm:max-h-40 right-4 sm:right-8`" />
-                                <h1 class="absolute z-20 top-8 sm:top-16 lg:top-20 font-poppins font-black text-white text-xs sm:text-base lg:text-lg -rotate-90"
-                                    style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
-                                    CAKAHIMA
-                                </h1>
-                                <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-7 sm:left-7 lg:bottom-9 lg:left-9 font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
-                                    {{ kandidat.no_urut }}
-                                </h1>
-                            </div>
-
-                            <!-- Bar Suara di Kanan -->
-                            <div class="flex flex-col items-center justify-end absolute -right-10 sm:-right-12 lg:-right-16 bottom-0">
-                                <div
-                                    class="flex w-8 sm:w-10 lg:w-12 items-end justify-center rounded-t-lg font-bold text-white transition-all duration-500"
-                                    :style="{ 
-                                        height: `${getBarHeight(kandidat.jumlah_suara)}px`,
-                                        backgroundColor: getBarColor(index)
-                                    }"
-                                >
+                <div v-else>
+                    <!-- Mobile Layout (Stacked vertically) -->
+                    <div class="md:hidden space-y-6 px-4">
+                        <div v-for="(kandidat, index) in kandidatList" :key="kandidat.id" class="flex items-center gap-4">
+                            <!-- Frame & Image -->
+                            <div class="relative w-40 shrink-0">
+                                <img :src="frameImage" class="w-full" />
+                                
+                                <!-- BEM Style -->
+                                <div v-if="isFakultasLevel">
+                                    <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
+                                        :alt="`Kandidat ${kandidat.no_urut}`"
+                                        class="absolute -right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
+                                        :class="kandidat.foto ? `max-h-28` : `max-h-20 right-4`" />
+                                    <h1 class="absolute z-20 top-8 font-poppins font-black text-white text-[0.5rem] -rotate-90"
+                                        style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
+                                        PASLON BEM
+                                    </h1>
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                        {{ kandidat.no_urut }}
+                                    </h1>
                                 </div>
-                                <div class="mt-1 sm:mt-2 text-xs sm:text-sm lg:text-base font-bold" :style="{ color: getBarColor(index) }">
-                                    {{ kandidat.jumlah_suara }}
+
+                                <!-- HIMA Style -->
+                                <div v-else>
+                                    <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
+                                        :alt="`Kandidat ${kandidat.no_urut}`"
+                                        class="absolute -right-1 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
+                                        :class="kandidat.foto ? `max-h-32` : `max-h-20 right-4`" />
+                                    <h1 class="absolute z-20 top-8 font-poppins font-black text-white text-[0.5rem] -rotate-90"
+                                        style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
+                                        CAKAHIMA
+                                    </h1>
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                        {{ kandidat.no_urut }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <!-- Info & Bar -->
+                            <div class="flex-1 flex flex-col gap-2">
+                                <div v-if="!kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
+                                    class="text-left">
+                                    <p class="text-xs font-semibold">
+                                        {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama }}
+                                        <span class="text-[0.65rem] text-muted-foreground">
+                                            ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.id_program_studi!) }}'
+                                            {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.angkatan.toString().slice(-2) }})
+                                        </span>
+                                    </p>
+                                    <p v-if="isFakultasLevel && kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')" 
+                                        class="text-xs font-semibold">
+                                        {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.nama }}
+                                        <span class="text-[0.65rem] text-muted-foreground">
+                                            ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.id_program_studi!) }}'
+                                            {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.angkatan.toString().slice(-2) }})
+                                        </span>
+                                    </p>
+                                </div>
+                                <p v-else class="font-semibold text-sm">Kotak Kosong</p>
+
+                                <!-- Bar Horizontal -->
+                                <div class="flex items-center gap-2">
+                                    <div class="w-full h-6 rounded-lg transition-all duration-500"
+                                        :style="{ 
+                                            width: `${totalSuara > 0 ? (kandidat.jumlah_suara / totalSuara) * 100 : 0}%`,
+                                            backgroundColor: getBarColor(index)
+                                        }">
+                                    </div>
+                                    <span class="text-sm font-bold min-w-8" :style="{ color: getBarColor(index) }">
+                                        {{ kandidat.jumlah_suara }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Nama Kandidat -->
-                        <div v-if="!kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
-                            class="text-center">
-                            <p :class="!isFakultasLevel && 'flex flex-col gap-1'" class="text-xs sm:text-sm lg:text-base font-semibold">
-                                {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama }}
-                                <span class="text-[0.65rem] sm:text-sm text-muted-foreground">
-                                    ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.id_program_studi!) }}'
-                                    {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.angkatan.toString().slice(-2) }})
-                                </span>
-                            </p>
-                            <p v-if="isFakultasLevel && kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')" 
-                                class="text-xs sm:text-sm lg:text-base font-semibold">
-                                {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.nama }}
-                                <span class="text-[0.65rem] sm:text-sm text-muted-foreground">
-                                    ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.id_program_studi!) }}'
-                                    {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.angkatan.toString().slice(-2) }})
-                                </span>
-                            </p>
+                    <!-- Desktop/Tablet Layout -->
+                    <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 justify-items-center">
+                        <div v-for="(kandidat, index) in kandidatList" :key="kandidat.id"
+                            class="w-full max-w-xs flex flex-col items-center justify-center gap-2 sm:gap-4">
+                            <div class="relative w-full flex gap-4 items-end">
+                                <!-- Frame & Image Container -->
+                                <div class="relative w-full mb-4">
+                                    <img :src="frameImage" class="w-full" />
+
+                                    <!-- BEM Style -->
+                                    <div v-if="isFakultasLevel">
+                                        <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
+                                            :alt="`Kandidat ${kandidat.no_urut}`"
+                                            class="absolute -right-1 sm:-right-2 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
+                                            :class="kandidat.foto ? `max-h-32 sm:max-h-48` : `max-h-24 sm:max-h-40 right-4 sm:right-8`" />
+                                        <h1 class="absolute z-20 top-6 sm:top-12 lg:top-16 font-poppins font-black text-white text-[0.6rem] sm:text-sm lg:text-base -rotate-90"
+                                            style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
+                                            PASLON BEM
+                                        </h1>
+                                        <h1 class="absolute z-20 bottom-2 left-2 sm:bottom-4 sm:left-4 lg:bottom-[1.3rem] lg:left-[1.3rem] font-poppins font-black text-white text-lg sm:text-xl lg:text-2xl">
+                                            {{ kandidat.no_urut }}
+                                        </h1>
+                                    </div>
+
+                                    <!-- HIMA Style -->
+                                    <div v-else>
+                                        <img :src="kandidat.foto ? `/storage/${kandidat.foto}` : `/images/kotak-kosong.webp`"
+                                            :alt="`Kandidat ${kandidat.no_urut}`"
+                                            class="absolute -right-1 sm:-right-2 w-auto place-self-end border-none mask-linear-180 mask-linear-from-40% mask-linear-to-85%"
+                                            :class="kandidat.foto ? `max-h-40 sm:max-h-56` : `max-h-24 sm:max-h-40 right-4 sm:right-8`" />
+                                        <h1 class="absolute z-20 top-10 sm:top-12 lg:top-14 font-poppins font-black text-white text-xs sm:text-base -rotate-90"
+                                            style="text-shadow: 0px 12px 0px rgba(255,255,255,0.3), 0px 24px 0px rgba(255,255,255,0.1);">
+                                            CAKAHIMA
+                                        </h1>
+                                        <h1 class="absolute z-20 bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-5 lg:left-5 font-poppins font-black text-white text-base sm:text-lg">
+                                            {{ kandidat.no_urut }}
+                                        </h1>
+                                    </div>
+                                </div>
+
+                                <!-- Bar Suara (Below Frame) -->
+                                <div class="flex flex-col items-center mt-2 sm:mt-4">
+                                    <div
+                                        class="flex w-8 sm:w-10 lg:w-12 items-end justify-center rounded-t-lg font-bold text-white transition-all duration-500"
+                                        :style="{ 
+                                            height: `${getBarHeight(kandidat.jumlah_suara)}px`,
+                                            backgroundColor: getBarColor(index)
+                                        }"
+                                    >
+                                    </div>
+                                    <div class="mt-1 sm:mt-2 text-sm sm:text-base lg:text-lg font-bold" :style="{ color: getBarColor(index) }">
+                                        {{ kandidat.jumlah_suara }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nama Kandidat -->
+                            <div v-if="!kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
+                                class="text-center">
+                                <p :class="!isFakultasLevel && 'flex flex-col gap-1'" class="text-xs sm:text-sm lg:text-base font-semibold">
+                                    <span class="block">
+                                        {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama }}
+                                    </span>
+                                    <span class="text-[0.65rem] sm:text-sm text-muted-foreground">
+                                        ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.id_program_studi!) }}'
+                                        {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.angkatan.toString().slice(-2) }})
+                                    </span>
+                                </p>
+                                <p v-if="isFakultasLevel && kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')" 
+                                    class="text-xs sm:text-sm lg:text-base font-semibold">
+                                    {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.nama }}
+                                    <span class="text-[0.65rem] sm:text-sm text-muted-foreground">
+                                        ({{ handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.id_program_studi!) }}'
+                                        {{ kandidat.mahasiswa.find(m => m.pivot.jabatan === 'wakil')?.angkatan.toString().slice(-2) }})
+                                    </span>
+                                </p>
+                            </div>
+
+                            <p v-else class="font-semibold text-base sm:text-xl lg:text-2xl">Kotak Kosong</p>
                         </div>
-
-                        <p v-else class="font-semibold text-base sm:text-xl lg:text-2xl sm:py-2">Kotak Kosong</p>
                     </div>
                 </div>
             </div>
@@ -493,7 +576,7 @@ const frameImage = computed(() => {
             </div>
 
             <!-- Progress Bar Suara per Prodi (Fakultas) -->
-            <div v-if="isFakultasLevel && votesByProdi" class="mx-auto w-full max-w-7xl px-2 sm:px-4 pb-4 sm:pb-8 space-y-3 sm:space-y-4">
+            <div v-if="isFakultasLevel && votesByProdi" class="mx-auto w-full max-w-7xl px-4 pb-4 sm:pb-8 space-y-3 sm:space-y-4">
                 <h2 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-4">Partisipasi per Program Studi</h2>
                 <div v-for="vote in votesByProdi" :key="vote.id_program_studi" class="space-y-1 sm:space-y-2">
                     <div class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
@@ -507,7 +590,7 @@ const frameImage = computed(() => {
             </div>
 
             <!-- Progress Bar Suara per Angkatan (Program Studi) -->
-            <div v-if="!isFakultasLevel && votesByAngkatan" class="mx-auto w-full max-w-7xl px-2 sm:px-4 pb-4 sm:pb-8 space-y-3 sm:space-y-4">
+            <div v-if="!isFakultasLevel && votesByAngkatan" class="mx-auto w-full max-w-7xl px-4 pb-4 sm:pb-8 space-y-3 sm:space-y-4">
                 <h2 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-4">Partisipasi per Angkatan</h2>
                 <div v-for="vote in votesByAngkatan" :key="vote.angkatan" class="space-y-1 sm:space-y-2">
                     <div class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
