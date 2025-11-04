@@ -118,7 +118,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         PASLON BEM
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] sm:bottom-3 sm:left-3 font-poppins font-black text-white text-xs sm:text-base">
+                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] md:bottom-3 md:left-3 font-poppins font-black text-white text-xs md:text-base">
                                         {{ kandidatList[0].no_urut }}
                                     </h1>
                                 </div>
@@ -192,7 +192,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         PASLON BEM
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] sm:bottom-3 sm:left-3 font-poppins font-black text-white text-xs sm:text-base">
+                                    <h1 class="absolute z-20 bottom-[0.4rem] left-[0.4rem] md:bottom-3 md:left-3 font-poppins font-black text-white text-xs md:text-base">
                                         {{ kandidatList[1].no_urut }}
                                     </h1>
                                 </div>
@@ -425,7 +425,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         PASLON BEM
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-sm md:text-base">
                                         {{ kandidat.no_urut }}
                                     </h1>
                                 </div>
@@ -440,7 +440,7 @@ const frameImage = computed(() => {
                                         style="text-shadow: 0px 6px 0px rgba(255,255,255,0.3), 0px 12px 0px rgba(255,255,255,0.1);">
                                         CAKAHIMA
                                     </h1>
-                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-base">
+                                    <h1 class="absolute z-20 bottom-3 left-3 font-poppins font-black text-white text-sm md:text-base">
                                         {{ kandidat.no_urut }}
                                     </h1>
                                 </div>

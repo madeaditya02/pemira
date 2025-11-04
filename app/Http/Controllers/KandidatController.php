@@ -233,6 +233,9 @@ class KandidatController extends Controller
             
             return redirect()->back()->with('success', 'Data kandidat berhasil dihapus.');
         } catch (\Exception $e) {
+            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
+                return redirect()->back()->with('error', 'Data kandidat tidak dapat dihapus karena terkait dengan data lain.');
+            }
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data kandidat: ' . $e->getMessage());
         }
     }

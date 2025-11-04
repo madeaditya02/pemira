@@ -219,6 +219,9 @@ class MahasiswaController extends Controller
             $mahasiswa->delete();
             return redirect()->back()->with('success', 'Data mahasiswa berhasil dihapus.');
         } catch (\Exception $e) {
+            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
+                return redirect()->back()->with('error', 'Data mahasiswa tidak dapat dihapus karena terkait dengan data lain.');
+            }
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data mahasiswa: ' . $e->getMessage());
         }
     }

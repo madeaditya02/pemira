@@ -251,6 +251,9 @@ class KegiatanController extends Controller
             $kegiatan->delete();
             return redirect()->back()->with('success', 'Data kegiatan berhasil dihapus.');
         } catch (\Exception $e) {
+            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
+                return redirect()->back()->with('error', 'Data kegiatan tidak dapat dihapus karena terkait dengan data lain.');
+            }
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data kegiatan: ' . $e->getMessage());
         }
     }
