@@ -28,7 +28,7 @@ const title = `Hasil Pemilihan ${props.kegiatan.nama}`;
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: `Hasil Pemilihan ${props.kegiatan.nama}`,
-        href: `/kegiatan/${props.kegiatan.id}/result`,
+        href: `/events/${props.kegiatan.id}`,
     },
 ];
 
@@ -86,7 +86,7 @@ const frameImage = computed(() => {
             <div class="relative flex flex-col items-center justify-center">
                 <div class="w-full flex justify-between items-start relative">
                     <img src="/images/corner-image.png" alt="" class="w-12 sm:w-20 md:w-32 lg:w-40">
-                    <img :src="`/images/${kegiatan.foto}`" alt="" class="h-12 sm:h-20 md:h-40 lg:h-50 my-auto">
+                    <img :src="`/images/${kegiatan.foto.replace('jpg', 'png')}`" alt="" class="h-12 sm:h-20 md:h-40 lg:h-50 my-auto">
                     <img src="/images/corner-image.png" alt="" class="w-12 sm:w-20 md:w-32 lg:w-40 transform -scale-x-100">
                     <h1
                         class="text-sm sm:text-xl md:text-2xl lg:text-4xl leading-4 sm:leading-6 md:leading-8 lg:leading-10 font-bold text-center text-primary uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 px-2
