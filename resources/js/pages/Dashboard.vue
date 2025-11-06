@@ -11,7 +11,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { Carousel, CarouselContent, CarouselItem, } from "@/components/ui/carousel"
 
 const plugin = Autoplay({
-    delay: 2000,
+    delay: 5000,
     stopOnMouseEnter: true,
     stopOnInteraction: false,
 })

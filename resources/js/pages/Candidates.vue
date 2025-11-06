@@ -34,6 +34,18 @@ const formatMisi = (misi: string): string[] => {
     return misiItems.map(item => item.trim());
 }
 
+const handleProgramStudi = (id_program_studi: number) => {
+    const programStudiMap: Record<number, string> = {
+        1: 'Kimia',
+        2: 'Fisika',
+        3: 'Biologi',
+        4: 'Matematika',
+        5: 'Farmasi',
+        6: 'Informatika',
+    };
+    return programStudiMap[id_program_studi] || 'Unknown';
+}
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Kandidat Pemilihan',
@@ -51,7 +63,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             <div class="relative flex flex-col items-center justify-center">
                 <div class="w-full flex justify-between items-start relative">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50">
-                    <img :src="`/images/${kegiatan.foto}`" alt="" class="h-20 sm:h-50 my-auto">
+                    <img :src="`/images/${kegiatan.foto.replace('jpg', 'png')}`" alt="" class="h-20 sm:h-50 my-auto">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50 transform -scale-x-100">
                     <h1 class="text-xl sm:text-3xl lg:text-4xl font-bold text-center text-primary text-shadow-sm text-shadow-background uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
                             drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
@@ -98,7 +110,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     </h2>
                                     <p class="text-sm opacity-90">
                                         <span v-for="(mhs, idx) in k.mahasiswa" :key="mhs.nim">
-                                            {{ mhs.nim }}
+                                            {{ handleProgramStudi(mhs.id_program_studi) }}' {{ mhs.angkatan.toString().slice(-2) }}
                                             <span v-if="idx < k.mahasiswa.length - 1"> | </span>
                                         </span>
                                     </p>
@@ -142,7 +154,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                             <Badge v-for="(mhs, idx) in k.mahasiswa" :key="mhs.nim" variant="secondary"
                                                 class="text-sm">
                                                 <Users class="w-3 h-3 mr-1" />
-                                                {{ mhs.nim }} - Calon {{ mhs.pivot.jabatan.charAt(0).toUpperCase() + mhs.pivot.jabatan.slice(1) }}
+                                                {{ handleProgramStudi(mhs.id_program_studi) }}' {{ mhs.angkatan.toString().slice(-2) }} - Calon {{ mhs.pivot.jabatan.charAt(0).toUpperCase() + mhs.pivot.jabatan.slice(1) }}
                                             </Badge>
                                         </div>
                                     </div>

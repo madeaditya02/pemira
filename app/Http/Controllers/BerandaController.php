@@ -65,7 +65,7 @@ class BerandaController extends Controller
             ->with('kandidat.mahasiswa')
             ->firstOrFail();
         $kandidat = Kandidat::where('id_kegiatan', $kegiatan->id)
-            ->with('mahasiswa')
+            ->with('mahasiswa.programStudi')
             ->get();
 
         $idProdi = auth('web')->user()->id_program_studi ?? null;

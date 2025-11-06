@@ -96,11 +96,11 @@ class RegisteredUserController extends Controller
             return back()->withErrors(['nim' => 'Kredensial mahasiswa tidak valid.']);
         }
 
-        // Check domain email @student.unud.ac.id
-        $emailDomain = substr(strrchr($request->email, "@"), 1);
-        if ($emailDomain !== 'student.unud.ac.id') {
-            return back()->withErrors(['email' => 'Email harus menggunakan domain @student.unud.ac.id.']);
-        }
+        // // Check domain email @student.unud.ac.id
+        // $emailDomain = substr(strrchr($request->email, "@"), 1);
+        // if ($emailDomain !== 'student.unud.ac.id') {
+        //     return back()->withErrors(['email' => 'Email harus menggunakan domain @student.unud.ac.id.']);
+        // }
 
         $user->update([
             'email' => $request->email,

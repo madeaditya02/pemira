@@ -125,7 +125,7 @@ const submit = () => {
                             <span className='text-red-500'>*</span>
                         </Label>
                         <Input id="email" type="email" required :tabindex="3" autocomplete="email" v-model="form.email"
-                            placeholder="Email@student.unud.ac.id" />
+                            placeholder="Email@domain (.com atau .ac.id)" />
                         <InputError :message="form.errors.email" />
                     </div>
 

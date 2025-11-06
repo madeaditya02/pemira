@@ -27,7 +27,7 @@ import { MapPin, Phone, Mail } from 'lucide-vue-next';
                 <div className="w-full md:w-[400px] flex justify-center md:justify-end">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.8585412695247!2d115.16811767462733!3d-8.799357891253086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd244bc3acab8d9%3A0x7fba454d24527b74!2sFakultas%20Matematika%20dan%20Ilmu%20Pengetahuan%20Alam!5e0!3m2!1sid!2sid!4v1760596098552!5m2!1sid!2sid"
-                        className="w-full md:max-w-[800px] h-[300px] md:h-[200px] rounded-lg"
+                        className="w-full md:max-w-[800px] h-[150px] md:h-[200px] rounded-lg"
                         loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                     >
                     </iframe>

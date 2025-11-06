@@ -5,7 +5,7 @@ import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { TriangleAlert, CheckCircle2, LoaderCircle } from 'lucide-vue-next';
 import type { BreadcrumbItem, Kegiatan, Kandidat } from '@/types';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 // Page title and breadcrumbs
 const page = usePage();
@@ -166,7 +166,7 @@ const programStudiName = computed(() => {
             <div class="relative flex flex-col items-center justify-center">
                 <div class="w-full flex justify-between items-start relative">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50">
-                    <img :src="`/images/${currentKegiatan.foto}`" alt="" class="h-20 sm:h-50 my-auto">
+                    <img :src="`/images/${currentKegiatan.foto.replace('jpg', 'png')}`" alt="" class="h-20 sm:h-50 my-auto">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50 transform -scale-x-100">
                     <h1
                         class="text-xl sm:text-3xl lg:text-4xl leading-6 sm:leading-10 font-bold text-center text-primary text-shadow-sm text-shadow-background uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
@@ -323,17 +323,11 @@ const programStudiName = computed(() => {
                                 </p>
                             </div>
                         </div>
-
-                        <div class="grid w-full grid-cols-2 gap-4 mt-8">
-                            <Button variant="outline" @click="currentStep = 'bem'" :disabled="isSubmitting"
-                                class="border-primary text-primary hover:bg-primary/10">
-                                Ubah Pilihan
-                            </Button>
-                            <Button @click="submitVote" :disabled="isSubmitting" class="bg-primary hover:bg-primary/90">
-                                <LoaderCircle v-if="isSubmitting" class="size-4 animate-spin" />
-                                Kirim Pilihan
-                            </Button>
-                        </div>
+                        
+                        <Button @click="submitVote" :disabled="isSubmitting" class="w-full bg-primary hover:bg-primary/90">
+                            <LoaderCircle v-if="isSubmitting" class="size-4 animate-spin" />
+                            Kirim Pilihan
+                        </Button>
                     </div>
                 </div>
             </div>

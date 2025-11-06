@@ -115,23 +115,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <div class="mx-auto grid w-full max-w-7xl items-start gap-4 px-4 mt-12">
                     <h1 class="md:text-md font-semibold lg:text-xl">Syarat & Ketentuan :</h1>
                     <ol class="md:text-md ml-2 list-inside list-decimal space-y-2 text-sm md:ml-10 lg:text-lg">
-                        <li>
-                            Mahasiswa atau mahasiswi yang dapat memilih adalah mahasiswa atau mahasiswi Fakultas
-                            Matematika dan Ilmu Pengetahuan Alam.
-                        </li>
-                        <li>Mahasiswa atau mahasiswi yang dapat memilih adalah mahasiswa atau mahasiswi aktif.</li>
-                        <li>Mahasiswa atau mahasiswi hanya bisa melakukan pemilihan sebanyak satu kali.</li>
-                        <li>Mahasiswa atau mahasiswi diharapkan memilih dengan jujur.</li>
-                        <li>Hasil pemilihan bersifat mutlak dan tidak dapat diganggu gugat, sesuai dengan aturan yang
-                            telah ditetapkan.</li>
-                        <li>Setiap pelanggaran terhadap syarat dan ketentuan ini akan dikenakan sanksi sesuai dengan
-                            peraturan yang berlaku.</li>
+                        <li>Mahasiswa/i yang dapat memilih adalah mahasiswa/i aktif program studi sarjana Fakultas MIPA Universitas Udayana.</li>
+                        <li>Mahasiswa/i hanya bisa melakukan pemilihan sebanyak satu kali tanpa adanya pengulangan.</li>
+                        <li>Mahasiswa/i diharapkan menggunakan hak pilihnya dan memilih dengan berlandaskan Luberjurdil.</li>
+                        <li>Hasil pemilihan bersifat mutlak dan tidak dapat diganggu gugat, sesuai dengan aturan yang telah ditetapkan.</li>
+                        <li>Setiap pelanggaran terhadap syarat dan ketentuan ini akan dikenakan sanksi sesuai dengan peraturan yang berlaku.</li>
                     </ol>
                 </div>
 
                 <div v-if="auth.user && filteredKegiatan.length > 0" class="w-full px-4">
-                    <h1 class="text-lg md:text-xl lg:text-2xl mt-12 mb-6 font-bold text-center">Kegiatan Yang Anda Dapat
-                        Ikuti</h1>
+                    <h1 class="text-lg md:text-xl lg:text-2xl mt-12 mb-6 font-bold text-center">
+                        Kegiatan Yang Anda Dapat Ikuti
+                    </h1>
                     <div class="md:max-w-7xl mb-6 w-full grid place-self-center auto-rows-min gap-4 md:grid-cols-2">
                         <Card v-for="item in filteredKegiatan" :key="item.id"
                             class="border shadow-sm shadow-foreground/10">
