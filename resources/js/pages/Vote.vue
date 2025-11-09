@@ -263,9 +263,9 @@ const programStudiName = computed(() => {
                 <div class="bg-background/95 backdrop-blur-sm rounded-lg border shadow-lg p-8">
                     <div class="flex flex-col items-center justify-center gap-4 mb-8">
                         <CheckCircle2 class="w-20 h-20 text-green-500" />
-                        <h1 class="text-xl md:text-2xl font-black text-center">KONFIRMASI PILIHAN ANDA</h1>
+                        <h1 class="text-xl md:text-2xl font-black text-center">Ringkasan Pilihan Anda</h1>
                         <p class="text-center text-muted-foreground">
-                            Pastikan pilihan Anda sudah benar sebelum mengirim
+                            Berikut ringkasan dari caka cawaka dan cakahima yang Anda pilih.
                         </p>
                     </div>
 
@@ -318,8 +318,7 @@ const programStudiName = computed(() => {
                             <div class="flex gap-2">
                                 <TriangleAlert class="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
                                 <p class="text-sm text-yellow-800">
-                                    <strong>PERHATIAN:</strong> Setelah mengirim, pilihan Anda tidak dapat diubah.
-                                    Pastikan pilihan Anda sudah benar.
+                                    <strong>PERHATIAN:</strong> Anda wajib menekan tombol "Kirim Pilihan" untuk mengirim pilihan Anda.
                                 </p>
                             </div>
                         </div>
