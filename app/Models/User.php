@@ -78,6 +78,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan')
             ->withPivot('has_vote')
+            ->withPivot('ttd')
             ->withTimestamps();
     }
 

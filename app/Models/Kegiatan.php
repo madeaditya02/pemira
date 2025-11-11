@@ -37,6 +37,7 @@ class Kegiatan extends Model
     {
         return $this->belongsToMany(User::class, 'surat_suara', 'id_kegiatan', 'nim')
             ->withPivot('has_vote')
+            ->withPivot('ttd')
             ->withTimestamps();
     }
 

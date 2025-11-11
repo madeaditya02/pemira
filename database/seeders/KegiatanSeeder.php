@@ -78,7 +78,7 @@ class KegiatanSeeder extends Seeder
                 'foto' => 'foto-kegiatan/pemilihan-ketua-himaif.jpg',
             ],
             [
-                'nama' => 'Pemilihan Caka Cawaka BEM FMIPA',
+                'nama' => 'Pemilihan Ketua dan Wakil Ketua BEM FMIPA',
                 'tahun' => 2025,
                 'waktu_mulai' => '2025-11-12 06:00:00',
                 'waktu_selesai' => '2025-11-12 18:00:00',

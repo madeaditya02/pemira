@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nim', 10);
             $table->foreign('nim')->references('nim')->on('mahasiswa')->cascadeOnUpdate()->cascadeOnDelete();
             $table->boolean('has_vote')->default(false);
+            $table->string('ttd')->nullable(); // signature column
             $table->timestamps();
         });
     }

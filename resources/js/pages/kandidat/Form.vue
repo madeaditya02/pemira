@@ -198,7 +198,7 @@ const submit = () => {
 </script>
 
 <template>
-    <DialogContent class="max-w-5xl">
+    <DialogContent class="flex flex-col max-w-5xl max-h-[90dvh]">
         <!-- Dialog Header -->
         <DialogHeader>
             <DialogTitle>
@@ -215,7 +215,7 @@ const submit = () => {
         </DialogHeader>
 
         <!-- Form Content -->
-        <form method="POST" @submit.prevent="submit">
+        <form method="POST" @submit.prevent="submit" class="flex-1 overflow-y-auto">
             <div class="mt-2 grid sm:grid-cols-2 overflow-y-auto items-start gap-4">
                 <div class="grid grid-cols-3 items-start gap-4">
                     <!-- Kegiatan -->

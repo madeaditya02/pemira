@@ -7,6 +7,7 @@ use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Inertia\Inertia;
 
 class KegiatanController extends Controller
@@ -113,7 +114,7 @@ class KegiatanController extends Controller
     {
         // Find the kegiatan by ID
         $kegiatan = Kegiatan::with(['kandidat.mahasiswa', 'programStudi'])
-            ->withCount(['mahasiswa as total_mahasiswa'])    
+            ->withCount(['mahasiswa as total_mahasiswa'])
             ->findOrFail($id);
 
         if ($kegiatan->ruang_lingkup === 'fakultas') {
@@ -255,6 +256,65 @@ class KegiatanController extends Controller
                 return redirect()->back()->with('error', 'Data kegiatan tidak dapat dihapus karena terkait dengan data lain.');
             }
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data kegiatan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Print the attendance list for the specified resource.
+     */
+    public function print(string $id)
+    {
+        try {
+            // Find kegiatan
+            $kegiatan = Kegiatan::findOrFail($id);
+
+            // Get mahasiswa list
+            $mahasiswaList = $kegiatan->mahasiswa()
+                ->orderBy('id_program_studi')
+                ->orderBy('nim')
+                ->where('has_vote', 1)
+                ->get();
+
+            // Convert images to base64
+            $headerImagePath = public_path('images/header.png');
+            $footerImagePath = public_path('images/footer.png');
+            
+            // Check if files exist
+            if (!file_exists($headerImagePath)) {
+                return redirect()->back()->with('error', 'File header tidak ditemukan.');
+            }
+            if (!file_exists($footerImagePath)) {
+                return redirect()->back()->with('error', 'File footer tidak ditemukan.');
+            }
+            
+            $headerImageData = base64_encode(file_get_contents($headerImagePath));
+            $footerImageData = base64_encode(file_get_contents($footerImagePath));
+            
+            $headerImageSrc = 'data:image/png;base64,' . $headerImageData;
+            $footerImageSrc = 'data:image/png;base64,' . $footerImageData;
+
+            // Generate PDF using the presensi view
+            $pdf = Pdf::loadView('layouts.presensi', [
+                'kegiatan' => $kegiatan,
+                'mahasiswaList' => $mahasiswaList,
+                'headerImagePath' => $headerImageSrc,
+                'footerImagePath' => $footerImageSrc,
+            ])
+                ->setPaper('a4', 'portrait')
+                ->setOptions([
+                    'dpi' => 150,
+                    'defaultFont' => 'Times New Roman',
+                    'isHtml5ParserEnabled' => true,
+                    'isPhpEnabled' => true,
+                    'isRemoteEnabled' => true,
+                ]);
+
+            // Return PDF directly for download
+            $fileName = 'Presensi_' . str_replace(' ', '_', $kegiatan->nama) . '_' . date('Y-m-d') . '.pdf';
+            return $pdf->download($fileName);
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mencetak presensi mahasiswa: ' . $e->getMessage());
         }
     }
 }

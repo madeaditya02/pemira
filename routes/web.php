@@ -29,6 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
         Route::resource('events', KegiatanController::class)
             ->only(['index', 'store', 'show', 'update', 'destroy']);
+
+        Route::get('events/{id}/print', [KegiatanController::class, 'print'])
+            ->name('events.print');
     
         Route::resource('candidates', KandidatController::class)
             ->only(['index', 'store', 'update', 'destroy']);

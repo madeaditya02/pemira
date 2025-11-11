@@ -40,8 +40,10 @@ class AuthenticatedSessionController extends Controller
             // Generate surat suara
             $kegiatan = Kegiatan::where('tahun', now()->year)
                 ->where('waktu_selesai', '>', now())
-                ->where('id_program_studi', $user->id_program_studi)
-                ->orWhere('ruang_lingkup', 'fakultas')
+                ->where(function ($query) use ($user) {
+                    $query->where('id_program_studi', $user->id_program_studi)
+                          ->orWhere('ruang_lingkup', 'fakultas');
+                })
                 ->with('mahasiswa')
                 ->get();
             if ($kegiatan->isNotEmpty()) {

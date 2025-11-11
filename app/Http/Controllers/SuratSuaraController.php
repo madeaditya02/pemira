@@ -7,6 +7,8 @@ use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SuratSuaraController extends Controller
 {
@@ -93,14 +95,40 @@ class SuratSuaraController extends Controller
         $request->validate([
             'id_kandidat_bem' => 'required|exists:kandidat,id',
             'id_kandidat_hima' => 'required|exists:kandidat,id',
+            'ttd' => 'required|string', // base64 data URL
         ]);
 
         $kandidatBem = Kandidat::find($request->id_kandidat_bem);
         $kandidatHima = Kandidat::find($request->id_kandidat_hima);
 
         $user = User::where('nim', auth('web')->user()->nim)->first();
-        $user->kegiatan()->syncWithoutDetaching([$kandidatBem->id_kegiatan => ['has_vote' => true]]);
-        $user->kegiatan()->syncWithoutDetaching([$kandidatHima->id_kegiatan => ['has_vote' => true]]);
+
+        // Process and save signature image
+        $ttdPath = null;
+        if ($request->ttd) {
+            // Remove data:image/png;base64, prefix
+            $image = $request->ttd;
+            if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                $image = substr($image, strpos($image, ',') + 1);
+                $type = strtolower($type[1]); // jpg, png, gif
+                
+                // Decode base64
+                $image = base64_decode($image);
+                if ($image === false) {
+                    return back()->with('alert', ['type' => 'error', 'title' => 'Error', 'message' => 'Gagal memproses tanda tangan.']);
+                }
+                
+                // Generate unique filename
+                $filename = $user->nim . '_' . time() . '_' . Str::random(10) . '.' . $type;
+                
+                // Save to storage
+                Storage::disk('public')->put('ttd-mahasiswa/' . $filename, $image);
+                $ttdPath = 'ttd-mahasiswa/' . $filename;
+            }
+        }
+
+        $user->kegiatan()->syncWithoutDetaching([$kandidatBem->id_kegiatan => ['has_vote' => true, 'ttd' => $ttdPath]]);
+        $user->kegiatan()->syncWithoutDetaching([$kandidatHima->id_kegiatan => ['has_vote' => true, 'ttd' => $ttdPath]]);
 
         $kandidatBem->increment('jumlah_suara');
         $kandidatHima->increment('jumlah_suara');

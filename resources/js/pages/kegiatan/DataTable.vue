@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Form from './Form.vue'
+import Print from './Print.vue'
 import { cn } from '@/lib/utils'
 import { ref, computed, watch } from 'vue'
 import { Input } from '@/components/ui/input'
@@ -9,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import type { ColumnDef, SortingState, ColumnFiltersState, PaginationState } from '@tanstack/vue-table'
-import { CircleX, Filter, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
+import { CircleX, Filter, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Printer } from 'lucide-vue-next'
 import { FlexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel, useVueTable } from '@tanstack/vue-table'
 
 // Define props untuk data kegiatan
@@ -27,6 +28,7 @@ const columnFiltersState = ref<ColumnFiltersState>([])
 const globalFilter = ref('')
 const isDialogOpen = ref(false)
 const isViewDialogOpen = ref(false)
+const isPrintDialogOpen = ref(false)
 const selectedRowData = ref<any>(null)
 const pagination = ref<PaginationState>({
     pageIndex: 0,
@@ -132,6 +134,7 @@ const handleRowClick = (rowData: any) => {
 // Submit handler untuk create
 const handleSuccess = () => {
     isDialogOpen.value = false
+    isPrintDialogOpen.value = false
 }
 
 // Watch untuk reset selectedRowData saat dialog ditutup
@@ -162,7 +165,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Data filter -->
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="outline" size="sm" class="ml-auto h-9">
+                        <Button variant="outline" size="icon-sm" class="ml-auto h-9">
                             <Filter class="size-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -229,11 +232,21 @@ watch(isViewDialogOpen, (newValue) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
 
+                <!-- Print Absensi Button -->
+                <Dialog v-model:open="isPrintDialogOpen">
+                    <DialogTrigger as-child>
+                        <Button variant="outline" size="default">
+                            <Printer class="h-4 w-4" />
+                        </Button>
+                    </DialogTrigger>
+                    <Print :data="data" @success="handleSuccess" />
+                </Dialog>
+
                 <!-- Create button -->
                 <Dialog v-model:open="isDialogOpen">
                     <DialogTrigger :class="cn(buttonVariants({ variant: 'default', size: 'default' }))">
-                        <Plus class="size-4" />
-                        Tambah
+                        <Plus class="size-4 font-bold" />
+                        <span class="hidden sm:block">Tambah</span>
                     </DialogTrigger>
                     <Form mode="create" :program-studi="helpers!.programStudi" @success="handleSuccess" />
                 </Dialog>
@@ -369,7 +382,7 @@ watch(isViewDialogOpen, (newValue) => {
         <!-- View Dialog - Terpisah dari loop -->
         <Dialog v-model:open="isViewDialogOpen">
             <Form v-if="selectedRowData" mode="view" :kegiatan-data="selectedRowData"
-                :program-studi="helpers!.programStudi" @close="isViewDialogOpen = false" />
+                :program-studi="helpers!.programStudi" @success="isViewDialogOpen = false" />
         </Dialog>
     </div>
 </template>

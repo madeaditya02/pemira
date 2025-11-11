@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
+import Vue3Signature from "vue3-signature";
+import dayjs from 'dayjs';
 import { Head, router, usePage } from '@inertiajs/vue3';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { TriangleAlert, CheckCircle2, LoaderCircle } from 'lucide-vue-next';
+import { computed, onMounted, onUnmounted, ref, reactive, watch } from 'vue';
+import { TriangleAlert, CheckCircle2, LoaderCircle, X, Undo } from 'lucide-vue-next';
 import type { BreadcrumbItem, Kegiatan, Kandidat } from '@/types';
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
@@ -27,6 +30,64 @@ const isMoved = ref(false);
 const isSubmitting = ref(false);
 const showConfirmDialog = ref(false);
 const pendingSelection = ref<{ type: 'bem' | 'hima'; id: number } | null>(null);
+
+// Signature options and configuration
+interface SignatureInstance {
+    save: (format?: string) => string;
+    clear: () => void;
+    undo: () => void;
+    toDataURL: () => string;
+    isEmpty: () => boolean;
+    addEventListener?: (event: string, callback: () => void) => void;
+    removeEventListener?: (event: string, callback: () => void) => void;
+}
+
+const signature = ref<SignatureInstance | null>(null);
+const options = reactive({
+    penColor: "rgb(0, 0, 0)",
+    backgroundColor: "rgb(255, 255, 255)",
+});
+const hasSignature = ref(false);
+const isDrawing = ref(false);
+
+// Watch signature ref untuk setup event listeners
+watch(signature, (newSignature) => {
+    if (newSignature) {
+        // Setup event listeners jika tersedia
+        if (newSignature.addEventListener) {
+            newSignature.addEventListener('beginStroke', () => {
+                isDrawing.value = true;
+            });
+            
+            newSignature.addEventListener('endStroke', () => {
+                isDrawing.value = false;
+                checkSignature();
+            });
+        }
+    }
+});
+
+const clear = () => {
+    if (!signature.value) return;
+    signature.value.clear();
+    hasSignature.value = false;
+};
+
+const undo = () => {
+    if (!signature.value) return;
+    signature.value.undo();
+    // Check if signature still has content after undo
+    checkSignature();
+};
+
+// Check if signature has content
+const checkSignature = () => {
+    if (!signature.value) return;
+    
+    // Check if signature is empty
+    const isEmpty = signature.value.isEmpty ? signature.value.isEmpty() : false;
+    hasSignature.value = !isEmpty;
+};
 
 // Handle vote selection with confirmation
 const handleVoteClick = (type: 'bem' | 'hima', kandidatId: number) => {
@@ -65,16 +126,29 @@ const cancelVote = () => {
 
 // Submit final vote
 const submitVote = () => {
-    if (!selectedBem.value || !selectedHima.value) return;
+    if (!selectedBem.value || !selectedHima.value || !signature.value) return;
+    
+    // Validate signature
+    if (!hasSignature.value) {
+        alert('Mohon tanda tangani terlebih dahulu!');
+        return;
+    }
+    
     isSubmitting.value = true;
+
+    const dataUrl = signature.value.toDataURL();
     router.post(route('vote.store'), {
         id_kandidat_bem: selectedBem.value,
         id_kandidat_hima: selectedHima.value,
+        ttd: dataUrl,
     }, {
         onSuccess: () => {
             isVoting.value = false;
             isSubmitting.value = false;
         },
+        onError: () => {
+            isSubmitting.value = false;
+        }
     });
 };
 
@@ -166,12 +240,13 @@ const programStudiName = computed(() => {
             <div class="relative flex flex-col items-center justify-center">
                 <div class="w-full flex justify-between items-start relative">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50">
-                    <img :src="`/images/${currentKegiatan.foto.replace('jpg', 'png')}`" alt="" class="h-20 sm:h-50 my-auto">
+                    <img :src="currentStep !== 'complete' ? `/images/${currentKegiatan.foto.replace('jpg', 'png')}` : '/images/background-logo-dpm.png'" alt=""
+                        class="h-20 sm:h-50 my-auto">
                     <img src="/images/corner-image.png" alt="" class="w-20 sm:w-40 lg:w-50 transform -scale-x-100">
                     <h1
                         class="text-xl sm:text-3xl lg:text-4xl leading-6 sm:leading-10 font-bold text-center text-primary text-shadow-sm text-shadow-background uppercase absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
                             drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                        {{ currentKegiatan.nama }}
+                        {{ currentStep !== 'complete' ? currentKegiatan.nama : `Pemilihan Umum Raya Mahasiswa FMIPA ${dayjs().year()}` }}
                     </h1>
                 </div>
             </div>
@@ -220,7 +295,8 @@ const programStudiName = computed(() => {
                         <!-- Nama Kandidat dan Program Studi -->
                         <div v-if="!kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
                             class="text-center">
-                            <p :class="currentStep === 'hima' && 'flex flex-col gap-1'" class="text-sm sm:text-base font-semibold">
+                            <p :class="currentStep === 'hima' && 'flex flex-col gap-1'"
+                                class="text-sm sm:text-base font-semibold">
                                 {{kandidat.mahasiswa.find(m => m.pivot.jabatan === 'ketua')?.nama}}
                                 <span class="text-sm text-muted-foreground">
                                     ({{handleProgramStudi(kandidat.mahasiswa.find(m => m.pivot.jabatan ===
@@ -269,16 +345,17 @@ const programStudiName = computed(() => {
                         </p>
                     </div>
 
-                    <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- BEM Selection -->
-                        <div class="border-2 border-primary rounded-lg p-6 bg-primary/5">
+                        <div class="col-span-1 border-2 border-primary rounded-lg p-6 bg-primary/5">
                             <h3 class="font-bold text-lg mb-3 text-center">Pilihan Caka BEM FMIPA</h3>
                             <div v-if="selectedBem" class="text-center">
                                 <p class="text-lg font-semibold">
                                     Nomor Urut {{kegiatanBem.kandidat.find(k => k.id === selectedBem)?.no_urut}}
                                 </p>
                                 <p v-if="kegiatanBem.kandidat.find(k => k.id === selectedBem)?.mahasiswa.find(m =>
-                                        m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')" class="text-sm text-muted-foreground">
+                                    m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
+                                    class="text-sm text-muted-foreground">
                                     Kotak Kosong
                                 </p>
                                 <span v-else>
@@ -295,7 +372,7 @@ const programStudiName = computed(() => {
                         </div>
 
                         <!-- HIMA Selection -->
-                        <div class="border-2 border-primary rounded-lg p-6 bg-primary/5">
+                        <div class="col-span-1 border-2 border-primary rounded-lg p-6 bg-primary/5">
                             <h3 class="font-bold text-lg mb-3 text-center">
                                 Pilihan Caka HIMA {{ programStudiName }}
                             </h3>
@@ -304,7 +381,8 @@ const programStudiName = computed(() => {
                                     Nomor Urut {{kegiatanHima.kandidat.find(k => k.id === selectedHima)?.no_urut}}
                                 </p>
                                 <p v-if="kegiatanHima.kandidat.find(k => k.id === selectedHima)?.mahasiswa.find(m =>
-                                        m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')" class="text-sm text-muted-foreground">
+                                    m.pivot.jabatan === 'ketua')?.nama.includes('Kotak Kosong')"
+                                    class="text-sm text-muted-foreground">
                                     Kotak Kosong
                                 </p>
                                 <p class="text-sm text-muted-foreground">
@@ -314,16 +392,55 @@ const programStudiName = computed(() => {
                             </div>
                         </div>
 
-                        <div class="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+                        <!-- Signature -->
+                        <Label for="signature" class="text-base font-bold -mb-4">Tanda Tangan Presensi
+                            <span class='text-red-500'>*</span>
+                        </Label>
+                        <div class="relative col-span-1 md:col-span-2 border-2 rounded-lg shadow-md p-1 aspect-square md:aspect-auto md:h-80"
+                             :class="!hasSignature ? 'border-red-500' : 'border-primary'">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <Vue3Signature 
+                                    ref="signature" 
+                                    :sigOption="options" 
+                                    :w="'100%'"
+                                    :h="'100%'"
+                                    class="aspect-square max-w-80 max-h-full rounded-lg md:border-dashed md:border-2"
+                                    :class="!hasSignature ? 'md:border-red-500' : 'md:border-primary'"
+                                    @end="checkSignature"
+                                    @begin="isDrawing = true" />
+                            </div>
+                            <Button variant="outline" size="icon-sm" class="absolute top-4 right-4" @click="clear">
+                                <X class="size-4" />
+                            </Button>
+                            <Button variant="outline" size="icon-sm" class="absolute top-4 left-4" @click="undo">
+                                <Undo class="size-4" />
+                            </Button>
+                            
+                            <!-- Indikator sedang menggores (optional) -->
+                            <div v-if="isDrawing" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">
+                                Sedang menggores...
+                            </div>
+                        </div>
+                        <p v-if="!hasSignature" class="col-span-1 md:col-span-2 -mt-4 text-sm text-red-500">
+                            Tanda tangan presensi wajib diisi
+                        </p>
+
+                        <!-- Warning -->
+                        <div class="col-span-1 md:col-span-2 bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
                             <div class="flex gap-2">
                                 <TriangleAlert class="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
                                 <p class="text-sm text-yellow-800">
-                                    <strong>PERHATIAN:</strong> Anda wajib menekan tombol "Kirim Pilihan" untuk mengirim pilihan Anda.
+                                    <strong>PERHATIAN:</strong>
+                                    Anda wajib membubuhkan tanda tangan dan menekan tombol "Kirim Pilihan" untuk mengirim pilihan Anda.
                                 </p>
                             </div>
                         </div>
-                        
-                        <Button @click="submitVote" :disabled="isSubmitting" class="w-full bg-primary hover:bg-primary/90">
+
+                        <!-- Submit Button -->
+                        <Button 
+                            @click="submitVote" 
+                            :disabled="isSubmitting || !hasSignature"
+                            class="col-span-1 md:col-span-2 w-full bg-primary hover:bg-primary/90 disabled:opacity-50">
                             <LoaderCircle v-if="isSubmitting" class="size-4 animate-spin" />
                             Kirim Pilihan
                         </Button>
@@ -348,7 +465,8 @@ const programStudiName = computed(() => {
                             <p class="font-semibold text-foreground text-lg mb-2">
                                 Nomor Urut {{ pendingKandidat.no_urut }}
                             </p>
-                            <p v-if="pendingKandidat.mahasiswa.find(m => m.pivot.jabatan)?.nama.includes('Kotak Kosong')" class="text-sm font-normal text-foreground">
+                            <p v-if="pendingKandidat.mahasiswa.find(m => m.pivot.jabatan)?.nama.includes('Kotak Kosong')"
+                                class="text-sm font-normal text-foreground">
                                 Kotak Kosong
                             </p>
                             <span v-else>

@@ -184,8 +184,8 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Create button -->
                 <Dialog v-model:open="isDialogOpen">
                     <DialogTrigger :class="cn(buttonVariants({ variant: 'default', size: 'default' }))">
-                        <Plus class="size-4" />
-                        Tambah
+                        <Plus class="size-4 font-bold" />
+                        <span class="hidden sm:block">Tambah</span>
                     </DialogTrigger>
                     <Form mode="create" :mahasiswa="helpers!.mahasiswa" :kegiatan="helpers!.kegiatan" :kandidat="helpers!.kandidat" @success="handleSuccess" />
                 </Dialog>
@@ -320,8 +320,8 @@ watch(isViewDialogOpen, (newValue) => {
 
         <!-- View Dialog - Terpisah dari loop -->
         <Dialog v-model:open="isViewDialogOpen">
-            <Form v-if="selectedRowData" mode="view" :kandidat-data="selectedRowData"
-                :mahasiswa="helpers!.mahasiswa" :kegiatan="helpers!.kegiatan" :kandidat="helpers!.kandidat" @close="isViewDialogOpen = false" />
+            <Form v-if="selectedRowData" mode="view" :kandidat-data="selectedRowData" :mahasiswa="helpers!.mahasiswa"
+                :kegiatan="helpers!.kegiatan" :kandidat="helpers!.kandidat" @success="isViewDialogOpen = false" />
         </Dialog>
     </div>
 </template>

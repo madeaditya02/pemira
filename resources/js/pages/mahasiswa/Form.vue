@@ -75,11 +75,10 @@ const submit = () => {
             break;
     }
 };
-
 </script>
 
 <template>
-    <DialogContent class="max-w-4xl">
+    <DialogContent class="flex flex-col max-w-4xl max-h-[90dvh]">
         <!-- Dialog Header -->
         <DialogHeader>
             <DialogTitle>
@@ -96,8 +95,8 @@ const submit = () => {
         </DialogHeader>
 
         <!-- Form Content -->
-        <form method="POST" @submit.prevent="submit">
-            <div class="mt-2 grid grid-cols-2 items-start gap-4">
+        <form method="POST" @submit.prevent="submit" class="flex-1 overflow-y-auto">
+            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 items-start gap-4">
                 <div class="grid grid-cols-2 items-start gap-4">
                     <!-- NIM -->
                     <div class="grid col-span-2 gap-2">

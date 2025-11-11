@@ -15,7 +15,7 @@ class VerifyEmailController extends Controller
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+            return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
         }
 
         $request->fulfill();
@@ -24,8 +24,11 @@ class VerifyEmailController extends Controller
         $user = $request->user();
         $kegiatan = Kegiatan::where('tahun', now()->year)
             ->where('waktu_selesai', '>', now())
-            ->where('id_program_studi', $user->id_program_studi)
-            ->orWhere('ruang_lingkup', 'fakultas')
+            ->where(function ($query) use ($user) {
+                $query->where('id_program_studi', $user->id_program_studi)
+                    ->orWhere('ruang_lingkup', 'fakultas');
+            })
+            ->with('mahasiswa')
             ->get();
         if ($kegiatan->isNotEmpty()) {
             foreach ($kegiatan as $k) {
@@ -33,6 +36,6 @@ class VerifyEmailController extends Controller
             }
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
     }
 }

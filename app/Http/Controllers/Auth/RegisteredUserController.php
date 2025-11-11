@@ -79,8 +79,8 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
             'nim.exists' => 'NIM tidak ditemukan dalam database.',
-            'email.unique' => 'Email sudah terdaftar.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'email.unique' => 'Email sudah terdaftar oleh mahasiswa lain.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.min' => 'Kata sandi minimal harus terdiri dari :min karakter.',
             'password.mixed' => 'Kata sandi harus mengandung setidaknya satu huruf besar dan satu huruf kecil.',
         ]);

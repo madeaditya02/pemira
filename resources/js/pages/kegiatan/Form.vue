@@ -36,20 +36,32 @@ const form = useForm({
     foto: null as File | null,
 });
 
-// Separate date and time inputs
-const waktuMulaiDate = ref(props.kegiatanData?.waktu_mulai 
-    ? (props.kegiatanData.waktu_mulai as string).split(' ')[0]
-    : '');
-const waktuMulaiTime = ref(props.kegiatanData?.waktu_mulai 
-    ? (props.kegiatanData.waktu_mulai as string).split(' ')[1]?.slice(0, 5)
-    : '');
+// Helper function to parse datetime string
+const parseDatetime = (datetime: string | Date | null | undefined): { date: string; time: string } => {
+    if (!datetime) return { date: '', time: '' };
+    
+    const date = new Date(datetime);
+    if (isNaN(date.getTime())) return { date: '', time: '' };
+    
+    // Format date as YYYY-MM-DD
+    const dateStr = date.toISOString().split('T')[0];
+    
+    // Format time as HH:MM (local time)
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const timeStr = `${hours}:${minutes}`;
+    
+    return { date: dateStr, time: timeStr };
+};
 
-const waktuSelesaiDate = ref(props.kegiatanData?.waktu_selesai 
-    ? (props.kegiatanData.waktu_selesai as string).split(' ')[0]
-    : '');
-const waktuSelesaiTime = ref(props.kegiatanData?.waktu_selesai 
-    ? (props.kegiatanData.waktu_selesai as string).split(' ')[1]?.slice(0, 5)
-    : '');
+// Separate date and time inputs
+const waktuMulaiParsed = parseDatetime(props.kegiatanData?.waktu_mulai);
+const waktuMulaiDate = ref(waktuMulaiParsed.date);
+const waktuMulaiTime = ref(waktuMulaiParsed.time);
+
+const waktuSelesaiParsed = parseDatetime(props.kegiatanData?.waktu_selesai);
+const waktuSelesaiDate = ref(waktuSelesaiParsed.date);
+const waktuSelesaiTime = ref(waktuSelesaiParsed.time);
 
 // Update waktu_mulai when date or time changes
 const updateWaktuMulai = () => {
@@ -110,9 +122,9 @@ const submit = () => {
 </script>
 
 <template>
-    <DialogContent class="max-w-4xl">
+    <DialogContent class="flex flex-col max-w-4xl max-h-[90dvh]">
         <!-- Dialog Header -->
-        <DialogHeader>
+        <DialogHeader class="shrink-0">
             <DialogTitle>
                 {{ mode === 'create' ? 'Tambah' : mode === 'edit' ? 'Ubah' : 'Detail' }} Data Kegiatan
             </DialogTitle>
@@ -120,15 +132,15 @@ const submit = () => {
                 {{ mode === 'create'
                     ? 'Isi form untuk menambahkan data kegiatan baru.'
                     : mode === 'edit'
-                    ? 'Ubah form untuk mengubah data kegiatan.'
-                    : 'Lihat detail data kegiatan yang dipilih.'
+                        ? 'Ubah form untuk mengubah data kegiatan.'
+                        : 'Lihat detail data kegiatan yang dipilih.'
                 }}
             </DialogDescription>
         </DialogHeader>
 
         <!-- Form Content -->
-        <form method="POST" @submit.prevent="submit">
-            <div class="mt-2 grid grid-cols-2 items-start gap-4">
+        <form method="POST" @submit.prevent="submit" class="flex-1 overflow-y-auto">
+            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 items-start gap-4">
                 <div class="grid grid-cols-2 items-start gap-4">
                     <!-- Nama Kegiatan -->
                     <div class="grid col-span-2 gap-2">
@@ -166,10 +178,11 @@ const submit = () => {
                     <div class="grid col-span-1 gap-2">
                         <Label for="id_program_studi" :disabled="mode === 'view'">
                             Program Studi
-                            <span v-if="mode !== 'view' && form.ruang_lingkup === 'program studi'" class='text-red-500'>*</span>
+                            <span v-if="mode !== 'view' && form.ruang_lingkup === 'program studi'"
+                                class='text-red-500'>*</span>
                         </Label>
                         <Select v-model="form.id_program_studi" :tabindex="3"
-                            :disabled="form.processing || mode === 'view' || form.ruang_lingkup === 'fakultas'" 
+                            :disabled="form.processing || mode === 'view' || form.ruang_lingkup === 'fakultas'"
                             :required="mode !== 'view' && form.ruang_lingkup === 'program studi'">
                             <SelectTrigger id="id_program_studi">
                                 <SelectValue placeholder="Pilih Program Studi" />
@@ -189,9 +202,9 @@ const submit = () => {
                             Tahun
                             <span v-if="mode !== 'view'" class='text-red-500'>*</span>
                         </Label>
-                        <Input id="tahun" type="number" :tabindex="4" v-model="form.tahun"
-                            :required="mode !== 'view'" :disabled="form.processing || mode === 'view'"
-                            :readonly="mode === 'view'" placeholder="Masukkan Tahun" />
+                        <Input id="tahun" type="number" :tabindex="4" v-model="form.tahun" :required="mode !== 'view'"
+                            :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'"
+                            placeholder="Masukkan Tahun" />
                         <InputError :message="form.errors.tahun" />
                     </div>
 
@@ -202,18 +215,12 @@ const submit = () => {
                             <span v-if="mode !== 'view'" class='text-red-500'>*</span>
                         </Label>
                         <div class="grid grid-cols-2 gap-2">
-                            <Input id="waktu_mulai_date" type="date" :tabindex="5" 
-                                v-model="waktuMulaiDate"
-                                @input="updateWaktuMulai"
-                                :required="mode !== 'view'" 
-                                :disabled="form.processing || mode === 'view'"
-                                :readonly="mode === 'view'" />
-                            <Input id="waktu_mulai_time" type="time" :tabindex="6" 
-                                v-model="waktuMulaiTime"
-                                @input="updateWaktuMulai"
-                                :required="mode !== 'view'" 
-                                :disabled="form.processing || mode === 'view'"
-                                :readonly="mode === 'view'" />
+                            <Input id="waktu_mulai_date" type="date" :tabindex="5" v-model="waktuMulaiDate"
+                                @input="updateWaktuMulai" :required="mode !== 'view'"
+                                :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" />
+                            <Input id="waktu_mulai_time" type="time" :tabindex="6" v-model="waktuMulaiTime"
+                                @input="updateWaktuMulai" :required="mode !== 'view'"
+                                :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" />
                         </div>
                         <InputError :message="form.errors.waktu_mulai" />
                     </div>
@@ -225,32 +232,26 @@ const submit = () => {
                             <span v-if="mode !== 'view'" class='text-red-500'>*</span>
                         </Label>
                         <div class="grid grid-cols-2 gap-2">
-                            <Input id="waktu_selesai_date" type="date" :tabindex="7" 
-                                v-model="waktuSelesaiDate"
-                                @input="updateWaktuSelesai"
-                                :required="mode !== 'view'" 
-                                :disabled="form.processing || mode === 'view'"
-                                :readonly="mode === 'view'" />
-                            <Input id="waktu_selesai_time" type="time" :tabindex="8" 
-                                v-model="waktuSelesaiTime"
-                                @input="updateWaktuSelesai"
-                                :required="mode !== 'view'" 
-                                :disabled="form.processing || mode === 'view'"
-                                :readonly="mode === 'view'" />
+                            <Input id="waktu_selesai_date" type="date" :tabindex="7" v-model="waktuSelesaiDate"
+                                @input="updateWaktuSelesai" :required="mode !== 'view'"
+                                :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" />
+                            <Input id="waktu_selesai_time" type="time" :tabindex="8" v-model="waktuSelesaiTime"
+                                @input="updateWaktuSelesai" :required="mode !== 'view'"
+                                :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" />
                         </div>
                         <InputError :message="form.errors.waktu_selesai" />
                     </div>
                 </div>
 
                 <!-- Foto Upload and Preview -->
-                <div class="grid grid-cols-2 items-start gap-4">
+                <div class="grid grid-cols-2 items-start overflow-y-auto gap-4">
                     <div class="grid col-span-2 items-start gap-2">
                         <Label for="foto">
                             Foto Kegiatan
                             <span v-if="mode !== 'view'" class='text-red-500'>*</span>
                         </Label>
-                        <Input id="foto" type="file" accept="image/png, image/jpeg, image/jpg, image/webp"
-                            :tabindex="9" @change="handleFotoChange" :disabled="form.processing || mode === 'view'"
+                        <Input id="foto" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" :tabindex="9"
+                            @change="handleFotoChange" :disabled="form.processing || mode === 'view'"
                             :readonly="mode === 'view'"
                             :class="cn(form.errors.foto ? 'border-red-500' : '', 'w-full')" />
                         <InputError :message="form.errors.foto" />
@@ -262,9 +263,9 @@ const submit = () => {
                             <img v-else :src="kegiatanData?.foto
                                 ? `/storage/${kegiatanData.foto}`
                                 : '/images/blank-photo-icon.jpg'" alt="Foto" :class="cn(
-                                    form.errors.foto ? 'border-red-500' : '',
-                                    'aspect-video h-full w-full border rounded-md object-contain'
-                                )" />
+                                        form.errors.foto ? 'border-red-500' : '',
+                                        'aspect-video h-full w-full border rounded-md object-contain'
+                                    )" />
                         </AspectRatio>
                     </div>
                 </div>
