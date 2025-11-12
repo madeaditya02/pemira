@@ -15,7 +15,16 @@ class BerandaController extends Controller
     {
         $user = User::where('nim', auth('web')->user()->nim)->first();
         if ($user->is_admin) return Kegiatan::all();
-        return $user->kegiatan()->get();
+        $kegiatan = $user->kegiatan()
+            ->where('waktu_selesai', '>', now())
+            ->get();
+        if (!$kegiatan) {
+            $kegiatan = $user->kegiatan()
+                ->latest('waktu_selesai')
+                ->limit(2)
+                ->get();
+        }
+        return $kegiatan;
     }
 
     public function getTime()

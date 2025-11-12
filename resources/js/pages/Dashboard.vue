@@ -71,12 +71,16 @@ const timeRemaining = computed(() => {
 });
 
 // Add a function to calculate time difference for individual activities
-const getTimeUntilStart = (startTime: Date) => {
+const getTimeUntilStart = (startTime: Date, endTime: Date) => {
     const target = new Date(startTime);
     const now = currentTime.value;
     const diff = target.getTime() - now.getTime();
 
     if (diff <= 0) {
+        const endTarget = new Date(endTime);
+        if (now.getTime() > endTarget.getTime()) {
+            return { text: "Telah selesai", expired: true };
+        }
         return { text: "Sedang berlangsung", expired: true };
     }
 
@@ -95,6 +99,8 @@ const getTimeUntilStart = (startTime: Date) => {
 
     return { text, expired: false };
 };
+
+
 
 // Helper function to format time values
 const formatTime = (time: number) => {
@@ -252,9 +258,9 @@ const heroImages = [
                         <CardContent class="space-y-2 px-6">
                             <CardTitle class="text-lg md:text-xl">{{ item.nama }}</CardTitle>
                             <CardDescription>
-                                {{ getTimeUntilStart(item.waktu_mulai as Date).expired ?
-                                    getTimeUntilStart(item.waktu_mulai as Date).text :
-                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai as Date).text}`
+                                {{ getTimeUntilStart(item.waktu_mulai as Date, item.waktu_selesai as Date).expired ?
+                                    getTimeUntilStart(item.waktu_mulai as Date, item.waktu_selesai as Date).text :
+                                    `Dimulai dalam ${getTimeUntilStart(item.waktu_mulai as Date, item.waktu_selesai as Date).text}`
                                 }}
                             </CardDescription>
                         </CardContent>
